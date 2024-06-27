@@ -244,7 +244,7 @@ export default function Example() {
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
 
-                  <Image alt='logo notaire' src={avatarImage} className='h-36 w-36 mb-10 mt-10 mb-6 lg:mt-0 lg:mb-10'></Image>
+                  <Image alt='logo notaire' src={avatarImage} className='h-36 w-36 mb-10 mt-10 mb-6 lg:mt-0 mb-0'></Image>
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                     Office Notarial LAUBE, LHOMME, DELMAS & LERAY, DUFEIL
                   </h1>

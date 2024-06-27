@@ -294,7 +294,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
 
 
 export default function Example() {
-  const [openedAddress, setOpenedAddress] = useState<string[]>([])
+  const [openedAddress, setOpenedAddress] = useState<string[]>(["14, rue de Dinan"])
 
 
 

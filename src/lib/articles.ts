@@ -1,4 +1,5 @@
 import glob from 'fast-glob'
+import test from 'node:test'
 
 interface Article {
   title: string

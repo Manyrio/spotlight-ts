@@ -18,7 +18,7 @@ import { membres } from '../page'
 export default function Projects() {
     return (
         <SimpleLayout
-            title="l'équipe"
+            title="L'équipe"
             intro="Rencontrez l'équipe et contactez-nous."
         >
 

@@ -56,10 +56,10 @@ Card.Title = function CardTitle<T extends React.ElementType = 'h2'>({
   as?: T
   href?: string
 }) {
-  let Component = as ?? 'h2'
+  let Component = as ?? 'h1'
 
   return (
-    <Component className="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+    <Component className="text-2xl  font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
       {href ? <Card.Link href={href}>{children}</Card.Link> : children}
     </Component>
   )
@@ -72,14 +72,13 @@ Card.Description = function CardDescription({
 }) {
   return (
     <p
-      className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
+      className="relative z-10 mt-2 text-md text-zinc-600 dark:text-zinc-400"
       style={{
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        WebkitLineClamp: 3,
-        maxHeight: '4.5em',
+        WebkitLineClamp: 6,
         lineHeight: '1.5em',
       }}>
       {children}

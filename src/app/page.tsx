@@ -357,7 +357,7 @@ export default function Example() {
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    Cabinet Notarial LAUBE, LHOMME, DELMAS & LERAY
+                    Office Notarial LAUBE, LHOMME, DELMAS & LERAY, DUFEIL
                   </h1>
                   <p className="relative mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
                     Maître Anne LAUBE et Maître Pierre LHOMME & Maître Marc DELMAS, notaires associés, Maître Jeanne LERAY , Maître Virginie DUFEIL, notaires, et leur équipe vous accompagnent dans les grandes étapes de votre vie ainsi que dans tous vos projets immobiliers et patrimoniaux.

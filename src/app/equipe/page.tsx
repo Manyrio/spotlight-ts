@@ -1,3 +1,5 @@
+"use client"
+
 import { type Metadata } from 'next'
 import Image from 'next/image'
 
@@ -11,11 +13,6 @@ import logoPlanetaria from '@/images/logos/planetaria.svg'
 import { AcademicCapIcon, EnvelopeIcon, LanguageIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import { membres } from '../page'
 
-
-export const metadata: Metadata = {
-    title: "l'Équipe",
-    description: 'Rencontrez l\'équipe',
-}
 
 
 export default function Projects() {

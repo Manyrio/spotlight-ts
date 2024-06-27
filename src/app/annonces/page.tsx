@@ -291,7 +291,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
       footer={ 
                 <FiltresAnnonces />}
     >
-      <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
+      <div className="md:border-l md:pl-6 ">
         <div className="flex w-full flex-col space-y-16">
           {annonces.map((annonce) => (
             <ElementAnnonce key={annonce.id} annonce={annonce} />

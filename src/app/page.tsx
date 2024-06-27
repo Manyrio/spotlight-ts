@@ -5,6 +5,10 @@ import { ArrowRightIcon, Bars3Icon, ChevronDownIcon, ChevronRightIcon, ChevronUp
 import { Container } from '@/components/Container'
 import { Button } from '@/components/Button'
 import { title } from 'process'
+import { Annonce, ClasseEnergie, ClasseGaz, EtatPropriete, FinancesImmobilieres, OrientationPropriete, TypeChauffage, TypePropriete, TypeTransaction } from '@/lib/annonce'
+import { formatLocalisation } from '@/lib/localisation'
+import Link from 'next/link'
+
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -46,25 +50,7 @@ const values = [
   },
 ]
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Vel expedita assumenda placeat aut nisi optio voluptates quas',
-    href: '#',
-    description:
-      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-    imageUrl:
-      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
-    date: 'Mar 16, 2020',
-    datetime: '2020-03-16',
-    author: {
-      name: 'Michael Foster',
-      imageUrl:
-        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  },
-  // More posts...
-]
+
 const footerNavigation = {
   main: [
     { name: 'Blog', href: '#' },
@@ -196,6 +182,117 @@ const adresses = [
   }
 ]
 
+
+let annonces: Annonce[] = [
+  new Annonce('12345', // Identifiant de l'annonce
+    TypeTransaction.Vente, // Type de transaction (Vente)
+    new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
+    250000, // Prix total (frais d'agence inclus)
+    0.05, // Pourcentage des frais d'agence
+    {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      addresse: {
+        rue: '1 rue de Paris',
+        codePostal: '75001',
+        ville: 'Paris',
+        pays: 'France'
+      }
+    }, // Localisation
+    {
+      type: TypePropriete.Appartement, // Type de propriété (Appartement)
+      surface: 75, // Surface totale en m²
+      surfaceHabitable: 70, // Surface habitable en m²
+      pieces: 3, // Nombre de pièces
+      chambres: 2, // Nombre de chambres
+      sallesDeBain: 1, // Nombre de salles de bain
+      classeEnergie: ClasseEnergie.B, // Classe énergie (B)
+      classeGaz: ClasseGaz.C, // Classe gaz (C)
+      typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
+      etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
+      orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
+    }, // Propriété
+    `Maison / villa à vendre - BROONS (22250)
+
+Une maison de 139m² comprenant :
+- Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
+- A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
+- Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
+Dépendances : garage, préau, chenil, serre
+Jardin de 1988m²
+
+Visites : Sur rendez-vous.
+
+Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
+    'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
+    new Date(), // Date de la dernière mise à jour
+    [
+      'https://media.immobilier.notaires.fr/inotr/media/29/22044/1604370/781b34f5_VGA.jpg'
+    ] // Liste des images
+  ),
+
+  new Annonce('12345', // Identifiant de l'annonce
+    TypeTransaction.Vente, // Type de transaction (Vente)
+    new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
+    294390, // Prix total (frais d'agence inclus)
+    0.051, // Pourcentage des frais d'agence
+    {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      addresse: {
+        rue: '1 rue de Paris',
+        codePostal: '75001',
+        ville: 'Paris',
+        pays: 'France'
+      }
+    }, // Localisation
+    {
+      type: TypePropriete.Appartement, // Type de propriété (Appartement)
+      surface: 75, // Surface totale en m²
+      surfaceHabitable: 70, // Surface habitable en m²
+      pieces: 3, // Nombre de pièces
+      chambres: 2, // Nombre de chambres
+      sallesDeBain: 1, // Nombre de salles de bain
+      classeEnergie: ClasseEnergie.B, // Classe énergie (B)
+      classeGaz: ClasseGaz.C, // Classe gaz (C)
+      typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
+      etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
+      orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
+    }, // Propriété
+    `  Maison / villa à vendre - DINARD (35800)
+
+A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+Maison 4 pièces de 69,15 m² composée de :
+- Au RDC : garage, séjour -cuisine, dégagement, wc
+- A l'étage mansardé : trois chambres, salle de bains, wc
+Jardin de 381m²
+Pas de vis à vis, au calme d'une impasse.
+
+Visites : Sur rendez-vous.
+
+Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
+
+A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+Maison 4 pièces de 69,15 m² composée de :
+- Au RDC : garage, séjour -cuisine, dégagement, wc
+- A l'étage mansardé : trois chambres, salle de bains, wc
+Jardin de 381m²
+Pas de vis à vis, au calme d'une impasse.
+
+Visites : Sur rendez-vous.
+
+Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
+    'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
+    new Date(), // Date de la dernière mise à jour
+    [
+      'https://media.immobilier.notaires.fr/inotr/media/29/22044/1620881/ad6c678a_VGA.jpg'
+    ] // Liste des images
+  )
+];
+
+
 export default function Example() {
   const [openedAddress, setOpenedAddress] = useState<string[]>([])
 
@@ -206,6 +303,18 @@ export default function Example() {
 
       <div className="isolate w-full">
         {/* Hero section */}
+        <div
+          className="absolute inset-x-0 -top-40 left-0 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+            }}
+          />
+        </div>
         <div className="relative isolate -z-10">
           <svg
             className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
@@ -262,8 +371,7 @@ export default function Example() {
                   <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        alt=""
+                        src="/image-1.jpg"
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
@@ -272,7 +380,7 @@ export default function Example() {
                   <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                        src="/image-2.jpg"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -280,7 +388,7 @@ export default function Example() {
                     </div>
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=396&h=528&q=80"
+                        src="/image-3.jpg"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -290,7 +398,7 @@ export default function Example() {
                   <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=left&w=400&h=528&q=80"
+                        src="/image-4.jpg"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -298,7 +406,7 @@ export default function Example() {
                     </div>
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1670272505284-8faba1c31f7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                        src="/image-2.jpg"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -402,24 +510,6 @@ export default function Example() {
         </div>
 
 
-        {/* Values section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Nos valeurs</h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in
-              accusamus quisquam.
-            </p>
-          </div>
-          <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {values.map((value) => (
-              <div key={value.name}>
-                <dt className="font-semibold text-gray-900">{value.name}</dt>
-                <dd className="mt-1 text-gray-600">{value.description}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
 
         {/* Logo cloud */}
         <div className="relative isolate -z-10 mt-32 sm:mt-48">
@@ -495,7 +585,7 @@ export default function Example() {
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Notre équipe multidisciplinaire est composée de professionnels expérimentés et passionnés.
             </p>
-            <a className='border-b border-indigo-400 w-fit mt-2 text-indigo-400 flex items-center'>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></a>
+            <Link href={"/equipe"} className='border-b border-indigo-400 w-fit mt-2 text-indigo-400 flex items-center'>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
           </div>
           <ul
             role="list"
@@ -514,43 +604,48 @@ export default function Example() {
         {/* Blog section */}
         <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">From the blog</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Annonces immobilières</h2>
             <p className="mt-2 text-lg leading-8 text-gray-600">
-              Vel dolorem qui facilis soluta sint aspernatur totam cumque.
+              Parcourez toutes nos annonces immobilières et trouvez la maison de vos rêves.
             </p>
+            <Link href="/annonces" className='border-b border-indigo-400 w-fit mt-2 text-indigo-400 flex items-center'>Voir toutes les annonces <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
+
           </div>
           <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {blogPosts.map((post) => (
+            {annonces.map((annonce) => (
               <article
-                key={post.id}
+                key={annonce.id}
                 className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
               >
-                <img src={post.imageUrl} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
+                <img src={annonce.images[0]} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
                 <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
                 <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
 
-                <div className="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-                  <time dateTime={post.datetime} className="mr-8">
-                    {post.date}
-                  </time>
-                  <div className="-ml-4 flex items-center gap-x-4">
-                    <svg viewBox="0 0 2 2" className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
-                      <circle cx={1} cy={1} r={1} />
-                    </svg>
-                    <div className="flex gap-x-2.5">
-                      <img src={post.author.imageUrl} alt="" className="h-6 w-6 flex-none rounded-full bg-white/10" />
-                      {post.author.name}
-                    </div>
+                <div className="flex flex-col items-start gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+
+
+                  <span className="relative z-20 mb-[8px] inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                    {annonce.type}
+                  </span>
+
+
+                  <div className="flex gap-x-2.5">
+                    {annonce.prixTotal.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+                  </div>
+
+                  <div className="flex gap-x-2.5">
+                    frais d'agence: {(annonce.prixTotal * annonce.pourcentageFraisAgence).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.pourcentageFraisAgence * 100}%)
                   </div>
                 </div>
                 <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
-                  <a href={post.href}>
+                  <a href={annonce.id}>
                     <span className="absolute inset-0" />
-                    {post.title}
+                    {formatLocalisation(annonce.localisation)}
                   </a>
                 </h3>
               </article>
             ))}
+
           </div>
         </div>
       </div>

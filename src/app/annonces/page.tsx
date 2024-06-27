@@ -10,7 +10,7 @@ import { Annonce, TypeTransaction, FinancesImmobilieres, TypePropriete, ClasseEn
 import { formatDate } from '@/lib/formatDate'
 import { formatLocalisation } from '@/lib/localisation'
 import { Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -38,7 +38,7 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <MenuItems className="absolute left-0 z-30 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             {
               Object.keys(enumObject).map((key) => (
@@ -67,33 +67,88 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
 function ElementAnnonce({ annonce }: { annonce: Annonce }) {
 
   return (
-    <article className="md:grid md:grid-cols-4 md:items-baseline">
-      <Card className="md:col-span-3">
+    <article className="md:grid w-full md:grid-cols-3 md:items-center gap-8">
+      <Card className="md:col-span-2">
+      <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+        {annonce.type}
+      </span>
+      <p />
         <Card.Title 
         href={`/annonces/${annonce.id} `}
         >
           {annonce.finances.prixTotal.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
         </Card.Title>
         <p className="relative z-20 md:block text-sm text-zinc-600 dark:text-zinc-400">
-          Frais d'agence: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence * 100}%)
+          Frais d'agence: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
         </p>
         <Card.Eyebrow
           as="p"
           className="md:hidden"
           decorate
         >
-          {formatLocalisation(annonce.localisation)}
+        <img
+          src="https://media.immobilier.notaires.fr/inotr/media/29/22044/1600131/34199f92_VGA.jpg"
+          alt=""
+          // make image rounded and full wi
+          className="rounded-lg w-full shrink-0"
+          /> v
         </Card.Eyebrow>
         <Card.Description>{annonce.details}</Card.Description>
+        <br/>
+      
+        <Card.Title 
+        href={`/annonces/${annonce.id} `}
+        >
+        {formatLocalisation(annonce.localisation)}
+        </Card.Title>
         <Card.Cta>En savoir plus</Card.Cta>
       </Card>
       <Card.Eyebrow
         as="p"
-        className="mt-1 hidden md:block"
+        className="mt-1 hidden md:block "
       >
-          {formatLocalisation(annonce.localisation)}
+          <img
+            src={annonce.images[0]}
+            alt=""
+            // make image rounded and full wi
+            className="rounded-lg w-full shrink-0"
+            /> 
       </Card.Eyebrow>
     </article>
+  )
+}
+
+function Contact() {
+  return (
+        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 text-base leading-7 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          <div>
+            <h3 className="border-l border-indigo-600 pl-6 font-semibold text-gray-900">SERVICE DE NÉGOCIATION</h3>
+            <address className="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+              <p>14, rue de Dinan</p>
+              <p>22350 CAULNES</p>
+            </address>
+          </div>
+          <div>
+            <h3 className="border-l border-indigo-600 pl-6 font-semibold text-gray-900">Marie-Sophie LEGASTELOIS</h3>
+            <address className="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+              <p>+33 2 96 83 96 84</p>
+              <p>nego@notaires-caulnes.fr</p>
+            </address>
+          </div>
+          <div>
+            <h3 className="border-l border-indigo-600 pl-6 font-semibold text-gray-900">Ouvert du lundi au vendredi</h3>
+            <address className="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+              <p>9h00-12h30 et de 14h00-18h00</p>
+              <div
+                aria-hidden="true"
+                className="relative z-10 mt-1 flex items-center text-sm font-medium text-teal-500"
+              >
+               En savoir plus 
+                <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+              </div>
+            </address>
+          </div>
+        </div>
   )
 }
 
@@ -115,6 +170,7 @@ function FiltresAnnonces() {
             {DropDown({ title: "Classe gaz", enumObject: ClasseGaz, selected: "A", setSelected: (value) => { console.log(value) } })}
             </div>
           </div>
+      <Contact />
         </section>
   )
 }
@@ -149,20 +205,30 @@ export default function AnnoncesIndex() {
         etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
         orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
       }, // Propriété
-      'Un magnifique appartement situé au cœur de Paris, proche de toutes commodités.', // Description du bien
+      `Maison / villa à vendre - BROONS (22250)
+
+Une maison de 139m² comprenant :
+- Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
+- A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
+- Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
+Dépendances : garage, préau, chenil, serre
+Jardin de 1988m²
+
+Visites : Sur rendez-vous.
+
+Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
       'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
       new Date(), // Date de la dernière mise à jour
       [
-        'https://www.exemple.com/images/image1.jpg',
-        'https://www.exemple.com/images/image2.jpg'
+        'https://media.immobilier.notaires.fr/inotr/media/29/22044/1604370/781b34f5_VGA.jpg'
       ] // Liste des images
     ),
     
     new Annonce('12345', // Identifiant de l'annonce
       TypeTransaction.Vente, // Type de transaction (Vente)
       new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-      250000, // Prix total (frais d'agence inclus)
-      0.05, // Pourcentage des frais d'agence
+      294390, // Prix total (frais d'agence inclus)
+      0.051, // Pourcentage des frais d'agence
       {
         latitude: 48.8566,
         longitude: 2.3522,
@@ -186,12 +252,35 @@ export default function AnnoncesIndex() {
         etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
         orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
       }, // Propriété
-      'Un magnifique appartement situé au cœur de Paris, proche de toutes commodités.', // Description du bien
+    `  Maison / villa à vendre - DINARD (35800)
+
+A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+Maison 4 pièces de 69,15 m² composée de :
+- Au RDC : garage, séjour -cuisine, dégagement, wc
+- A l'étage mansardé : trois chambres, salle de bains, wc
+Jardin de 381m²
+Pas de vis à vis, au calme d'une impasse.
+
+Visites : Sur rendez-vous.
+
+Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
+
+A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+Maison 4 pièces de 69,15 m² composée de :
+- Au RDC : garage, séjour -cuisine, dégagement, wc
+- A l'étage mansardé : trois chambres, salle de bains, wc
+Jardin de 381m²
+Pas de vis à vis, au calme d'une impasse.
+
+Visites : Sur rendez-vous.
+
+Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
       'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
       new Date(), // Date de la dernière mise à jour
       [
-        'https://www.exemple.com/images/image1.jpg',
-        'https://www.exemple.com/images/image2.jpg'
+        'https://media.immobilier.notaires.fr/inotr/media/29/22044/1620881/ad6c678a_VGA.jpg'
       ] // Liste des images
     )
   ];
@@ -200,10 +289,10 @@ export default function AnnoncesIndex() {
     <SimpleLayoutWithTitleFooter
       title="Annonces Immobilières"
       footer={ 
-        <FiltresAnnonces />}
+                <FiltresAnnonces />}
     >
       <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
-        <div className="flex max-w-3xl flex-col space-y-16">
+        <div className="flex w-full flex-col space-y-16">
           {annonces.map((annonce) => (
             <ElementAnnonce key={annonce.id} annonce={annonce} />
           ))}

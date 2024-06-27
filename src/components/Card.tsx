@@ -48,21 +48,6 @@ Card.Link = function CardLink({
   )
 }
 
-Card.BigTitle = function CardBigTitle<T extends React.ElementType = 'h1'>({
-  as,
-  children,
-}: Omit<React.ComponentPropsWithoutRef<T>, 'as'> & {
-  as?: T
-}) {
-  let Component = as ?? 'h1'
-
-  return (
-    <Component className="text-2xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-      {children}
-    </Component>
-  )
-}
-
 Card.Title = function CardTitle<T extends React.ElementType = 'h2'>({
   as,
   href,
@@ -86,7 +71,17 @@ Card.Description = function CardDescription({
   children: React.ReactNode
 }) {
   return (
-    <p className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+    <p
+      className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
+      style={{
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        WebkitLineClamp: 3,
+        maxHeight: '4.5em',
+        lineHeight: '1.5em',
+      }}>
       {children}
     </p>
   )

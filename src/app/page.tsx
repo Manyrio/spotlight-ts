@@ -249,10 +249,10 @@ export default function Example() {
                   <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
 
                     <Image alt='logo notaire' src={avatarImage} className='h-36 w-36 mb-10 mt-10 mb-6 lg:mt-0 mb-0'></Image>
-                    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                    <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-6xl">
                       Office Notarial LAUBE, LHOMME, DELMAS & LERAY, DUFEIL
                     </h1>
-                    <p className="relative mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
+                    <p className="relative mt-6 dark:text-gray-200 text-lg leading-8 dark:text-gray-200 text-gray-600 sm:max-w-md lg:max-w-none">
                       Maître Anne LAUBE et Maître Pierre LHOMME & Maître Marc DELMAS, notaires associés, Maître Jeanne LERAY , Maître Virginie DUFEIL, notaires, et leur équipe vous accompagnent dans les grandes étapes de votre vie ainsi que dans tous vos projets immobiliers et patrimoniaux.
                     </p>
 
@@ -313,9 +313,9 @@ export default function Example() {
           </div>
 
           {/* Content section */}
-          <div className="mx-auto max-w-7xl px-6 sm:mt-0 lg:px-8 pt-10">
+          <div className="mx-auto max-w-7xl px-6 sm:mt-0 lg:px-8 pt-20">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Nous trouver</h2>
+              <h2 className="dark:text-gray-200 text-3xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-4xl">Nous trouver</h2>
               <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
                 <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
 
@@ -335,8 +335,8 @@ export default function Example() {
                           }
                         }}
                       >
-                        <h3 className="text-base font-semibold text-gray-900 truncate ">{adresse.title}</h3>
-                        <p className=" max-w-2xl text-sm leading-6 text-gray-500">{adresse.description}</p>
+                        <h3 className="dark:text-gray-200 text-base font-semibold dark:text-gray-200 text-gray-900 truncate ">{adresse.title}</h3>
+                        <p className=" max-w-2xl dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500">{adresse.description}</p>
 
                         {openedAddress.includes(adresse.name) ?
                           <ChevronUpIcon className='absolute right-0 h-4 w-4'></ChevronUpIcon>
@@ -350,26 +350,26 @@ export default function Example() {
                       <div className="mt-6 border-t border-gray-100">
                         <dl className="divide-y divide-gray-100">
                           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Adresse complète</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            <dt className="dark:text-gray-200 text-sm font-medium leading-6 dark:text-gray-200 text-gray-900">Adresse complète</dt>
+                            <dd className="mt-1 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-700 sm:col-span-2 sm:mt-0">
                               {adresse.adresse}</dd>
                           </div>
                           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Adresse e-mail</dt>
-                            <a className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 underline"
+                            <dt className="dark:text-gray-200 text-sm font-medium leading-6 dark:text-gray-200 text-gray-900">Adresse e-mail</dt>
+                            <a className="mt-1 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-700 sm:col-span-2 sm:mt-0 underline"
                               href={'mailto:' + adresse.email}
                             >{adresse.email}</a>
                           </div>
                           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Numéro de téléphone</dt>
-                            <a className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 underline"
+                            <dt className="dark:text-gray-200 text-sm font-medium leading-6 dark:text-gray-200 text-gray-900">Numéro de téléphone</dt>
+                            <a className="mt-1 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-700 sm:col-span-2 sm:mt-0 underline"
                               href={'tel:' + adresse.phone}
                             >{adresse.phone}</a>
                           </div>
                           {adresse.horaires &&
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                              <dt className="text-sm font-medium leading-6 text-gray-900 ">Horaires</dt>
-                              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line">
+                              <dt className="dark:text-gray-200 text-sm font-medium leading-6 dark:text-gray-200 text-gray-900 ">Horaires</dt>
+                              <dd className="mt-1 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line">
                                 {adresse.horaires}
                               </dd>
                             </div>
@@ -377,8 +377,8 @@ export default function Example() {
 
                           {adresse.infos &&
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                              <dt className="text-sm font-medium leading-6 text-gray-900">Infos pratiques</dt>
-                              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                              <dt className="dark:text-gray-200 text-sm font-medium leading-6 dark:text-gray-200 text-gray-900">Infos pratiques</dt>
+                              <dd className="mt-1 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-700 sm:col-span-2 sm:mt-0">
                                 {adresse.infos}
                               </dd>
                             </div>
@@ -427,68 +427,27 @@ export default function Example() {
                 <rect width="100%" height="100%" strokeWidth={0} fill="url(#e9033f3e-f665-41a6-84ef-756f6778e6fe)" />
               </svg>
             </div>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <h2 className="text-center text-lg font-semibold leading-8 text-gray-900">
-                Nos références
-              </h2>
-              <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-                <img
-                  className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                  src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg"
-                  alt="Transistor"
-                  width={158}
-                  height={48}
-                />
-                <img
-                  className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                  src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg"
-                  alt="Reform"
-                  width={158}
-                  height={48}
-                />
-                <img
-                  className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                  src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg"
-                  alt="Tuple"
-                  width={158}
-                  height={48}
-                />
-                <img
-                  className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-                  src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg"
-                  alt="SavvyCal"
-                  width={158}
-                  height={48}
-                />
-                <img
-                  className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-                  src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg"
-                  alt="Statamic"
-                  width={158}
-                  height={48}
-                />
-              </div>
-            </div>
+            
           </div>
 
           {/* Team section */}
           <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Rencontrez l'équipe</h2>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
+              <h2 className="dark:text-gray-200 text-3xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-4xl">Rencontrez l'équipe</h2>
+              <p className="mt-6 dark:text-gray-200 text-lg leading-8 dark:text-gray-200 text-gray-600">
                 Notre équipe multidisciplinaire est composée de professionnels expérimentés et passionnés.
               </p>
-              <Link href={"/equipe"} className='border-b border-indigo-400 w-fit mt-2 text-indigo-400 flex items-center'>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
+              <Link href={"/equipe"} className='border-b border-indigo-400 w-fit mt-2 dark:text-gray-200 text-indigo-400 flex items-center'>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
             </div>
             <ul
               role="list"
-              className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6"
+              className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 dark:text-gray-200 text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6"
             >
               {membres.map((membre) => (
                 <li key={membre.nom}>
                   <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={membre.imageUrl} alt="" />
-                  <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">{membre.nom}</h3>
-                  <p className="text-sm leading-6 text-gray-600">{membre.poste}</p>
+                  <h3 className="mt-6 dark:text-gray-200 text-base font-semibold leading-7 tracking-tight dark:text-gray-200 text-gray-900">{membre.nom}</h3>
+                  <p className="dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-600">{membre.poste}</p>
                 </li>
               ))}
             </ul>
@@ -497,11 +456,11 @@ export default function Example() {
           {/* Blog section */}
           <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Annonces immobilières</h2>
-              <p className="mt-2 text-lg leading-8 text-gray-600">
+              <h2 className="dark:text-gray-200 text-3xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-4xl">Annonces immobilières</h2>
+              <p className="mt-2 dark:text-gray-200 text-lg leading-8 dark:text-gray-200 text-gray-600">
                 Parcourez toutes nos annonces immobilières et trouvez la maison de vos rêves.
               </p>
-              <Link href="/annonces" className='border-b border-indigo-400 w-fit mt-2 text-indigo-400 flex items-center'>Voir toutes les annonces <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
+              <Link href="/annonces" className='border-b border-indigo-400 w-fit mt-2 dark:text-gray-200 text-indigo-400 flex items-center'>Voir toutes les annonces <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
 
             </div>
             <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
@@ -514,10 +473,10 @@ export default function Example() {
                   <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
                   <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
 
-                  <div className="flex flex-col items-start gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+                  <div className="flex flex-col items-start gap-y-1 overflow-hidden dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-300">
 
 
-                    <span className="relative z-20 mb-[8px] inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                    <span className="relative z-20 mb-[8px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 dark:text-gray-200 text-xs font-medium dark:text-gray-200 text-gray-600 ring-1 ring-inset ring-gray-500/10">
                       {annonce.type}
                     </span>
 
@@ -530,7 +489,7 @@ export default function Example() {
                       frais d'agence: {(annonce.prixTotal * annonce.pourcentageFraisAgence).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.pourcentageFraisAgence * 100}%)
                     </div>
                   </div>
-                  <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
+                  <h3 className="mt-3 dark:text-gray-200 text-lg font-semibold leading-6 dark:text-gray-200 text-white">
                     <a href={annonce.id}>
                       <span className="absolute inset-0" />
                       {formatLocalisation(annonce.localisation)}

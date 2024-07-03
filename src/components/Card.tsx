@@ -59,7 +59,7 @@ Card.Title = function CardTitle<T extends React.ElementType = 'h2'>({
   let Component = as ?? 'h1'
 
   return (
-    <Component className="text-2xl  font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+    <Component className="dark:text-gray-200 text-2xl  font-semibold tracking-tight dark:text-gray-200 text-zinc-800 dark:dark:text-gray-200 text-zinc-100">
       {href ? <Card.Link href={href}>{children}</Card.Link> : children}
     </Component>
   )
@@ -72,7 +72,7 @@ Card.Description = function CardDescription({
 }) {
   return (
     <p
-      className="relative z-10 mt-2 text-md text-zinc-600 dark:text-zinc-400"
+      className="relative z-10 mt-2 dark:text-gray-200 text-md dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
       style={{
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
@@ -90,7 +90,7 @@ Card.Cta = function CardCta({ children }: { children: React.ReactNode }) {
   return (
     <div
       aria-hidden="true"
-      className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
+      className="relative z-10 mt-4 flex items-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-teal-500"
     >
       {children}
       <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
@@ -114,7 +114,7 @@ Card.Eyebrow = function CardEyebrow<T extends React.ElementType = 'p'>({
     <Component
       className={clsx(
         className,
-        'relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500',
+        'relative z-10 order-first mb-3 flex items-center dark:text-gray-200 text-sm dark:text-gray-200 text-zinc-400 dark:dark:text-gray-200 text-zinc-500',
         decorate && 'pl-3.5',
       )}
       {...props}

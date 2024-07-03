@@ -84,9 +84,9 @@ export default function Service() {
                 <div className="mt-20 mx-auto grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-16 sm:gap-y-24 lg:mx-0 lg:max-w-none lg:grid-cols-1">
 
                     <div>
-                        <div className="text-base leading-7 text-gray-700 w-full">
-                            <p className="text-base font-semibold leading-7 text-indigo-600">Services</p>
-                            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                        <div className="dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-700 w-full">
+                            <p className="dark:text-gray-200 text-base font-semibold leading-7 dark:text-gray-200 text-indigo-600">Services</p>
+                            <h1 className="mt-2 dark:text-gray-200 text-3xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-4xl">
                                 Nos services numériques
                             </h1>
                             <div className="w-ull">
@@ -103,7 +103,7 @@ export default function Service() {
                         </div>
 
                         <div className="mt-10 flex">
-                            <Link href="/contact" className="text-base font-semibold leading-7 text-indigo-600">
+                            <Link href="/contact" className="dark:text-gray-200 text-base font-semibold leading-7 dark:text-gray-200 text-indigo-600">
                                 Nous contacter <span aria-hidden="true">&rarr;</span>
                             </Link>
                         </div>
@@ -113,9 +113,9 @@ export default function Service() {
                 <dl className="mt-10 grid grid-cols-2 gap-8 border-t border-gray-900/10 pt-10 sm:grid-cols-4">
 
                     {stats.map((stat) => (
-                        <div key={stat.title} className="flex flex-col bg-gray-400/5 p-8 cursor-pointer hover:bg-gray-200 rounded-md">
-                            <dt className="text-sm font-semibold leading-6 text-gray-600 mt-2">{stat.description}</dt>
-                            <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900">{stat.title}</dd>
+                        <div key={stat.title} className="flex flex-col bg-gray-400/5 p-8 cursor-pointer rounded-md">
+                            <dt className="dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-600 mt-2">{stat.description}</dt>
+                            <dd className="order-first dark:text-gray-200 text-3xl font-semibold tracking-tight dark:text-gray-200 text-gray-900">{stat.title}</dd>
                         </div>
                     ))}
                 </dl>

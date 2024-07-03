@@ -17,7 +17,7 @@ export function Section({
       <div className="grid max-w-3xl grid-cols-1 items-baseline gap-y-8 md:grid-cols-4">
         <h2
           id={id}
-          className="text-sm font-semibold text-zinc-800 dark:text-zinc-100"
+          className="dark:text-gray-200 text-sm font-semibold dark:text-gray-200 text-zinc-800 dark:dark:text-gray-200 text-zinc-100"
         >
           {title}
         </h2>

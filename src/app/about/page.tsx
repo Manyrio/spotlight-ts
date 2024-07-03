@@ -27,7 +27,7 @@ function SocialLink({
     <li className={clsx(className, 'flex')}>
       <Link
         href={href}
-        className="group flex text-sm font-medium text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
+        className="group flex dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 transition hover:dark:text-gray-200 text-teal-500 dark:dark:text-gray-200 text-zinc-200 dark:hover:dark:text-gray-200 text-teal-500"
       >
         <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
         <span className="ml-4">{children}</span>
@@ -68,11 +68,11 @@ export default function About() {
           </div>
         </div>
         <div className="lg:order-first lg:row-span-2">
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+          <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100">
             I’m Spencer Sharp. I live in New York City, where I design the
             future.
           </h1>
-          <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
+          <div className="mt-6 space-y-7 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400">
             <p>
               I’ve loved making things for as long as I can remember, and wrote
               my first program when I was 6 years old, just two weeks after my

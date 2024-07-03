@@ -27,26 +27,26 @@ export default function Projects() {
                     <li key={membre.nom} className="flex flex-col gap-10 pt-12 sm:flex-row">
                         <img className="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src={membre.imageUrl} alt="" />
                         <div className="max-w-xl flex-auto">
-                            <h3 className="text-lg font-semibold leading-8 tracking-tight text-gray-900 dark:text-gray-200">{membre.nom}</h3>
-                            <p className="text-base leading-7 text-gray-600">{membre.poste}</p>
+                            <h3 className="dark:text-gray-200 text-lg font-semibold leading-8 tracking-tight dark:text-gray-200 text-gray-900 dark:dark:text-gray-200 text-gray-200">{membre.nom}</h3>
+                            <p className="dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600">{membre.poste}</p>
 
-                            {membre.email && <a href={'mailto:'+membre.email} className="underline mt-6 text-base leading-7 text-gray-600  dark:text-gray-500 flex items-center">
+                            {membre.email && <a href={'mailto:'+membre.email} className="underline mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600  dark:dark:text-gray-200 text-gray-500 flex items-center">
                                 <EnvelopeIcon className='h-4 w-4 mr-2 shrink-0'></EnvelopeIcon>
                                 {membre.email}</a>}
 
 
-                            {membre.telephone && <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-500  flex items-center">
+                            {membre.telephone && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
                                 <PhoneIcon className='h-4 w-4 mr-2 shrink-0'></PhoneIcon>
                                 {membre.telephone}</p>}
 
-                            {membre.diplomes && <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-500  flex items-center">
+                            {membre.diplomes && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
                                 <AcademicCapIcon className='h-4 w-4 mr-2 shrink-0'></AcademicCapIcon>
                                 {membre.diplomes.map(diplome => (
                                     <p>{diplome}</p>
                                 ))}
                             </p>}
 
-                            {membre.langues && <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-500  flex items-center">
+                            {membre.langues && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
                                 <LanguageIcon className='h-4 w-4 mr-2 shrink-0'></LanguageIcon>
                                 {membre.langues.map(langue => (
                                     <p>{langue}</p>
@@ -54,7 +54,7 @@ export default function Projects() {
                             </p>}
 
 
-                            {membre.lieuxActivite && <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-500  flex items-center">
+                            {membre.lieuxActivite && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
                                 <MapPinIcon className='h-4 w-4 mr-2 shrink-0'></MapPinIcon>
                                 {membre.lieuxActivite.map(lieu => (
                                     <p>{lieu}</p>
@@ -67,7 +67,7 @@ export default function Projects() {
                                 <ul role="list" className="mt-6 flex gap-x-6">
                                     {membre.reseauxSociaux.map(reseau => {
                                         return <li key={reseau.nom}>
-                                            <a href={reseau.lien} className="text-gray-400 dark:text-gray-500  hover:text-gray-500">
+                                            <a href={reseau.lien} className="dark:text-gray-200 text-gray-400 dark:dark:text-gray-200 text-gray-500  hover:dark:text-gray-200 text-gray-500">
                                                 <span className="sr-only">LinkedIn</span>
                                                 <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                                     <path

@@ -19,12 +19,12 @@ function classNames(...classes: string[]) {
 function DropDown({ title, enumObject, selected, setSelected }: { title: string, enumObject: any, selected: string, setSelected: (value: string) => void }) {
   return (
 
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block dark:text-gray-200 text-left">
       <div>
-        <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+        <MenuButton className="group inline-flex justify-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-700 hover:dark:text-gray-200 text-gray-900">
         {title}
           <ChevronDownIcon
-            className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+            className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 dark:text-gray-200 text-gray-400 group-hover:dark:text-gray-200 text-gray-500"
             aria-hidden="true"
           />
         </MenuButton>
@@ -48,7 +48,7 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
                       href="#"
                       className={classNames(
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm font-medium text-gray-900',
+                        'block px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-900',
                       )}
                     >
                       {key}
@@ -69,7 +69,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
   return (
     <article className="md:grid w-full md:grid-cols-3 md:items-center gap-8">
       <Card className="md:col-span-1">
-      <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+      <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 dark:text-gray-200 text-xs font-medium dark:text-gray-200 text-gray-600 ring-1 ring-inset ring-gray-500/10">
         {annonce.type}
       </span>
       <p />
@@ -78,10 +78,10 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
         >
           Titre test
         </Card.Title>
-        <p className="relative z-20 font-semibold md:block text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400">
         {annonce.finances.prixTotal.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
         </p>
-        <p className="relative z-20 md:block text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="relative z-20 md:block dark:text-gray-200 text-sm dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400">
           Frais d'agence: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
         </p>
         <Card.Eyebrow
@@ -100,7 +100,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
         <Card.Description>{annonce.details}</Card.Description>
         <br/>
       
-        <p className="relative z-20 font-semibold md:block text-lg text-zinc-600 dark:text-zinc-400">{annonce.localisation.addresse.ville}</p>
+        <p className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400">{annonce.localisation.addresse.ville}</p>
         <Card.Cta>En savoir plus</Card.Cta>
       </Card>
       <Card.Eyebrow
@@ -120,28 +120,28 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
 
 function Contact() {
   return (
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 text-base leading-7 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 dark:text-gray-200 text-base leading-7 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           <div>
-            <h3 className="border-l border-indigo-600 pl-6 font-semibold text-gray-900">SERVICE DE NÉGOCIATION</h3>
-            <address className="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+            <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900">SERVICE DE NÉGOCIATION</h3>
+            <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600">
               <p>14, rue de Dinan</p>
               <p>22350 CAULNES</p>
             </address>
           </div>
           <div>
-            <h3 className="border-l border-indigo-600 pl-6 font-semibold text-gray-900">Marie-Sophie LEGASTELOIS</h3>
-            <address className="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+            <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900">Marie-Sophie LEGASTELOIS</h3>
+            <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600">
               <p>+33 2 96 83 96 84</p>
               <p>nego@notaires-caulnes.fr</p>
             </address>
           </div>
           <div>
-            <h3 className="border-l border-indigo-600 pl-6 font-semibold text-gray-900">Ouvert du lundi au vendredi</h3>
-            <address className="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+            <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900">Ouvert du lundi au vendredi</h3>
+            <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600">
               <p>9h00-12h30 et de 14h00-18h00</p>
               <div
                 aria-hidden="true"
-                className="relative z-10 mt-1 flex items-center text-sm font-medium text-teal-500"
+                className="relative z-10 mt-1 flex items-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-teal-500"
               >
                En savoir plus 
                 <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />

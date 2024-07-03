@@ -87,7 +87,7 @@ export default function Service() {
                         <div className="text-base leading-7 text-gray-700 w-full">
                             <p className="text-base font-semibold leading-7 text-indigo-600">Services</p>
                             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                                nos services numériques
+                                Nos services numériques
                             </h1>
                             <div className="w-ull">
                                 <p className="mt-6">
@@ -114,7 +114,7 @@ export default function Service() {
 
                     {stats.map((stat) => (
                         <div key={stat.title} className="flex flex-col bg-gray-400/5 p-8 cursor-pointer hover:bg-gray-200 rounded-md">
-                            <dt className="text-sm font-semibold leading-6 text-gray-600">{stat.description}</dt>
+                            <dt className="text-sm font-semibold leading-6 text-gray-600 mt-2">{stat.description}</dt>
                             <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900">{stat.title}</dd>
                         </div>
                     ))}

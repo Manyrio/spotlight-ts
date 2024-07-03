@@ -95,7 +95,7 @@ export default function ThankYou() {
             <div className="mt-10">
               <Button
                 type="submit"
-                className="w-full !bg-gray-200 !text-gray-700"
+                className="w-full "
               >
                 Envoyer le message
               </Button>

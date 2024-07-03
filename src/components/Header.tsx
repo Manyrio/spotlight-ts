@@ -256,7 +256,7 @@ function Avatar({
         alt=""
         sizes={large ? '4rem' : '2.25rem'}
         className={clsx(
-          'rounded-md  object-cover dark:bg-zinc-800',
+          'rounded-md  object-cover',
           large ? 'h-32 w-32' : 'h-9 w-9',
         )}
         priority

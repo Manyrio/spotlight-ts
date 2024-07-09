@@ -40,6 +40,9 @@ export const metadata = {
 }
 
 export default function Uses() {
+
+
+  
   return (
     <SimpleLayout
       title="Software I use, gadgets I love, and other things I recommend."

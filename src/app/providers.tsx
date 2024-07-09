@@ -63,8 +63,9 @@ export function Providers({ children, etudes, defaultScope }: { children: React.
     let pathname = usePathname()
     let previousPathname = usePrevious(pathname)
     let [scope, setScope] = useState(defaultScope)
-    let [etude, setEtude] = useState<Etude>(new Etude())
-    let [colors, setColors] = useState<Color>(new Color())
+    let defaultEtude = etudes.find(etude => etude.attributes.name === scope) || new Etude()
+    let [etude, setEtude] = useState<Etude>(defaultEtude)
+    let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
 
     useEffect(() => {
         let etude = etudes.find(etude => etude.attributes.name === scope) || new Etude()

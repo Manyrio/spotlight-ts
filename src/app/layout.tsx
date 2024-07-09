@@ -4,6 +4,10 @@ import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
 
 import '@/styles/tailwind.css'
+import { Method, call } from '@/scripts/api'
+import { Etude } from '@/models/etudes'
+import { headers } from 'next/headers';
+import { ApiListResponse, Scope } from '@/models/other'
 
 export const metadata: Metadata = {
   title: {
@@ -20,15 +24,28 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate=*", Method.get)
+  let scope = Scope.Caulnes
+  let path: any = headers().get('path')
+  if (path.startsWith("/caulnes")) {
+    scope = Scope.Caulnes
+  } else if (path.startsWith("/cast")) {
+    scope = Scope.Cast
+  }
+
+
+
   return (
     <html lang="fr" className="h-full antialiased" suppressHydrationWarning>
       <body className="flex h-full bg-white dark:bg-black">
-        <Providers>
+        <Providers etudes={etudes.data} defaultScope={scope}>
           <div className="flex w-full">
             <Layout>{children}</Layout>
           </div>

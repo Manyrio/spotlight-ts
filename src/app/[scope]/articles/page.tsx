@@ -2,8 +2,8 @@ import { type Metadata } from 'next'
 
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
-import { type ArticleWithSlug, getAllArticles } from '@/lib/articles'
-import { formatDate } from '@/lib/formatDate'
+import { type ArticleWithSlug, getAllArticles } from '@/models/articles'
+import { formatDate } from '@/models/formatDate'
 
 function Article({ article }: { article: ArticleWithSlug }) {
   return (

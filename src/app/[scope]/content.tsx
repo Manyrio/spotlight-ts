@@ -201,7 +201,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         <h1 className={`text-4xl font-bold tracking-tight text-6xl text-${colors.attributes.accent}`}>
                                             {etude.attributes.name}
                                         </h1>
-                                        <p className="relative mt-6 dark:text-gray-200 text-lg leading-8 dark:text-gray-200 text-gray-600 sm:max-w-md lg:max-w-none">
+                                        <p className={`relative mt-6  text-lg leading-8 sm:max-w-md lg:max-w-none text-${colors.attributes.indicator}`}>
                                             {etude.attributes.description}
                                         </p>
 

@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { ArrowRightIcon, Bars3Icon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon, PaperClipIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Container } from '@/components/Container'
@@ -10,6 +10,7 @@ import { formatLocalisation } from '@/lib/localisation'
 import Link from 'next/link'
 import avatarImage from '@/images/avatar.jpg'
 import Image from 'next/image'
+import { AppContext } from '../providers'
 
 
 
@@ -183,7 +184,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
 export default function Example() {
   const [openedAddress, setOpenedAddress] = useState<string[]>([adresses[0].name])
 
-
+  const { colors } = useContext(AppContext)
 
   return (
     <>
@@ -249,7 +250,7 @@ export default function Example() {
                   <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
 
                     <Image alt='logo notaire' src={avatarImage} className='h-36 w-36 mb-10 mt-10 mb-6 lg:mt-0 mb-0'></Image>
-                    <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-6xl">
+                    <h1 className={`text-4xl font-bold tracking-tight text-6xl text-${colors.accent}`}>
                       Office Notarial LAUBE, LHOMME, DELMAS & LERAY, DUFEIL
                     </h1>
                     <p className="relative mt-6 dark:text-gray-200 text-lg leading-8 dark:text-gray-200 text-gray-600 sm:max-w-md lg:max-w-none">

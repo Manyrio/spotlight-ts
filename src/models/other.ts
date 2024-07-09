@@ -1,7 +1,7 @@
 
 export enum Scope {
-    Cast = "Office de Saint Cast",
-    Caulnes = "Office de Saint Cast Le Guildo"
+    Cast = "cast",
+    Caulnes = "caulnes"
 }
 
 

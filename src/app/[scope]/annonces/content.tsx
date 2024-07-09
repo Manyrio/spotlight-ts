@@ -18,14 +18,21 @@ function classNames(...classes: string[]) {
 }
 
 function DropDown({ title, enumObject, selected, setSelected }: { title: string, enumObject: any, selected: string, setSelected: (value: string) => void }) {
+  const { colors } = useContext(AppContext)
+
+
+
   return (
 
     <Menu as="div" className="relative inline-block dark:text-gray-200 text-left">
       <div>
-        <MenuButton className="group inline-flex justify-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-700 hover:dark:text-gray-200 text-gray-900">
+        <MenuButton className="group inline-flex justify-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-700 text-gray-900"
+
+          style={{ color: colors.attributes.indicator }}
+        >
           {title}
           <ChevronDownIcon
-            className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 dark:text-gray-200 text-gray-400 group-hover:dark:text-gray-200 text-gray-500"
+            className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 dark:text-gray-200 text-gray-400  text-gray-500"
             aria-hidden="true"
           />
         </MenuButton>
@@ -130,29 +137,32 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
 }
 
 function Contact() {
+  const { colors } = useContext(AppContext)
+
   return (
     <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 dark:text-gray-200 text-base leading-7 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
       <div>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900">SERVICE DE NÉGOCIATION</h3>
-        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600">
+        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>SERVICE DE NÉGOCIATION</h3>
+        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
           <p>14, rue de Dinan</p>
           <p>22350 CAULNES</p>
         </address>
       </div>
       <div>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900">Marie-Sophie LEGASTELOIS</h3>
-        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600">
+        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>Marie-Sophie LEGASTELOIS</h3>
+        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
           <p>+33 2 96 83 96 84</p>
           <p>nego@notaires-caulnes.fr</p>
         </address>
       </div>
       <div>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900">Ouvert du lundi au vendredi</h3>
-        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600">
+        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>Ouvert du lundi au vendredi</h3>
+        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
           <p>9h00-12h30 et de 14h00-18h00</p>
           <div
             aria-hidden="true"
             className="relative z-10 mt-1 flex items-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-teal-500"
+            style={{ color: colors.attributes.primary }}
           >
             En savoir plus
             <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
@@ -165,6 +175,7 @@ function Contact() {
 
 function FiltresAnnonces() {
   const [open, setOpen] = useState(false)
+  const { colors } = useContext(AppContext)
 
   return (
     <section aria-labelledby="filter-heading" className=" py-6">
@@ -185,6 +196,7 @@ function FiltresAnnonces() {
 }
 
 export default function AnnoncesContent() {
+  const { colors } = useContext(AppContext)
   let annonces: Annonce[] = [
     new Annonce('12345', // Identifiant de l'annonce
       TypeTransaction.Vente, // Type de transaction (Vente)
@@ -406,7 +418,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
       footer={
         <FiltresAnnonces />}
     >
-      <div className="md:border-l md:pl-6 ">
+      <div className="md:border-l md:pl-6 " style={{ borderColor: colors.attributes.border }}>
         <div className="flex w-full flex-col space-y-16">
           {annonces.map((annonce) => (
             <ElementAnnonce key={annonce.id} annonce={annonce} />

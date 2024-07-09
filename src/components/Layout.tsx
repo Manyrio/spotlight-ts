@@ -1,12 +1,8 @@
-"use client"
-import { AppContext } from '@/app/providers'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
-import { useContext } from 'react'
+import { Color } from '@/models/colors'
 
-export function Layout({ children }: { children: React.ReactNode }) {
-
-  const { colors } = useContext(AppContext)
+export function Layout({ children, colors }: { children: React.ReactNode, colors: Color }) {
 
 
   return (

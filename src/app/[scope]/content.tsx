@@ -130,7 +130,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
 
 export default function HomeContent({ members }: { members: Member[] }) {
 
-    const { etude, scope, colors } = useContext(AppContext)
+    const { etude, colors } = useContext(AppContext)
     console.log(members)
 
 

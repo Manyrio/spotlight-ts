@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -17,6 +17,7 @@ import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
 import avatarImage from '@/images/avatar.jpg'
+import { AppContext } from '@/app/providers'
 
 function CloseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -160,6 +161,8 @@ function NavItem({
 }) {
   let isActive = usePathname() === href
 
+  let { colors } = useContext(AppContext)
+
   return (
     <li>
       <Link
@@ -167,13 +170,14 @@ function NavItem({
         className={clsx(
           'relative block px-3 py-2 transition',
           isActive
-            ? 'dark:text-gray-200 text-teal-500 dark:dark:text-gray-200 text-teal-400'
-            : 'hover:dark:text-gray-200 text-teal-500 dark:hover:dark:text-gray-200 text-teal-400',
+            ? 'dark:text-gray-200  dark:dark:text-gray-200'
+            : 'hover:dark:text-gray-200  dark:hover:dark:text-gray-200',
         )}
+        style={{ color: colors.attributes.primary }}
       >
         {children}
         {isActive && (
-          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 dark:from-teal-400/0 dark:via-teal-400/40 dark:to-teal-400/0" />
+          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 " />
         )}
       </Link>
     </li>
@@ -181,9 +185,11 @@ function NavItem({
 }
 
 function DesktopNavigation(props: React.ComponentPropsWithoutRef<'nav'>) {
+  let { colors } = useContext(AppContext)
+
   return (
     <nav {...props}>
-      <ul className="flex rounded-full bg-white/90 px-3 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:dark:text-gray-200 text-zinc-200 dark:ring-white/10">
+      <ul className="flex rounded-full px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur  " style={{ background: colors.attributes.tintedBackground}}>
         <NavItem href="/equipe">L'office</NavItem>
         <NavItem href="/annonces">Annonces</NavItem>
         <NavItem href="/services">Services</NavItem>

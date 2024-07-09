@@ -7,6 +7,8 @@ import { useContext } from 'react'
 export function Layout({ children }: { children: React.ReactNode }) {
 
   const { colors } = useContext(AppContext)
+
+  
   return (
     <>
       <div className={`fixed inset-0 flex bg-[${colors.attributes.background}] justify-center sm:px-8`}>

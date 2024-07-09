@@ -33,6 +33,7 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
           {title}
           <ChevronDownIcon
             className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 dark:text-gray-200 text-gray-400  text-gray-500"
+            style={{ color: colors.attributes.indicator }}
             aria-hidden="true"
           />
         </MenuButton>

@@ -1,8 +1,14 @@
 'use client'
 
-import { createContext, useEffect, useRef } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { ThemeProvider, useTheme } from 'next-themes'
+
+export enum Scopes {
+  Caulnes = "caulnes",
+  Cast = "cast",
+}
+
 
 function usePrevious<T>(value: T) {
   let ref = useRef<T>()
@@ -12,6 +18,11 @@ function usePrevious<T>(value: T) {
   }, [value])
 
   return ref.current
+}
+
+
+function scope() {
+  let [scope, setScope] = useState(Scopes.Caulnes)
 }
 
 function ThemeWatcher() {

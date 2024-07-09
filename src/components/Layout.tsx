@@ -12,7 +12,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className={`fixed inset-0 flex  justify-center sm:px-8`} style={{ background: colors.attributes.background }}>
-        <div className="flex w-full max-w-7xl lg:px-8" style={{ background: colors.attributes.background }}>
+        <div className="flex w-full max-w-7xl" style={{ background: colors.attributes.background }}>
           <div className={`w-full `} />
         </div>
       </div>

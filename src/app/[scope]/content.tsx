@@ -11,8 +11,6 @@ import Link from 'next/link'
 import avatarImage from '@/images/avatar.jpg'
 import Image from 'next/image'
 import { AppContext } from '../providers'
-import { Etude } from '@/models/etudes'
-import { Place } from '@/models/places'
 import { Member } from '@/models/members'
 
 

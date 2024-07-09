@@ -4,7 +4,7 @@ import { Etude } from "@/models/etudes"
 import { ApiListResponse } from "@/models/other"
 import { Member } from "@/models/members"
 
-export default async function Example() {
+export default async function Home() {
 
   let members: ApiListResponse<Member> = new ApiListResponse<Member>()
   try {

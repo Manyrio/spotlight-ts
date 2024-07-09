@@ -8,6 +8,7 @@ import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
 import { headers } from 'next/headers';
 import { ApiListResponse, Scope } from '@/models/other'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: {
@@ -34,20 +35,22 @@ export default async function RootLayout({
   let etudes: ApiListResponse<Etude> = await call("etudes?populate=*", Method.get)
   let scope = Scope.Caulnes
   let path: any = headers().get('path')
-  if (path.startsWith("/caulnes")) {
+  if (path.startsWith("/" + Scope.Caulnes)) {
     scope = Scope.Caulnes
-  } else if (path.startsWith("/cast")) {
+  } else if (path.startsWith("/" + Scope.Cast)) {
     scope = Scope.Cast
   }
+
+  let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
 
 
 
   return (
     <html lang="fr" className="h-full antialiased" suppressHydrationWarning>
-      <body className="flex h-full bg-white dark:bg-black">
-        <Providers etudes={etudes.data} defaultScope={scope}>
+      <body className={`flex h-full`} style={{ background: defaultEtude.attributes.colors.data.attributes.background }}>
+        <Providers etudes={etudes.data} defaultScope={scope} defaultEtude={defaultEtude}>
           <div className="flex w-full">
-            <Layout>{children}</Layout>
+            <Layout colors={defaultEtude.attributes.colors.data}>{children}</Layout>
           </div>
         </Providers>
       </body>

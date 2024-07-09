@@ -59,33 +59,32 @@ export const AppContext = createContext<{
     colors: new Color(),
 })
 
-export function Providers({ children, etudes, defaultScope }: { children: React.ReactNode, etudes: Etude[], defaultScope: Scope }) {
+export function Providers({ children, etudes, defaultScope, defaultEtude }: { children: React.ReactNode, etudes: Etude[], defaultScope: Scope, defaultEtude: Etude }) {
     let pathname = usePathname()
     let previousPathname = usePrevious(pathname)
     let [scope, setScope] = useState(defaultScope)
-    let defaultEtude = etudes.find(etude => etude.attributes.name === scope) || new Etude()
     let [etude, setEtude] = useState<Etude>(defaultEtude)
     let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
 
     useEffect(() => {
-        let etude = etudes.find(etude => etude.attributes.name === scope) || new Etude()
+        let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
         setEtude(etude)
         setColors(etude.attributes.colors.data)
     }, [scope])
 
     console.log(etude)
     useEffect(() => {
-        if (pathname.startsWith("/caulnes")) {
+        if (pathname.startsWith("/" + Scope.Caulnes)) {
             setScope(Scope.Caulnes)
 
             return;
-        } else if (pathname.startsWith("/cast")) {
+        } else if (pathname.startsWith("/" + Scope.Cast)) {
             setScope(Scope.Cast)
             return;
         }
 
         setScope(Scope.Caulnes)
-        redirect("/caulnes/" + pathname.split("/").pop())
+        redirect("/" + Scope.Caulnes + "/" + pathname.split("/").pop())
 
     }, [pathname])
 

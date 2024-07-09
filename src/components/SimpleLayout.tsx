@@ -1,4 +1,6 @@
+import { AppContext } from '@/app/providers'
 import { Container } from '@/components/Container'
+import { useContext } from 'react'
 
 export function SimpleLayout({
   title,
@@ -9,13 +11,19 @@ export function SimpleLayout({
   intro: string
   children?: React.ReactNode
 }) {
+
+  let { colors } = useContext(AppContext)
   return (
     <Container className="mt-16 sm:mt-32">
       <header className="max-w-2xl">
-        <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100">
+        <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
+          style={{ color: colors.attributes.accent }}
+        >
           {title}
         </h1>
-        <p className="mt-6 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400">
+        <p className="mt-6 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
+          style={{ color: colors.attributes.indicator }}
+        >
           {intro}
         </p>
       </header>
@@ -26,17 +34,21 @@ export function SimpleLayout({
 
 export function SimpleLayoutWithTitleFooter({
   title,
-footer,
+  footer,
   children,
 }: {
   title: string
   footer: React.ReactNode
   children: React.ReactNode
 }) {
+  let { colors } = useContext(AppContext)
+
   return (
     <Container className="mt-16 sm:mt-32">
       <header className="max-w-2xl">
-        <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100">
+        <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
+          style={{ color: colors.attributes.accent }}
+        >
           {title}
         </h1>
       </header>

@@ -1,7 +1,6 @@
 
 
 import { Color } from "./colors";
-import { Image } from "./image";
 import { ApiRetrieveResponse, ObjectInterface } from "./other";
 
 export class Etude implements ObjectInterface {
@@ -15,6 +14,7 @@ export class Etude implements ObjectInterface {
             schedules: "",
             phone: "",
             address: "",
+            slug: ""
         },
     ) {
         this.id = id;

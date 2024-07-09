@@ -12,38 +12,53 @@ import logoOpenShuttle from '@/images/logos/open-shuttle.svg'
 import logoPlanetaria from '@/images/logos/planetaria.svg'
 import { AcademicCapIcon, EnvelopeIcon, LanguageIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import { Member } from '@/models/members'
+import { useContext } from 'react'
+import { AppContext } from '@/app/providers'
 
 
 
 export default function TeamContent({ members }: { members: Member[] }) {
+    let { colors } = useContext(AppContext)
     return (
         <SimpleLayout
             title="L'équipe"
             intro="Rencontrez l'équipe et contactez-nous."
         >
 
-            <ul role="list" className="-mt-12 space-y-12 divide-y divide-gray-300/90 dark: divide-gray-700 xl:col-span-3">
+            <ul role="list" className="-mt-12 space-y-12 divide-y divide-gray-300/90 dark: divide-gray-700 xl:col-span-3"
+            >
                 {members.map((member) => (
-                    <li key={member.attributes.name} className="flex flex-col gap-10 pt-12 sm:flex-row">
+                    <li key={member.attributes.name} className="flex flex-col gap-10 pt-12 sm:flex-row"
+                        style={{ borderColor: colors.attributes.divider }}
+                    >
                         <img className="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
                         <div className="max-w-xl flex-auto">
-                            <h3 className="dark:text-gray-200 text-lg font-semibold leading-8 tracking-tight dark:text-gray-200 text-gray-900 dark:dark:text-gray-200 text-gray-200">{member.attributes.name}</h3>
-                            <p className="dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600">{member.attributes.role}</p>
+                            <h3 className="dark:text-gray-200 text-lg font-semibold leading-8 tracking-tight dark:text-gray-200 text-gray-900 dark:dark:text-gray-200 text-gray-200"
+                                style={{ color: colors.attributes.accent }}
+                            >{member.attributes.name}</h3>
+                            <p className="dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600"
+                                style={{ color: colors.attributes.indicator }}
+                            >{member.attributes.role}</p>
 
-                            {member.attributes.email && <a href={'mailto:' + member.attributes.email} className="underline mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600  dark:dark:text-gray-200 text-gray-500 flex items-center">
+                            {member.attributes.email && <a href={'mailto:' + member.attributes.email} className="underline mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600  dark:dark:text-gray-200 text-gray-500 flex items-center"
+                                style={{ color: colors.attributes.hint }}
+                            >
                                 <EnvelopeIcon className='h-4 w-4 mr-2 shrink-0'></EnvelopeIcon>
                                 {member.attributes.email}</a>}
 
 
-                            {member.attributes.phone && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
+                            {member.attributes.phone && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center"
+                                style={{ color: colors.attributes.hint }}>
                                 <PhoneIcon className='h-4 w-4 mr-2 shrink-0'></PhoneIcon>
                                 {member.attributes.phone}</p>}
 
-                            {member.attributes.certifications && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
+                            {member.attributes.certifications && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center"
+                                style={{ color: colors.attributes.hint }}>
                                 <AcademicCapIcon className='h-4 w-4 mr-2 shrink-0'></AcademicCapIcon>
                                 {member.attributes.certifications}</p>}
 
-                            {member.attributes.languages && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center">
+                            {member.attributes.languages && <p className="mt-6 dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-600 dark:dark:text-gray-200 text-gray-500  flex items-center"
+                                style={{ color: colors.attributes.hint }}>
                                 <LanguageIcon className='h-4 w-4 mr-2 shrink-0'></LanguageIcon>
                                 {member.attributes.languages}</p>}
 

@@ -18,6 +18,33 @@ export function Footer() {
       { name: "Articles", href: '#' },
       { name: "Contact", href: '#' },
     ],
+    legals: [
+      { name: "Mentions légales", href: '#' },
+      { name: "Politique de confidentialité", href: '#' },
+      { name: "Cookies", href: '#' },
+    ],
+    timeline: [
+      {
+        name: "Lundi",
+        hours: ["9h - 12h", "14h - 18h"]
+      },
+      {
+        name: "Mardi",
+        hours: ["9h - 12h", "14h - 18h"]
+      },
+      {
+        name: "Mercredi",
+        hours: ["9h - 12h", "14h - 18h"]
+      },
+      {
+        name: "Jeudi",
+        hours: ["9h - 12h", "14h - 18h"]
+      },
+      {
+        name: "Vendredi",
+        hours: ["9h - 12h", "14h - 18h"]
+      },
+    ],
     social: [
       {
         name: 'Facebook',
@@ -75,22 +102,22 @@ export function Footer() {
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
-        <div className="xl:grid xl:grid-cols-2 xl:gap-8">
+      <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
             <h2 className="text-sm font-semibold leading-6" style={{ color: colors.attributes.accent }}>
               {lienEtSocial.attributes.titre}
             </h2>
             <p className="text-sm leading-6"
-            
-            style={{ color: colors.attributes.indicator }}
+
+              style={{ color: colors.attributes.indicator }}
             >
               {lienEtSocial.attributes.description}
             </p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
-                <a key={item.name} href={item.href} 
-                style = {{ color: colors.attributes.accent }}
+                <a key={item.name} href={item.href}
+                  style={{ color: colors.attributes.accent }}
                 // className="text-gray-400 hover:text-gray-500"
                 >
                   <span className="sr-only">{item.name}</span>
@@ -103,12 +130,27 @@ export function Footer() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6"
-            style={{ color: colors.attributes.accent }}>Navigation</h3>
+                  style={{ color: colors.attributes.accent }}>Navigation</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.links.map((item) => (
                     <li key={item.name}>
                       <a href={item.href} className="text-sm leading-6"
-            style={{ color: colors.attributes.indicator }}>
+                        style={{ color: colors.attributes.indicator }}>
+                        {item.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold leading-6"
+                  style={{ color: colors.attributes.accent }}>Legal</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {navigation.legals.map((item) => (
+                    <li key={item.name}>
+                      <a href={item.href} className="text-sm leading-6"
+                        style={{ color: colors.attributes.indicator }}>
                         {item.name}
                       </a>
                     </li>
@@ -116,27 +158,41 @@ export function Footer() {
                 </ul>
               </div>
             </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  {navigation.links.map((item) => (
-                    <li key={item.name}>
-                      <a href={item.href} className="text-sm leading-6 text-gray-600 hover:text-gray-900">
-                        {item.name}
-                      </a>
-                    </li>
+            <div className="mt-10 md:mt-0">
+              <h3 className="text-sm font-semibold leading-6" style={{ color: colors.attributes.accent }}>Horaires</h3>
+              <table className="mt-6 w-full">
+                <thead>
+                  <tr>
+                    <th className="text-sm font-semibold leading-6 text-left" style={{ color: colors.attributes.indicator }}>Jour</th>
+                    <th className="text-sm font-semibold leading-6 text-right" style={{ color: colors.attributes.indicator }}>Heures</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {navigation.timeline.map((item) => (
+                    <tr key={item.name}>
+                      <td className="text-sm leading-6 text-left" style={{ color: colors.attributes.indicator }}>{item.name}</td>
+                      <td className="text-sm leading-6 text-right" style={{ color: colors.attributes.indicator }}>
+                        {item.hours.map((hour, index) => (
+                          index !== 0 ? <span key={index} style={{ color: colors.attributes.indicator }}> et {hour}</span> :
+                            <span key={index} style={{ color: colors.attributes.indicator }}>{hour}</span>
+                        ))}
+                      </td>
+                    </tr>
                   ))}
-                </ul>
-              </div>
+                </tbody>
+              </table>
+              <a href="#" className="block mt-6 text-sm leading-6"
+                style={{ color: colors.attributes.accent }}>
+                Prendre rendez-vous →
+              </a>
             </div>
           </div>
         </div>
-        <div className="mt-16 border-t pt-8 sm:mt-20 lg:mt-24" 
-            style={{ color: colors.attributes.divider }}>
-          <p className="text-xs leading-5" 
+        <div className="mt-16 border-t pt-8 sm:mt-20 lg:mt-24"
+          style={{ color: colors.attributes.divider }}>
+          <p className="text-xs leading-5"
             style={{ color: colors.attributes.indicator }}>&copy;
-             {new Date().getFullYear()} {lienEtSocial.attributes.copyright} - Tous droits réservés.
+            {new Date().getFullYear()} {lienEtSocial.attributes.copyright} - Tous droits réservés.
           </p>
         </div>
       </div>

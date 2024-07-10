@@ -172,16 +172,16 @@ export default function HomeContent({ members }: { members: Member[] }) {
                             {etude.attributes.description}
                         </p>
                         <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <a
-                                href="/rendezvous"
+                            <Link
+                                href={`${scope}/rendezvous`}
                                 style={{ background: colors.attributes.primary }}
                                 className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                             >
                                 Prendre rendez-vous
-                            </a>
-                            <a href="#" className="text-sm font-semibold leading-6 text-white">
+                            </Link>
+                            <Link href={`${scope}/contact`} className="text-sm font-semibold leading-6 text-white">
                                 Contact <span aria-hidden="true">→</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

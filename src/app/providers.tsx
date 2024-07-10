@@ -69,6 +69,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
     let [lienEtSocial, setLienEtSocial] = useState<LienEtSocial>(defaultLienEtSocial)
     let [etude, setEtude] = useState<Etude>(defaultEtude)
     let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
+    console.log(etude)
 
     useEffect(() => {
         let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()

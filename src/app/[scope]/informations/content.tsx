@@ -34,18 +34,13 @@ export default function InformationsContent() {
 
 
         <>
-            <Container>
-                <div className="mx-auto max-w-2xl lg:mx-0 pt-20">
-                    <h2 className="dark:text-gray-200 text-3xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-4xl"
+            <SimpleLayout
 
-                        style={{ color: colors.attributes.accent }}
-                    >Informations</h2>
-                    <p className="mt-2 dark:text-gray-200 text-lg leading-8 dark:text-gray-200 text-gray-600"
-                        style={{ color: colors.attributes.indicator }}
-                    >
-                        Parcourez les dernières informations de notre blog et des dernières actualités
-                    </p>
-                </div>
+                title="Informations"
+                intro="Parcourez les dernières informations de notre blog et des dernières actualités."
+            >
+
+
                 <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-2"
                     style={{ borderColor: colors.attributes.divider }}
                 >
@@ -105,7 +100,7 @@ export default function InformationsContent() {
                     ))}
                 </div>
 
-            </Container>
+            </SimpleLayout>
 
         </>
 

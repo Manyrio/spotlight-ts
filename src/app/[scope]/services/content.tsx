@@ -29,8 +29,10 @@ import {
   RiFundsLine,
   RiBarChartLine,
   RemixiconComponentType,
-  RiHeartFill
+  RiDislikeFill,
+  RiLineChartLine
 } from "@remixicon/react";
+import { SimpleLayout } from '@/components/SimpleLayout'
 
 
 interface Resource {
@@ -43,7 +45,7 @@ const resources: Resource[] = [
   {
     href: "#",
     name: "Optimiser votre patrimoine",
-    Icon: RiHomeSmileLine,
+    Icon: RiLineChartLine,
   },
   {
     href: "#",
@@ -53,79 +55,79 @@ const resources: Resource[] = [
   {
     href: "#",
     name: "Vendre un bien immobilier",
-    Icon: RiHeartFill
+    Icon: RiHomeHeartLine
   },
   {
     href: "#",
     name: "Adopter un enfant",
-    Icon: RiHeartFill
+    Icon: RiUserAddLine
   },
   {
     href: "#",
     name: "Se séparer, divorcer",
-    Icon: RiHeartFill
+    Icon: RiDislikeFill
   },
   {
     href: "#",
     name: "Procéder à des donations",
-    Icon: RiHeartFill
+    Icon: RiGiftLine
   },
   {
     href: "#",
     name: "Protéger et prévoir l’avenir de vos proches",
-    Icon: RiHeartFill
+    Icon: RiShieldUserLine
   },
   {
     href: "#",
     name: "Vous vous posez des questions sur l’héritage",
-    Icon: RiHeartFill
+    Icon: RiQuestionnaireLine
   },
   {
     href: "#",
     name: "Louer un bien immobilier",
-    Icon: RiHeartFill
+    Icon: RiHomeSmile2Line
   },
   {
     href: "#",
     name: "Vivre à l’étranger",
-    Icon: RiHeartFill
+    Icon: RiEarthLine
   },
   {
     href: "#",
     name: "Entreprendre",
-    Icon: RiHeartFill
+    Icon: RiLightbulbFlashLine
   },
   {
     href: "#",
     name: "Acheter une maison",
-    Icon: RiHeartFill
+    Icon: RiHome4Line
   },
   {
     href: "#",
     name: "Evaluer vos frais d'achat",
-    Icon: RiHeartFill
+    Icon: RiMoneyEuroBoxLine
   },
   {
     href: "#",
     name: "Vérifier vos capacités d'emprunt",
-    Icon: RiHeartFill
+    Icon: RiCalculatorLine
   },
   {
     href: "#",
     name: "Calculer vos remboursements de prêt",
-    Icon: RiHeartFill
+    Icon: RiFundsLine
   },
   {
     href: "#",
     name: "Calculer vos plus-values immobilières",
-    Icon: RiHeartFill
+    Icon: RiBarChartLine
   }
 ];
 
-
 function ResourceImage({ Icon }: { Icon: Resource["Icon"] }) {
+  let { colors } = useContext(AppContext);
   return (
-    <Icon className="h-10 w-auto fill-current"></Icon>
+    <Icon className="h-10 w-auto fill-current " style={{ color: colors.attributes.indicator }} ></Icon>
     // <div className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:bg-white/7.5 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
     //   <img src={image} alt="" className="h-10 w-10 fill-current" />
     //   {/* <Icon className="h-5 w-5 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" /> */}
@@ -249,30 +251,19 @@ export function ServicesContent() {
   let { colors } = useContext(AppContext)
 
   return (
-    <Container>
+    <SimpleLayout
 
-      <div className="mt-20 mx-auto grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-16 sm:gap-y-24 lg:mx-0 lg:max-w-none lg:grid-cols-1">
+      title="Nos services numériques"
+      intro="Découvrez tous nos services numériques."
+    >
 
-        <div>
-          <div className="dark:text-gray-200 text-base leading-7 dark:text-gray-200 text-gray-700 w-full">
-            <p className="dark:text-gray-200 text-base font-semibold leading-7 dark:text-gray-200 text-indigo-600"
-              style={{ color: colors.attributes.primary }}
-            >Notaires</p>
-            <h1 className="mt-2 dark:text-gray-200 text-3xl font-bold tracking-tight dark:text-gray-200 text-gray-900 sm:dark:text-gray-200 text-4xl"
-              style={{ color: colors.attributes.accent }}
-            >
-              Nos services numériques
-            </h1>
-          </div>
-        </div>
-      </div>
 
-      <div className="not-prose mt-4 grid grid-cols-1 gap-8 border-t border-zinc-900/5 pt-10 sm:grid-cols-2 xl:grid-cols-4 dark:border-white/5">
+      <div className="not-prose grid grid-cols-1 gap-8   sm:grid-cols-2 xl:grid-cols-4 ">
         {resources.map((resource) => (
           <Resource key={resource.href} resource={resource} />
         ))}
       </div>
 
-    </Container >
+    </SimpleLayout >
   )
 }

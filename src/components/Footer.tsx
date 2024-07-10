@@ -79,7 +79,7 @@ export function Footer() {
         <div className="xl:grid xl:grid-cols-2 xl:gap-8">
           <div className="space-y-8">
             <h2 className="text-sm font-semibold leading-6" style={{ color: colors.attributes.accent }}>
-              {lienEtSocial.attributes.titre}
+              {lienEtSocial.attributes.title}
             </h2>
             <p className="text-sm leading-6"
             

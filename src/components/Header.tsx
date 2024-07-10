@@ -69,6 +69,8 @@ function MobileNavItem({
 function MobileNavigation(
   props: React.ComponentPropsWithoutRef<typeof Popover>,
 ) {
+  let { scope } = useContext(AppContext)
+
   return (
     <Popover {...props}>
       <PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:dark:text-gray-200 text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20">
@@ -108,11 +110,11 @@ function MobileNavigation(
             </div>
             <nav className="mt-6">
               <ul className="-my-2 divide-y divide-zinc-100 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-800 dark:divide-zinc-100/5 dark:dark:text-gray-200 text-zinc-300">
-                <MobileNavItem href="/equipe">L'office</MobileNavItem>
-                <MobileNavItem href="/annonces">Annonces</MobileNavItem>
-                <MobileNavItem href="/services">Services</MobileNavItem>
-                <MobileNavItem href="/informations">Informations</MobileNavItem>
-                <MobileNavItem href="/contact">Contact</MobileNavItem>
+                <MobileNavItem href={`/${scope}/equipe`}>L'office</MobileNavItem>
+                <MobileNavItem href={`/${scope}/annonces`}>Annonces</MobileNavItem>
+                <MobileNavItem href={`/${scope}/services`}>Services</MobileNavItem>
+                <MobileNavItem href={`/${scope}/informations`}>Informations</MobileNavItem>
+                <MobileNavItem href={`/${scope}/contact`}>Contact</MobileNavItem>
               </ul>
             </nav>
           </PopoverPanel>
@@ -155,16 +157,16 @@ function NavItem({
 }
 
 function DesktopNavigation(props: React.ComponentPropsWithoutRef<'nav'>) {
-  let { colors } = useContext(AppContext)
+  let { colors, scope } = useContext(AppContext)
 
   return (
     <nav {...props}>
-      <ul className="flex rounded-full px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur  " style={{ background: colors.attributes.tintedBackground}}>
-        <NavItem href="/equipe">L'office</NavItem>
-        <NavItem href="/annonces">Annonces</NavItem>
-        <NavItem href="/services">Services</NavItem>
-        <NavItem href="/informations">Informations</NavItem>
-        <NavItem href="/contact">Contact</NavItem>
+      <ul className="flex rounded-full px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur  " style={{ background: colors.attributes.tintedBackground }}>
+        <NavItem href={`/${scope}/equipe`}>L'office</NavItem>
+        <NavItem href={`/${scope}/annonces`}>Annonces</NavItem>
+        <NavItem href={`/${scope}/services`}>Services</NavItem>
+        <NavItem href={`/${scope}/informations`}>Informations</NavItem>
+        <NavItem href={`/${scope}/contact`}>Contact</NavItem>
       </ul>
     </nav>
   )
@@ -195,9 +197,11 @@ function Avatar({
 }: Omit<React.ComponentPropsWithoutRef<typeof Link>, 'href'> & {
   large?: boolean
 }) {
+  let { scope } = useContext(AppContext);
+
   return (
     <Link
-      href="/"
+      href={`/${scope}`}
       aria-label="Home"
       className={clsx(className, 'pointer-events-auto')}
       {...props}
@@ -219,8 +223,7 @@ function Avatar({
 export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let avatarRef = useRef<React.ElementRef<'div'>>(null)
-  
+
 
   return (
     <>

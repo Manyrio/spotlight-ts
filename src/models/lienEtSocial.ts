@@ -8,7 +8,7 @@ export class LienEtSocial implements ObjectInterface {
           twitter: "",
           instagram: "",
           youtube: "",
-          title: "",
+          titre: "",
           description: "",
           copyright: "",
         },

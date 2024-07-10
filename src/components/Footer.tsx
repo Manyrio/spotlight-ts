@@ -6,9 +6,10 @@ import { useContext } from 'react'
 import { AppContext } from '@/app/providers'
 
 import avatarImage from '@/images/avatar.jpg'
+import { parse, format } from 'date-fns';
 
 export function Footer() {
-  let { colors, lienEtSocial } = useContext(AppContext)
+  let { colors, lienEtSocial, etude } = useContext(AppContext)
 
   const navigation = {
     links: [
@@ -26,23 +27,24 @@ export function Footer() {
     timeline: [
       {
         name: "Lundi",
-        hours: ["9h - 12h", "14h - 18h"]
+        hours: etude.attributes.ouvertures.lundi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`),
+        // ["9h - 12h", "14h - 18h"]
       },
       {
         name: "Mardi",
-        hours: ["9h - 12h", "14h - 18h"]
+        hours: etude.attributes.ouvertures.mardi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
       },
       {
         name: "Mercredi",
-        hours: ["9h - 12h", "14h - 18h"]
+        hours: etude.attributes.ouvertures.mercredi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
       },
       {
         name: "Jeudi",
-        hours: ["9h - 12h", "14h - 18h"]
+        hours: etude.attributes.ouvertures.jeudi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
       },
       {
         name: "Vendredi",
-        hours: ["9h - 12h", "14h - 18h"]
+        hours: etude.attributes.ouvertures.vendredi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
       },
     ],
     social: [
@@ -159,12 +161,12 @@ export function Footer() {
               </div>
             </div>
             <div className="mt-10 md:mt-0">
-              <h3 className="text-sm font-semibold leading-6" style={{ color: colors.attributes.accent }}>Horaires</h3>
+              <h3 className="text-sm font-semibold leading-6" style={{ color: colors.attributes.accent }}>Horaires d'ouverture</h3>
               <table className="mt-6 w-full">
                 <thead>
                   <tr>
-                    <th className="text-sm font-semibold leading-6 text-left" style={{ color: colors.attributes.indicator }}>Jour</th>
-                    <th className="text-sm font-semibold leading-6 text-right" style={{ color: colors.attributes.indicator }}>Heures</th>
+                    <th className="text-sm font-semibold leading-6 text-left" style={{ color: colors.attributes.accent }}>Jour</th>
+                    <th className="text-sm font-semibold leading-6 text-right" style={{ color: colors.attributes.accent }}>Heures</th>
                   </tr>
                 </thead>
                 <tbody>

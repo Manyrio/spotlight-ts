@@ -3,6 +3,13 @@ import { ApiListResponse } from '@/models/other'
 import TeamContent from './content'
 import { Member } from '@/models/members'
 import { Method, call } from '@/scripts/api'
+import { Metadata } from 'next'
+
+
+// either Static metadata
+export const metadata: Metadata = {
+    title: "L'équipe",
+}
 
 
 export default async function Projects() {

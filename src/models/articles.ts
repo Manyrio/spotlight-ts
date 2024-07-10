@@ -11,6 +11,7 @@ export class Article implements ObjectInterface {
       content: "",
       image: new ApiRetrieveResponse<Image>(),
       createdAt: "",
+      slug: ""
     },
   ) {
     this.id = id;

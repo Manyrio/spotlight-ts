@@ -3,6 +3,7 @@
 import { AppContext } from '@/app/providers';
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Article } from '@/models/articles';
+import { BookOpenIcon } from '@heroicons/react/20/solid';
 import { useContext } from 'react';
 
 
@@ -20,13 +21,21 @@ export default function ArticlesContent({ articles }: { articles: Article[] }) {
 
             <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
                 {articles.map((article) => (
-                    <article key={article.id} className="relative isolate flex flex-col gap-8 lg:flex-row">
+                    <article key={article.attributes.slug} className="relative isolate flex flex-col gap-8 lg:flex-row">
                         <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
-                            <img
-                                alt=""
-                                src={"https://adminpreview.hicards.fr" + article.attributes.image.data.attributes.url}
-                                className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
-                            />
+
+                            {
+                                article.attributes.image.data ?
+                                    <img className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover" src={"https://adminpreview.hicards.fr" + (article.attributes.image.data.attributes.url)} alt="" />
+
+                                    : <div className='absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover flex items-center justify-center' style={{ background: colors.attributes.tintedBackground }}>
+
+                                        <BookOpenIcon className='h-12 w-12' style={{ color: colors.attributes.hint }}></BookOpenIcon>
+
+                                    </div>
+                            }
+
+
                             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                         </div>
                         <div>
@@ -46,7 +55,7 @@ export default function ArticlesContent({ articles }: { articles: Article[] }) {
                                 <h3 className="mt-3 text-lg font-semibold leading-6 "
                                     style={{ color: colors.attributes.accent }}
                                 >
-                                    <a href={`/${scope}/articles/${article.id}`}>
+                                    <a href={`/${scope}/articles/${article.attributes.slug}`}>
                                         <span className="absolute inset-0" />
                                         {article.attributes.title}
                                     </a>

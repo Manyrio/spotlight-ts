@@ -11,6 +11,22 @@ export interface ObjectInterface {
 
 }
 
+export class SeoObject {
+
+    [key: string]: any;
+
+    constructor(
+        public metaTitle: string = "",
+        public metaDescription: string = "",
+        public keywords: string[] = []
+    ) {
+        this.metaTitle = metaTitle;
+        this.metaDescription = metaDescription;
+        this.keywords = keywords;
+    }
+}
+
+
 export class ApiListResponse<T> {
     constructor(
         public data: T[] = [],

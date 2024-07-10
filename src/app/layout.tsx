@@ -18,7 +18,7 @@ import { Favicon } from '@/models/favicon'
 
 
 async function getDefaultParameters() {
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
   let scope = Scope.Caulnes
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {

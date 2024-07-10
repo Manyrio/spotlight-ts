@@ -14,6 +14,7 @@ import { AcademicCapIcon, EnvelopeIcon, LanguageIcon, MapPinIcon, PhoneIcon } fr
 import { Member } from '@/models/members'
 import { useContext } from 'react'
 import { AppContext } from '@/app/providers'
+import { UserIcon } from '@heroicons/react/24/outline'
 
 
 
@@ -31,7 +32,19 @@ export default function TeamContent({ members }: { members: Member[] }) {
                     <li key={member.attributes.name} className="flex flex-col gap-10 pt-12 sm:flex-row"
                         style={{ borderColor: colors.attributes.divider }}
                     >
-                        <img className="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+
+                        {
+                            member.attributes.image.data ?
+                                <img className="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data[0].attributes.url)} alt="" />
+
+                                : <div className='aspect-[4/5] w-52 flex-none rounded-2xl object-cover flex items-center justify-center' style={{ background: colors.attributes.tintedBackground }}>
+
+                                    <UserIcon className='h-12 w-12' style={{ color: colors.attributes.hint }}></UserIcon>
+
+                                </div>
+                        }
+
+
                         <div className="max-w-xl flex-auto">
                             <h3 className="dark:text-gray-200 text-lg font-semibold leading-8 tracking-tight dark:text-gray-200 text-gray-900 dark:dark:text-gray-200 text-gray-200"
                                 style={{ color: colors.attributes.accent }}

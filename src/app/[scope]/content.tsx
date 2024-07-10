@@ -124,6 +124,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
     )
 ];
 
+
 export default function HomeContent({ members }: { members: Member[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
@@ -135,13 +136,13 @@ export default function HomeContent({ members }: { members: Member[] }) {
             <div className="relative">
 
 
-                <div className="mx-auto max-w-7xl">
-                    <div className={`relative ml-[${position == "right" ? 50 : 0}%] z-10 pt-14 lg:w-full transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw]" : "!-translate-x-[2vw]"}`}>
+                <div className="mx-auto max-w-7xl w-full">
+                    <div className={`relative z-10 pt-14 lg:w-full  duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
                             aria-hidden="true"
-                            className={`absolute inset-y-0 -right-[30%]   ${position == "right" ? "-translate-x-[230%] !-scale-x-100" : "translate-x-0 !scale-x-100"}  hidden h-full w-80   lg:block`}
+                            className={`absolute inset-y-0 -right-[35%]   ${position == "right" ? "-translate-x-[235%] !-scale-x-100" : "translate-x-0 !scale-x-100"}  hidden h-full w-80   lg:block`}
                             style={{ fill: colors.attributes.background }}
                         >
                             <polygon points="0,0 90,0 50,100 0,100" />
@@ -190,13 +191,30 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                     />
                 </div> */}
-                <div className={`bg-gray-50 opacity-0  left-0 -translate-x-0  ${position == "right" ? "opacity-100" : "left-[49vw] translate-x-[1vw] opacity-100"} lg:absolute lg:inset-y-0  !transition-transform  lg:w-1/2`}>
-                    <img
-                        alt=""
-                        src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
-                        className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
-                    />
+                <div className={`bg-gray-50 opacity-1 -ml-[3vw]   left-[1vw] -translate-x-[1vw]  ${position == "right" ? "" : "!left-[49vw] !translate-x-[1vw] !ml-[1vw]"} lg:absolute lg:inset-y-0  !transition-[transform] !duration-[500ms]  lg:w-[calc(50%+3vw)]`}>
+
+
+                    {
+                        position == "right" ?
+                            <img
+                                alt=""
+                                key="right"
+                                src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
+                                className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
+                            /> :
+                            <img
+                                alt=""
+                                key="left"
+                                src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
+                                className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
+                            />
+                    }
+
+
                 </div>
+                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10 opacity-[${position == "right" ? '0' : '100'}] transition-opacity duration-300 translate-x-[${position == "right" ? '0' : '100vw'}]`} />
+                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10 opacity-[${position != "right" ? '0' : '100'}] transition-opacity duration-300 translate-x-[${position != "right" ? '0' : '100vw'}]`} />
+
 
 
             </div>

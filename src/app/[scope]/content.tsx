@@ -130,8 +130,6 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
 export default function HomeContent({ members }: { members: Member[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
-    console.log(members)
-
 
     return (
         <>
@@ -208,7 +206,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
                                         <div className=" sm:px-0 h-12 relative flex flex-col justify-center  cursor-pointer" >
                                             <h3 className=" text-base font-semibold  truncate " style={{ color: colors.attributes.accent }} >{etude.attributes.name}</h3>
-                                            <p className=" max-w-2xl  text-sm leading-6  " style={{ color: colors.attributes.indicator }} >{etude.attributes.description}</p>
+                                            <p className=" max-w-2xl  text-sm leading-6  " style={{ color: colors.attributes.indicator }} >{etude.attributes.addressDescription}</p>
 
 
                                         </div>
@@ -293,7 +291,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                             <p className="mt-6  text-lg leading-8 " style={{ color: colors.attributes.indicator }}>
                                 Notre équipe multidisciplinaire est composée de professionnels expérimentés et passionnés.
                             </p>
-                            <Link href={"/equipe"} className='border-b border-indigo-400 w-fit mt-2  text-indigo-400 flex items-center' style={{ color: colors.attributes.primary, borderColor: colors.attributes.primary }}>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
+                            <Link href={`/${scope}/equipe`} className='border-b border-indigo-400 w-fit mt-2  text-indigo-400 flex items-center' style={{ color: colors.attributes.primary, borderColor: colors.attributes.primary }}>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
                         </div>
                         <ul
                             role="list"
@@ -316,7 +314,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                             <p className="mt-2  text-lg leading-8  text-gray-600" style={{ color: colors.attributes.indicator }}>
                                 Parcourez toutes nos annonces immobilières et trouvez la maison de vos rêves.
                             </p>
-                            <Link href="/annonces" className='border-b border-indigo-400 w-fit mt-2  text-indigo-400 flex items-center' style={{ color: colors.attributes.primary, borderColor: colors.attributes.primary }}>Voir toutes les annonces <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
+                            <Link href={`/${scope}/annonces`} className='border-b border-indigo-400 w-fit mt-2  text-indigo-400 flex items-center' style={{ color: colors.attributes.primary, borderColor: colors.attributes.primary }}>Voir toutes les annonces <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
 
                         </div>
                         <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
@@ -346,10 +344,10 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         </div>
                                     </div>
                                     <h3 className="mt-3  text-lg font-semibold leading-6  text-white">
-                                        <a href={annonce.id}>
+                                        <Link href={`/${scope}/${annonce.id}`}>
                                             <span className="absolute inset-0" />
                                             {formatLocalisation(annonce.localisation)}
-                                        </a>
+                                        </Link>
                                     </h3>
                                 </article>
                             ))}

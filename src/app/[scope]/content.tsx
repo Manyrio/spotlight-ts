@@ -133,16 +133,16 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
     return (
         <>
-            <div className="relative">
+            <div className="relative overflow-hidden ">
 
 
-                <div className="mx-auto max-w-7xl w-full">
+                <div className="mx-auto max-w-7xl w-full h-screen ">
                     <div className={`relative z-10 pt-14 lg:w-full  duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
                             aria-hidden="true"
-                            className={`absolute inset-y-0 -right-[35%]   ${position == "right" ? "-translate-x-[235%] !-scale-x-100" : "translate-x-0 !scale-x-100"}  hidden h-full w-80   lg:block`}
+                            className={`absolute inset-y-0 -right-[35%]   ${position == "right" ? "-translate-x-[235%] !-scale-x-100" : "translate-x-0 !scale-x-100"}  hidden h-screen w-80   lg:block`}
                             style={{ fill: colors.attributes.background }}
                         >
                             <polygon points="0,0 90,0 50,100 0,100" />

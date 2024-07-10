@@ -1,37 +1,19 @@
-import glob from 'fast-glob'
-import test from 'node:test'
+import { Image } from "./image";
+import { ApiRetrieveResponse, ObjectInterface } from "./other";
 
-interface Article {
-  title: string
-  description: string
-  author: string
-  date: string
-}
-
-export interface ArticleWithSlug extends Article {
-  slug: string
-}
-
-async function importArticle(
-  articleFilename: string,
-): Promise<ArticleWithSlug> {
-  let { article } = (await import(`../app/articles/${articleFilename}`)) as {
-    default: React.ComponentType
-    article: Article
+export class Article implements ObjectInterface {
+  constructor(
+    public id: string = "",
+    public attributes = {
+      title: "",
+      type: "",
+      description: "",
+      content: "",
+      image: new ApiRetrieveResponse<Image>(),
+      createdAt: "",
+    },
+  ) {
+    this.id = id;
+    this.attributes = attributes;
   }
-
-  return {
-    slug: articleFilename.replace(/(\/page)?\.mdx$/, ''),
-    ...article,
-  }
-}
-
-export async function getAllArticles() {
-  let articleFilenames = await glob('*/page.mdx', {
-    cwd: './src/app/articles',
-  })
-
-  let articles = await Promise.all(articleFilenames.map(importArticle))
-
-  return articles.sort((a, z) => +new Date(z.date) - +new Date(a.date))
 }

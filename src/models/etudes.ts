@@ -33,6 +33,7 @@ export class Etude implements ObjectInterface {
             name: "",
             colors: new ApiRetrieveResponse<Color>(),
             description: "",
+            addressDescription: "",
             email: "",
             phone: "",
             address: "",

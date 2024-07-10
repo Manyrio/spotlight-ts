@@ -25,4 +25,23 @@ export default {
     },
     typography: typographyStyles,
   },
+
+  keyframes: {
+
+    opacity: {
+      "0%": {
+        opacity: "0",
+      },
+      "100%": {
+        opacity: "1",
+      }
+    },
+
+  },
+  animation: {
+    opacity: "opacity 0.100s cubic-bezier(0, 0, 0.5, 1) ",
+  }
+
+
+
 } satisfies Config

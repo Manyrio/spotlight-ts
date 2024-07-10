@@ -220,30 +220,55 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                                         </div>
-                                        <div className="mt-6 border-t border-gray-100">
-                                            <dl className="divide-y divide-gray-100">
-                                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <div className="mt-6 border-t border-gray-100"
+                                            style={{ borderColor: colors.attributes.divider }}>
+                                            <dl className="divide-y divide-gray-100"
+
+                                            >
+                                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+                                                    style={{ borderColor: colors.attributes.divider }}
+                                                >
                                                     <dt className=" text-sm font-medium leading-6 " style={{ color: colors.attributes.accent }}>Adresse complète</dt>
                                                     <dd className="mt-1  text-sm leading-6   sm:col-span-2 sm:mt-0" style={{ color: colors.attributes.indicator }}>
                                                         {etude.attributes.address}</dd>
                                                 </div>
-                                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+                                                    style={{ borderColor: colors.attributes.divider }}
+                                                >
                                                     <dt className=" text-sm font-medium leading-6  text-gray-900" style={{ color: colors.attributes.accent }}>Adresse e-mail</dt>
                                                     <a className="mt-1  text-sm leading-6  text-gray-700 sm:col-span-2 sm:mt-0 underline" style={{ color: colors.attributes.indicator }}
                                                         href={'mailto:' + etude.attributes.email}
                                                     >{etude.attributes.email}</a>
                                                 </div>
-                                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+                                                    style={{ borderColor: colors.attributes.divider }}
+                                                >
                                                     <dt className=" text-sm font-medium leading-6  text-gray-900" style={{ color: colors.attributes.accent }}>Numéro de téléphone</dt>
                                                     <a className="mt-1  text-sm leading-6  text-gray-700 sm:col-span-2 sm:mt-0 underline" style={{ color: colors.attributes.indicator }}
                                                         href={'tel:' + etude.attributes.phone}
                                                     >{etude.attributes.phone}</a>
                                                 </div>
                                                 {etude.attributes.ouvertures &&
-                                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+                                                        style={{ borderColor: colors.attributes.divider }}
+                                                    >
                                                         <dt className=" text-sm font-medium leading-6  text-gray-900 " style={{ color: colors.attributes.accent }}>Horaires</dt>
-                                                        <dd className="mt-1  text-sm leading-6  text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line" style={{ color: colors.attributes.indicator }}>
-                                                            {etude.attributes.schedules}
+                                                        <dd className="mt-1  text-sm leading-6  text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line gap-2 flex flex-col" style={{ color: colors.attributes.indicator }}>
+
+                                                            {Object.keys(etude.attributes.ouvertures).map((day) => {
+                                                                if (day == "id") return
+
+                                                                return (
+                                                                    <div key={day} className="flex justify-between">
+                                                                        <span>{day}</span>
+                                                                        <span className='flex items-center'>
+                                                                            {etude.attributes.ouvertures[day].map((ouverture, index) => {
+                                                                                return <span key={index} className="block">{index > 0 && <>&nbsp;et </>} {`${ouverture.start.split(".")[0].split(":")[0]}h`} - {`${ouverture.end.split(".")[0].split(":")[0]}h`}</span>
+                                                                            })}
+                                                                        </span>
+                                                                    </div>
+                                                                )
+                                                            })}
                                                         </dd>
                                                     </div>
                                                 }
@@ -258,9 +283,9 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                                 </div>
-                                <div className="lg:flex w-full  lg:flex-auto lg:justify-center">
+                                <div className="lg:flex w-full lg:flex-auto lg:justify-center">
                                     <dl className="w-full  space-y-8 xl:w-80">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5308.934796728097!2d-2.1573247015913006!3d48.29386147306423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x480e5bfab620fbb3%3A0x5d59b9992fc0846a!2sAnne%20LAUBE%2C%20Pierre%20LHOMME%20%26%20Marc%20DELMAS!5e0!3m2!1sfr!2sfr!4v1719485081146!5m2!1sfr!2sfr" width="500" height="450" className={"w-full h-[300px] lg:h-[450px] lg:w-[500px]"} style={{ "border": 0 }} allowFullScreen loading="lazy"></iframe>
+                                        <iframe src={etude.attributes.mapUrl} width="500" height="450" className={"w-full h-[300px] lg:h-[450px] lg:w-[500px]  rounded-md"} style={{ "border": 0 }} allowFullScreen loading="lazy"></iframe>
                                     </dl>
                                 </div>
                             </div>

@@ -201,7 +201,6 @@ export default function HomeContent({ members }: { members: Member[] }) {
             <Container>
 
                 <div className="isolate w-full">
-                    {/* Hero section */}
 
                     {/* Content section */}
                     <div className="mx-auto max-w-7xl px-6 sm:mt-0 lg:px-8 pt-20">
@@ -240,7 +239,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                                         href={'tel:' + etude.attributes.phone}
                                                     >{etude.attributes.phone}</a>
                                                 </div>
-                                                {etude.attributes.schedules &&
+                                                {etude.attributes.ouvertures &&
                                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                                         <dt className=" text-sm font-medium leading-6  text-gray-900 " style={{ color: colors.attributes.accent }}>Horaires</dt>
                                                         <dd className="mt-1  text-sm leading-6  text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line" style={{ color: colors.attributes.indicator }}>

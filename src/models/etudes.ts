@@ -5,11 +5,11 @@ import { ApiRetrieveResponse, ObjectInterface } from "./other";
 
 export class EtudeOuvertures {
     constructor(
-        public lundi: EtudeHoraires = { start: "", end: "" },
-        public mardi: EtudeHoraires = { start: "", end: "" },
-        public mercredi: EtudeHoraires = { start: "", end: "" },
-        public jeudi: EtudeHoraires = { start: "", end: "" },
-        public vendredi: EtudeHoraires = { start: "", end: "" }
+        public lundi: EtudeHoraires[] = [],
+        public mardi: EtudeHoraires[] = [],
+        public mercredi: EtudeHoraires[] = [],
+        public jeudi: EtudeHoraires[] = [],
+        public vendredi: EtudeHoraires[] = []
     ) {
         this.lundi = lundi;
         this.mardi = mardi;
@@ -31,7 +31,6 @@ export class Etude implements ObjectInterface {
             colors: new ApiRetrieveResponse<Color>(),
             description: "",
             email: "",
-            schedules: "",
             phone: "",
             address: "",
             slug: "",

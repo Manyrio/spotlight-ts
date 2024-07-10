@@ -8,7 +8,7 @@ export default async function Home() {
 
   let members: ApiListResponse<Member> = new ApiListResponse<Member>()
   try {
-    members = await call("members?populate=*", Method.get)
+    members = await call("members?populate=*&pagination[pageSize]=6", Method.get)
   } catch (error) {
 
   }

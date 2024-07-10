@@ -43,82 +43,82 @@ interface Resource {
 
 const resources: Resource[] = [
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/immobilier",
     name: "Optimiser votre patrimoine",
     Icon: RiLineChartLine,
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/famille",
     name: "Se marier, se pacser",
     Icon: RiHeartAddLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/immobilier",
     name: "Vendre un bien immobilier",
     Icon: RiHomeHeartLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/famille",
     name: "Adopter un enfant",
     Icon: RiUserAddLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/famille",
     name: "Se séparer, divorcer",
     Icon: RiDislikeFill
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/donation",
     name: "Procéder à des donations",
     Icon: RiGiftLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/succession",
     name: "Protéger et prévoir l’avenir de vos proches",
     Icon: RiShieldUserLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/succession",
     name: "Vous vous posez des questions sur l’héritage",
     Icon: RiQuestionnaireLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/immobilier",
     name: "Louer un bien immobilier",
     Icon: RiHomeSmile2Line
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/famille",
     name: "Vivre à l’étranger",
     Icon: RiEarthLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/immobilier",
     name: "Entreprendre",
     Icon: RiLightbulbFlashLine
   },
   {
-    href: "#",
+    href: "https://www.notaires.fr/fr/immobilier",
     name: "Acheter une maison",
     Icon: RiHome4Line
   },
   {
-    href: "#",
+    href: "https://www.immobilier.notaires.fr/fr/frais-de-notaire",
     name: "Evaluer vos frais d'achat",
     Icon: RiMoneyEuroBoxLine
   },
   {
-    href: "#",
+    href: "https://www.anil.org/outils/outils-de-calcul/diagnostic-de-financement/",
     name: "Vérifier vos capacités d'emprunt",
     Icon: RiCalculatorLine
   },
   {
-    href: "#",
+    href: "https://www.anil.org/outils/outils-de-calcul/echeancier-dun-pret",
     name: "Calculer vos remboursements de prêt",
     Icon: RiFundsLine
   },
   {
-    href: "#",
+    href: "http://plus-values.notaires.fr/simulateur/index.xhtml",
     name: "Calculer vos plus-values immobilières",
     Icon: RiBarChartLine
   }
@@ -210,39 +210,39 @@ function Resource({ resource }: { resource: Resource }) {
 
   return (
 
-
-    <div
-      key={resource.href}
-      onMouseMove={onMouseMove}
-      className="group relative flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 "
-
-
-      style={{ background: colors.attributes.tintedBackground }}
+    <Link
+      href={resource.href} target='_blank'
+      className='relative'
     >
-      <ResourcePattern mouseX={mouseX} mouseY={mouseY} />
-      <div className="absolute inset-0 rounded-2xl border-[1px]"
+      <div
+        key={resource.href}
+        onMouseMove={onMouseMove}
+        className="group w-full h-full flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 "
+        style={{ background: colors.attributes.tintedBackground }}
+      >
+        <ResourcePattern mouseX={mouseX} mouseY={mouseY} />
+        <div className="absolute inset-0 rounded-2xl border-[1px]"
+          style={{ borderColor: colors.attributes.border }}
+        />
+        <div className="relative rounded-2xl px-4 pb-6 pt-10">
+          <ResourceImage Icon={resource.Icon} />
+          <h3 className="mt-4 text-md font-semibold text-zinc-900"
+            style={{ color: colors.attributes.accent }}
+          >
+            <div>
+              <span className="absolute inset-0 rounded-2xl"
 
-        style={{ borderColor: colors.attributes.border }}
-
-      />
-      <div className="relative rounded-2xl px-4 pb-6 pt-10">
-        <ResourceImage Icon={resource.Icon} />
-        <h3 className="mt-4 text-md font-semibold text-zinc-900"
-          style={{ color: colors.attributes.accent }}
-        >
-          <Link href={resource.href}>
-            <span className="absolute inset-0 rounded-2xl"
-
-            />
-            {resource.name}
-          </Link>
-        </h3>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400"
-          style={{ color: colors.attributes.hint }}>
-          Voir plus
-        </p>
+              />
+              {resource.name}
+            </div>
+          </h3>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400"
+            style={{ color: colors.attributes.hint }}>
+            Voir plus
+          </p>
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

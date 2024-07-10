@@ -21,7 +21,7 @@ export async function call(url: string, method: Method, data: any = null, type =
         headers.authorization = `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`
 
 
-        if (!url.startsWith("http")) {
+        if (!url.startsWith("http") && !url.startsWith("/")) {
             url = "https://adminpreview.hicards.fr/api/" + url
         }
 

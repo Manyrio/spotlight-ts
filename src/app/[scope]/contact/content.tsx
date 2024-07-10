@@ -1,16 +1,32 @@
 "use client"
-import { type Metadata } from 'next'
 
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Button } from '@/components/Button'
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AppContext } from '@/app/providers'
+import { Method, call } from '@/scripts/api'
 
 
 export default function ContactContent() {
 
   let { etude, colors } = useContext(AppContext)
+
+  let [name, setName] = useState('')
+  let [lastName, setLastName] = useState('')
+  let [message, setMessage] = useState('')
+  let [email, setEmail] = useState('')
+  let [loader, setLoader] = useState(false)
+
+
+  async function submit(e: any) {
+    e.preventDefault()
+    if (loader) return
+    setLoader(true)
+    await call("/api/contact", Method.post, { message, email, name: name, lastName: lastName })
+    setLoader(false)
+  }
+
   return (
 
 
@@ -23,7 +39,10 @@ export default function ContactContent() {
 
 
         <div className="-mt-6 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
-          <form action="#" method="POST" className="lg:flex-auto">
+          <form action="#" method="POST" className="lg:flex-auto" onSubmit={(e) => submit(e)}
+
+
+          >
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
@@ -33,6 +52,8 @@ export default function ContactContent() {
                 </label>
                 <div className="mt-2.5">
                   <input
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
                     type="text"
                     name="first-name"
                     id="first-name"
@@ -52,6 +73,8 @@ export default function ContactContent() {
                 </label>
                 <div className="mt-2.5">
                   <input
+                    onChange={(e) => setLastName(e.target.value)}
+                    value={lastName}
                     type="text"
                     name="last-name"
                     id="last-name"
@@ -62,44 +85,31 @@ export default function ContactContent() {
                   />
                 </div>
               </div>
-              <div>
-                <label htmlFor="budget" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
-                  style={{ color: colors.attributes.indicator }}
 
-                >
-                  Budget
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    id="budget"
-                    name="budget"
-                    type="text"
-                    className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                    style={{ background: colors.attributes.tintedBackground }}
+              <div className="sm:col-span-2 ">
+                <div className='mb-6'>
+                  <label htmlFor="budget" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+                    style={{ color: colors.attributes.indicator }}
 
-                  />
+                  >
+                    Adresse e-mail
+                  </label>
+                  <div className="mt-2.5">
+                    <input
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                      id="email"
+                      name="email"
+                      type="email"
+                      className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+
+                      style={{ background: colors.attributes.tintedBackground }}
+
+                    />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label htmlFor="website" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
-                  style={{ color: colors.attributes.indicator }}
 
-                >
-                  Website
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="url"
-                    name="website"
-                    id="website"
-                    className="bg-gray-600/40  block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                    style={{ background: colors.attributes.tintedBackground }}
-
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
                 <label htmlFor="message" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
                   style={{ color: colors.attributes.indicator }}
                 >
@@ -107,6 +117,8 @@ export default function ContactContent() {
                 </label>
                 <div className="mt-2.5">
                   <textarea
+                    onChange={(e) => setMessage(e.target.value)}
+                    value={message}
                     id="message"
                     name="message"
                     rows={4}
@@ -120,6 +132,7 @@ export default function ContactContent() {
             </div>
             <div className="mt-10">
               <Button
+                disabled={loader}
                 type="submit"
                 className="w-full "
                 style={{ background: colors.attributes.primary }}

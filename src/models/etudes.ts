@@ -1,7 +1,7 @@
 
 
 import { Color } from "./colors";
-import { ApiRetrieveResponse, ObjectInterface } from "./other";
+import { ApiRetrieveResponse, ObjectInterface, SeoObject } from "./other";
 
 export class EtudeOuvertures {
 
@@ -22,6 +22,8 @@ export class EtudeOuvertures {
     }
 }
 
+
+
 export interface EtudeHoraires {
     start: string;
     end: string;
@@ -39,7 +41,8 @@ export class Etude implements ObjectInterface {
             address: "",
             slug: "",
             ouvertures: new EtudeOuvertures(),
-            mapUrl: ""
+            mapUrl: "",
+            seo: new SeoObject()
         },
     ) {
         this.id = id;

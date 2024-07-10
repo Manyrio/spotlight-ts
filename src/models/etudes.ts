@@ -4,6 +4,9 @@ import { Color } from "./colors";
 import { ApiRetrieveResponse, ObjectInterface } from "./other";
 
 export class EtudeOuvertures {
+
+    [key: string]: EtudeHoraires[];
+
     constructor(
         public lundi: EtudeHoraires[] = [],
         public mardi: EtudeHoraires[] = [],
@@ -35,6 +38,7 @@ export class Etude implements ObjectInterface {
             address: "",
             slug: "",
             ouvertures: new EtudeOuvertures(),
+            mapUrl: ""
         },
     ) {
         this.id = id;

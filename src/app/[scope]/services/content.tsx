@@ -12,100 +12,120 @@ import { GridPattern } from '@/components/GridPattern'
 import { Container } from '@/components/Container'
 import { use, useContext } from 'react'
 import { AppContext } from '@/app/providers'
+import {
+  RiHomeSmileLine,
+  RiHeartAddLine,
+  RiHomeHeartLine,
+  RiUserAddLine,
+  RiHeartBrokenLine,
+  RiGiftLine,
+  RiShieldUserLine,
+  RiQuestionnaireLine,
+  RiHomeSmile2Line,
+  RiEarthLine,
+  RiLightbulbFlashLine,
+  RiHome4Line,
+  RiMoneyEuroBoxLine,
+  RiCalculatorLine,
+  RiFundsLine,
+  RiBarChartLine,
+  RemixiconComponentType
+} from "@remixicon/react";
+
 
 interface Resource {
   href: string
   name: string
-  image: string
+  Icon: RemixiconComponentType
 }
 
 const resources: Resource[] = [
   {
     href: "#",
     name: "Optimiser votre patrimoine",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/cb1896623ed226771914358eb24bdf959aced2d4.png'
+    Icon: RiHomeSmileLine,
   },
   {
     href: "#",
     name: "Se marier, se pacser",
-    image: "https://prismeoffice.adnov.fr/media/view/0/0/61/61/c50356d0f105f457b8b61866e03470a6a746821f.png"
+    Icon: RiHeartAddLine
   },
   {
     href: "#",
     name: "Vendre un bien immobilier",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/dd79f5250cc0dea205436c23c8a47617fdfbd1df.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Adopter un enfant",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/2cd3f705a58e35eb794c81cb79eea2640c11f642.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Se séparer, divorcer",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/d0b7c2ce9f2aa70082d95ac64526498f6e74df87.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Procéder à des donations",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/c6a980f38cfb4b2849b339a7deb915faa83118e0.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Protéger et prévoir l’avenir de vos proches",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/cc3580ba8317376e663a184458608ba7b14cdfbd.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Vous vous posez des questions sur l’héritage",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/10f10fc51c52a42de31b955b5e987229af898b69.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Louer un bien immobilier",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/016737cb9a00015c3a071175defa4313ccc5b356.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Vivre à l’étranger",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/bf90253fd6d09d308d146842b0c4dd505aba263b.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Entreprendre",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/2ab5e82c25249765ef124102b88066cd9c0e9148.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Acheter une maison",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/009f091f3d48a695cab4edc5361bf0b410d0f99b.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Evaluer vos frais d'achat",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/7974fd3a1fc4a1021dc9cb5bd59da2bc2dd22feb.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Vérifier vos capacités d'emprunt",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/69e21b79fb10eb514eb171f607cd4710f3774fe5.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Calculer vos remboursements de prêt",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/9f04acc12ca3abe3c18c1ca669fd462edcf2ebe8.png'
+    Icon: RiHeartFill
   },
   {
     href: "#",
     name: "Calculer vos plus-values immobilières",
-    image: 'https://prismeoffice.adnov.fr/media/view/0/0/61/61/9f0e54bc51001acf9951d65204495e07ee02dff7.png'
+    Icon: RiHeartFill
   }
 ];
 
 
-function ResourceImage({ image }: { image: Resource['image'] }) {
+function ResourceImage({ Icon }: { Icon: Resource["Icon"] }) {
   return (
-    <img src={image} alt="" className="h-10 w-auto fill-current" />
+    <Icon className="h-10 w-auto fill-current"></Icon>
     // <div className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:bg-white/7.5 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
     //   <img src={image} alt="" className="h-10 w-10 fill-current" />
     //   {/* <Icon className="h-5 w-5 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" /> */}
@@ -204,7 +224,7 @@ function Resource({ resource }: { resource: Resource }) {
 
       />
       <div className="relative rounded-2xl px-4 pb-6 pt-10">
-        <ResourceImage image={resource.image} />
+        <ResourceImage Icon={resource.Icon} />
         <h3 className="mt-4 text-md font-semibold text-zinc-900"
           style={{ color: colors.attributes.accent }}
         >

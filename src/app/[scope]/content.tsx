@@ -124,34 +124,39 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
     )
 ];
 
-
 export default function HomeContent({ members }: { members: Member[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
 
+    let position = etude.id == "1" ? "left" : "right"
+
     return (
         <>
             <div className="relative">
+
+
                 <div className="mx-auto max-w-7xl">
-                    <div className="relative z-10 pt-14 lg:w-full lg:max-w-2xl">
+                    <div className={`relative ml-[${position == "right" ? 50 : 0}%] z-10 pt-14 lg:w-full transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw]" : "!-translate-x-[2vw]"}`}>
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
                             aria-hidden="true"
-                            className="absolute inset-y-0 right-8 hidden h-full w-80 translate-x-1/2 transform lg:block"
+                            className={`absolute inset-y-0 -right-[30%]   ${position == "right" ? "-translate-x-[230%] !-scale-x-100" : "translate-x-0 !scale-x-100"}  hidden h-full w-80   lg:block`}
                             style={{ fill: colors.attributes.background }}
                         >
                             <polygon points="0,0 90,0 50,100 0,100" />
                         </svg>
 
                         <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0">
-                            <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
+                            <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == "right" ? "text-right" : "text-left"}`}>
                                 <div className="hidden sm:mb-8 sm:flex">
-                                    <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
-                                        Accédez à {scope == Scope.Cast ? "l'étude de Caulnes" : "l'étude de Cast"}  - {' '}
-                                        <Link href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}`} className="font-semibold text-white">
+                                    <div className={`relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20 flex items-center ${position == "right" ? "ml-auto flex-row-reverse" : "text-left"}`}>
+
+                                        Accédez à {scope == Scope.Cast ? "l'étude de Caulnes" : "l'étude de Cast"}
+                                        <span>&nbsp;-&nbsp;</span>
+                                        <Link href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}`} className="font-semibold text-black flex">
                                             <span aria-hidden="true" className="absolute inset-0" />
-                                            Visiter <span aria-hidden="true">&rarr;</span>
+                                            {scope != Scope.Cast && <>←&nbsp;</>}Visiter {scope == Scope.Cast && <>&nbsp;→</>}
                                         </Link>
                                     </div>
                                 </div>
@@ -161,7 +166,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                 <p className="mt-6 text-lg leading-8 text-gray-600">
                                     {etude.attributes.description}
                                 </p>
-                                <div className="mt-10 flex items-center gap-x-6">
+                                <div className={`mt-10 flex items-center gap-x-6 ${position == "right" ? "flex-row-reverse" : ""}`}>
                                     <Link
                                         href={`/${scope}/rendezvous`}
                                         style={{ background: colors.attributes.primary }}
@@ -177,13 +182,23 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         </div>
                     </div>
                 </div>
-                <div className="bg-gray-50 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+
+                {/* <div className={`bg-gray-50 lg:absolute lg:inset-y-0  transition-[all] ${position == "right" ? "translate-x-[40vw]" : "translate-x-[50vw]"} lg:w-1/2`}>
                     <img
                         alt=""
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Eglise_Caulnes_2.png/1200px-Eglise_Caulnes_2.png"
+                        src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
+                        className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
+                    />
+                </div> */}
+                <div className={`bg-gray-50 opacity-0  left-0 -translate-x-0  ${position == "right" ? "opacity-100" : "left-[49vw] translate-x-[1vw] opacity-100"} lg:absolute lg:inset-y-0  !transition-transform  lg:w-1/2`}>
+                    <img
+                        alt=""
+                        src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
                         className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                     />
                 </div>
+
+
             </div>
 
             <Container>

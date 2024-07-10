@@ -33,7 +33,7 @@ export default async function RootLayout({
 }) {
 
 
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate=*", Method.get)
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[ouvertures][populate]=*", Method.get)
   let scope = Scope.Caulnes
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {
@@ -43,7 +43,7 @@ export default async function RootLayout({
   }
 
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
-  
+  console.log(defaultEtude)
 
   let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
   let defaultLienEtSocial = responseLES.data;

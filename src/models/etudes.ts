@@ -2,6 +2,7 @@
 
 import { Color } from "./colors";
 import { ApiRetrieveResponse, ObjectInterface, SeoObject } from "./other";
+import { DocumentFile } from "./documents";
 
 export class EtudeOuvertures {
 
@@ -34,6 +35,7 @@ export class Etude implements ObjectInterface {
         public attributes = {
             name: "",
             colors: new ApiRetrieveResponse<Color>(),
+            pricing: new ApiRetrieveResponse<DocumentFile>(),
             description: "",
             addressDescription: "",
             email: "",
@@ -42,7 +44,7 @@ export class Etude implements ObjectInterface {
             slug: "",
             ouvertures: new EtudeOuvertures(),
             mapUrl: "",
-            seo: new SeoObject()
+            seo: new SeoObject(),
         },
     ) {
         this.id = id;

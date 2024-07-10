@@ -7,6 +7,7 @@ import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
 import { Scope } from '@/models/other'
 import { Color } from '@/models/colors'
+import { LienEtSocial } from '@/models/lienEtSocial'
 
 
 
@@ -51,18 +52,21 @@ export const AppContext = createContext<{
     scope: Scope,
     setScope: React.Dispatch<React.SetStateAction<Scope>>,
     etude: Etude,
-    colors: Color
+    colors: Color,
+    lienEtSocial: LienEtSocial
 }>({
     scope: Scope.Caulnes,
     setScope: () => { },
     etude: new Etude(),
     colors: new Color(),
+    lienEtSocial: new LienEtSocial()
 })
 
-export function Providers({ children, etudes, defaultScope, defaultEtude }: { children: React.ReactNode, etudes: Etude[], defaultScope: Scope, defaultEtude: Etude }) {
+export function Providers({ children, etudes, defaultScope, defaultEtude, defaultLienEtSocial }: { children: React.ReactNode, etudes: Etude[], defaultScope: Scope, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial }) {
     let pathname = usePathname()
     let previousPathname = usePrevious(pathname)
     let [scope, setScope] = useState(defaultScope)
+    let [lienEtSocial, setLienEtSocial] = useState<LienEtSocial>(defaultLienEtSocial)
     let [etude, setEtude] = useState<Etude>(defaultEtude)
     let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
 
@@ -70,6 +74,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude }: { ch
         let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
         setEtude(etude)
         setColors(etude.attributes.colors.data)
+        setLienEtSocial(lienEtSocial)
     }, [scope])
 
     console.log(etude)
@@ -95,7 +100,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude }: { ch
 
     return (
         <AppContext.Provider value={{
-            previousPathname, scope, setScope, etude, colors
+            previousPathname, scope, setScope, etude, colors, lienEtSocial
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <ThemeWatcher />

@@ -7,8 +7,9 @@ import '@/styles/tailwind.css'
 import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
 import { headers } from 'next/headers';
-import { ApiListResponse, Scope } from '@/models/other'
+import { ApiListResponse, ApiRetrieveResponse, Scope } from '@/models/other'
 import { redirect } from 'next/navigation'
+import { LienEtSocial } from '@/models/lienEtSocial'
 
 export const metadata: Metadata = {
   title: {
@@ -42,13 +43,17 @@ export default async function RootLayout({
   }
 
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
+  
+
+  let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
+  let defaultLienEtSocial = responseLES.data;
 
 
 
   return (
     <html lang="fr" className="h-full antialiased" suppressHydrationWarning>
       <body className={`flex h-full`} style={{ background: defaultEtude.attributes.colors.data.attributes.background }}>
-        <Providers etudes={etudes.data} defaultScope={scope} defaultEtude={defaultEtude}>
+        <Providers etudes={etudes.data} defaultScope={scope} defaultEtude={defaultEtude} defaultLienEtSocial={defaultLienEtSocial}>
           <div className="flex w-full">
             <Layout colors={defaultEtude.attributes.colors.data}>{children}</Layout>
           </div>

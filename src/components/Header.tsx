@@ -344,6 +344,26 @@ export function Header() {
 
   }, [])
 
+  const [isScrolled, setIsScrolled] = useState(false);
+  let pathname = usePathname()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set isScrolled to true if the page is scrolled more than 50 pixels, otherwise false
+      const position = window.scrollY > 50;
+      setIsScrolled(position);
+    };
+
+    handleScroll()
+    // Attach the event listener
+    window.addEventListener('scroll', handleScroll);
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+
+  }, [pathname]);
+  let { colors } = useContext(AppContext)
 
   return (
     <>
@@ -357,8 +377,9 @@ export function Header() {
 
         <div
           ref={headerRef}
-          className="top-0 z-10 h-16 pt-6"
+          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out ${isScrolled ? 'shadow-lg' : ''} backdrop-blur-lg pointer-events-auto w-full`}
           style={{
+            backgroundColor: isScrolled ? colors.attributes.background : "transparent",
             position:
               'var(--header-position)' as React.CSSProperties['position'],
           }}

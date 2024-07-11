@@ -4,6 +4,7 @@ import { AppContext } from '@/app/providers';
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Article } from '@/models/articles';
 import { BookOpenIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 import { useContext } from 'react';
 
 
@@ -55,10 +56,10 @@ export default function ArticlesContent({ articles }: { articles: Article[] }) {
                                 <h3 className="mt-3 text-lg font-semibold leading-6 "
                                     style={{ color: colors.attributes.accent }}
                                 >
-                                    <a href={`/${scope}/articles/${article.attributes.slug}`}>
+                                    <Link href={`/${scope}/articles/${article.attributes.slug}`}>
                                         <span className="absolute inset-0" />
                                         {article.attributes.title}
-                                    </a>
+                                    </Link>
                                 </h3>
                                 <p className="mt-5 text-sm leading-6"
                                     style={{ color: colors.attributes.indicator }}

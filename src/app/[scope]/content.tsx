@@ -212,8 +212,8 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                 </div>
-                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10 opacity-[${position == "right" ? '0' : '100'}] transition-opacity duration-300 translate-x-[${position == "right" ? '0' : '100vw'}]`} />
-                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10 opacity-[${position != "right" ? '0' : '100'}] transition-opacity duration-300 translate-x-[${position != "right" ? '0' : '100vw'}]`} />
+                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10  ${position == "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300`} />
+                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10  ${position != "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300 `} />
 
 
 

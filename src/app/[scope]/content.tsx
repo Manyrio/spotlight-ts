@@ -137,7 +137,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                 <div className="mx-auto max-w-7xl w-full h-screen ">
-                    <div className={`relative z-10 pt-14 lg:w-full  duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
+                    <div className={`relative z-10 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
@@ -150,8 +150,11 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
                         <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0">
                             <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == "right" ? "text-right" : "text-left"}`}>
-                                <div className="hidden sm:mb-8 sm:flex">
-                                    <div className={`relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20 flex items-center ${position == "right" ? "ml-auto flex-row-reverse" : "text-left"}`}>
+                                <div className={`hidden sm:mb-8 sm:flex  ${position == "right" ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == "right" ? 'translate-x-[1vw]' : '-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
+                                    <div className={`relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 flex items-center ${position == "right" ? "ml-auto flex-row-reverse" : "text-left"}`}
+
+                                        style={{ borderColor: colors.attributes.border }}
+                                    >
 
                                         Accédez à {scope == Scope.Cast ? "l'étude de Caulnes" : "l'étude de Cast"}
                                         <span>&nbsp;-&nbsp;</span>
@@ -161,13 +164,13 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         </Link>
                                     </div>
                                 </div>
-                                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                                <h1 className={`text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl ${position == "right" ? 'pr-[1.5vw]' : 'pl-[1.5vw]'} ${position == "right" ? 'translate-x-[1.5vw]' : '-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.name}
                                 </h1>
-                                <p className="mt-6 text-lg leading-8 text-gray-600">
+                                <p className={`mt-6 text-lg leading-8 text-gray-600 ${position == "right" ? 'pr-[2vw]' : 'pl-[2vw]'} ${position == "right" ? 'translate-x-[2vw]' : '-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.description}
                                 </p>
-                                <div className={`mt-10 flex items-center gap-x-6 ${position == "right" ? "flex-row-reverse" : ""}`}>
+                                <div className={`mt-10 flex items-center gap-x-6 ${position == "right" ? "flex-row-reverse" : ""}  ${position == "right" ? 'pr-[2.5vw]' : 'pl-[2.5vw]'} ${position == "right" ? 'translate-x-[2.5vw]' : '-translate-x-[2.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     <Link
                                         href={`/${scope}/rendezvous`}
                                         style={{ background: colors.attributes.primary }}
@@ -218,9 +221,22 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
             </div>
+            <div className="
+            border-t
+                    "
+                style={{ borderColor: colors.attributes.divider }}
+            />
 
             <Container>
 
+                <div className="absolute -top-px right-16 h-8 overflow-hidden w-full">
+                    <div className="flex -mt-px h-[2px] leftw-[20vw] -scale-x-100">
+                        <div className="w-full flex-none blur-sm [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
+                        </div>
+                        <div className="-ml-[100%] w-full flex-none blur-[1px] [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
+                        </div>
+                    </div>
+                </div>
                 <div className="isolate w-full">
 
                     {/* Content section */}

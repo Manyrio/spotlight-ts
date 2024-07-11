@@ -11,6 +11,7 @@ export class Color implements ObjectInterface {
             tintedBackground: "",
             divider: "",
             primary: "",
+            secondary: "",
             accent: "",
             indicator: "",
         },

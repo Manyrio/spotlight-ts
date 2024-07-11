@@ -1,8 +1,10 @@
 "use client"
 
 import { AppContext } from '@/app/providers';
+import { Container } from '@/components/Container';
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Article } from '@/models/articles';
+import { BookOpenIcon } from '@heroicons/react/24/outline';
 import { RiMarkdownFill } from '@remixicon/react';
 import { useContext } from 'react';
 import Markdown from 'react-markdown'
@@ -10,7 +12,7 @@ import Markdown from 'react-markdown'
 export default function ArticlePageContent({ article }: { article: Article }) {
 
     console.log(article)
-    let { colors, scope } = useContext(AppContext)
+    let { colors, scope, etude } = useContext(AppContext)
 
     const components = {
         h1(props: any) {
@@ -99,29 +101,61 @@ export default function ArticlePageContent({ article }: { article: Article }) {
         }
     }
     return (
+        <>
+            <Container className='z-20 relative'>
+                <div className='mt-20 -mb-20 absolute w-full left-0 top-0'>
+                    {
+                        article.attributes.image.data ?
+                            <img className=" h-96 mt-12 inset-0  w-full rounded-2xl bg-gray-50 object-cover" src={"https://adminpreview.hicards.fr" + (article.attributes.image.data.attributes.url)} alt="" />
 
-        <SimpleLayout
-            title={article.attributes.title}
-            intro={article.attributes.description}
-        >
-            <div
-                className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium -mt-12 sm:-mt-16 w-fit"
-                style={{ color: colors.attributes.hint, background: colors.attributes.tintedBackground }}
-            >
-                {article.attributes.type}
-            </div>
+                            : <div className=' inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover flex items-center justify-center' style={{ background: colors.attributes.tintedBackground }}>
 
+                                <BookOpenIcon className='h-12 w-12' style={{ color: colors.attributes.hint }}></BookOpenIcon>
 
-            <div className="mt-10 max-w-2xl"
-                style={{ color: colors.attributes.accent }}
-            >
-                <Markdown
-                    components={components}
-                >{article.attributes.content}</Markdown>
-            </div>
+                            </div>
+                    }
+
+                </div>
 
 
-        </SimpleLayout >
+            </Container>
 
+            <Container className='relative z-30  mt-80' >
+                <div className='py-10 px-12 rounded-md' style={{ background: colors.attributes.background }}>
+                    <div
+                        className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium   w-fit mb-4"
+                        style={{ color: colors.attributes.hint, background: colors.attributes.tintedBackground }}
+                    >
+                        {article.attributes.type}
+                    </div>
+                    <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
+                        style={{ color: colors.attributes.accent }}
+                    >
+                        {article.attributes.title}
+                    </h1>
+                    <p className="mt-6 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
+                        style={{ color: colors.attributes.indicator }}
+                    >
+                        {article.attributes.description}
+                    </p>
+
+
+
+                </div>
+
+
+
+
+                <div className="mt-10 max-w-2xl"
+                    style={{ color: colors.attributes.accent }}
+                >
+                    <Markdown
+                        components={components}
+                    >{article.attributes.content}</Markdown>
+                </div>
+
+            </Container >
+
+        </>
     )
 }

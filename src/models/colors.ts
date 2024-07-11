@@ -14,7 +14,7 @@ export class Color implements ObjectInterface {
             secondary: "",
             accent: "",
             indicator: "",
-        },
+        }
     ) {
         this.id = id;
         this.attributes = attributes;

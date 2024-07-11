@@ -1,16 +1,19 @@
 import { Metadata } from "next";
 import { OfficeContent } from "./content";
+import { ApiListResponse } from "@/models/other";
+import { Label } from "@/models/labels";
+import { Method, call } from "@/scripts/api";
 // either Static metadata
 export const metadata: Metadata = {
-    title: "Nos services",
+    title: "L'office",
 }
 
 
+export default async function Office() {
 
-export default function Office() {
-
+    let labels: ApiListResponse<Label> = await call("labels?populate=*", Method.get)
     return (
-        <OfficeContent></OfficeContent>
+        <OfficeContent labels={labels.data}></OfficeContent>
 
     )
 }

@@ -103,10 +103,10 @@ export default function ArticlePageContent({ article }: { article: Article }) {
     return (
         <>
             <Container className='z-20 relative'>
-                <div className='mt-20 -mb-20 absolute w-full left-0 top-0'>
+                <div className='mt-20  md:px-0 -mb-20 relative md:absolute  w-full left-0 top-0'>
                     {
                         article.attributes.image.data ?
-                            <img className=" h-96 mt-12 inset-0  w-full rounded-2xl bg-gray-50 object-cover" src={"https://adminpreview.hicards.fr" + (article.attributes.image.data.attributes.url)} alt="" />
+                            <img className=" h-40 md:h-96  mt-12 inset-0  w-full rounded-2xl bg-gray-50 object-cover" src={"https://adminpreview.hicards.fr" + (article.attributes.image.data.attributes.url)} alt="" />
 
                             : <div className=' inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover flex items-center justify-center' style={{ background: colors.attributes.tintedBackground }}>
 
@@ -120,8 +120,8 @@ export default function ArticlePageContent({ article }: { article: Article }) {
 
             </Container>
 
-            <Container className='relative z-30  mt-80' >
-                <div className='py-10 px-12 rounded-md' style={{ background: colors.attributes.background }}>
+            <Container className='relative z-30 mt-32 md:mt-80' >
+                <div className='md:py-10 md:px-12 rounded-md' style={{ background: colors.attributes.background }}>
                     <div
                         className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium   w-fit mb-4"
                         style={{ color: colors.attributes.hint, background: colors.attributes.tintedBackground }}

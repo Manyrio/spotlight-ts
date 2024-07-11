@@ -137,7 +137,8 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                 <div className="mx-auto max-w-7xl w-full h-screen ">
-                    <div className={`relative z-10 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
+                    <div className={`relative z-20 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
+
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
@@ -151,34 +152,35 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0">
                             <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == "right" ? "text-right" : "text-left"}`}>
                                 <div className={`hidden sm:mb-8 sm:flex  ${position == "right" ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == "right" ? 'translate-x-[1vw]' : '-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
-                                    <div className={`relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 flex items-center ${position == "right" ? "ml-auto flex-row-reverse" : "text-left"}`}
+                                    <div className={`relative rounded-full px-3 py-1 text-sm leading-6 textring-1 flex items-center ${position == "right" ? "ml-auto flex-row-reverse" : "text-left"}`}
 
-                                        style={{ borderColor: colors.attributes.border }}
+                                        style={{ borderColor: colors.attributes.divider, color: colors.attributes.indicator }}
                                     >
 
                                         Accédez à {scope == Scope.Cast ? "l'étude de Caulnes" : "l'étude de Cast"}
                                         <span>&nbsp;-&nbsp;</span>
-                                        <Link href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}`} className="font-semibold text-black flex">
+                                        <Link href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}`} style={{ color: colors.attributes.indicator }} className="font-semibold text-black flex">
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {scope != Scope.Cast && <>←&nbsp;</>}Visiter {scope == Scope.Cast && <>&nbsp;→</>}
                                         </Link>
                                     </div>
                                 </div>
-                                <h1 className={`text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl ${position == "right" ? 'pr-[1.5vw]' : 'pl-[1.5vw]'} ${position == "right" ? 'translate-x-[1.5vw]' : '-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                                <h1 style={{ color: colors.attributes.accent }} className={`text-4xl font-bold tracking-tight sm:text-6xl ${position == "right" ? 'pr-[1.5vw]' : 'pl-[1.5vw]'} ${position == "right" ? 'translate-x-[1.5vw]' : '-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.name}
                                 </h1>
-                                <p className={`mt-6 text-lg leading-8 text-gray-600 ${position == "right" ? 'pr-[2vw]' : 'pl-[2vw]'} ${position == "right" ? 'translate-x-[2vw]' : '-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>
+                                <p style={{ color: colors.attributes.indicator }} className={`mt-6 text-lg leading-8 ${position == "right" ? 'pr-[2vw]' : 'pl-[2vw]'} ${position == "right" ? 'translate-x-[2vw]' : '-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.description}
                                 </p>
                                 <div className={`mt-10 flex items-center gap-x-6 ${position == "right" ? "flex-row-reverse" : ""}  ${position == "right" ? 'pr-[2.5vw]' : 'pl-[2.5vw]'} ${position == "right" ? 'translate-x-[2.5vw]' : '-translate-x-[2.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     <Link
                                         href={`/${scope}/rendezvous`}
                                         style={{ background: colors.attributes.primary }}
-                                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm drop-shadow-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Prendre rendez-vous
                                     </Link>
-                                    <Link href={`/${scope}/contact`} className="text-sm font-semibold leading-6 text-gray-900">
+                                    <Link
+                                        style={{ color: colors.attributes.accent }} href={`/${scope}/contact`} className="text-sm font-semibold leading-6 text-gray-900">
                                         Contact <span aria-hidden="true">→</span>
                                     </Link>
                                 </div>
@@ -194,7 +196,9 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                     />
                 </div> */}
-                <div className={`bg-gray-50 opacity-1 -ml-[3vw]   left-[1vw] -translate-x-[1vw]  ${position == "right" ? "" : "!left-[49vw] !translate-x-[1vw] !ml-[1vw]"} lg:absolute lg:inset-y-0  !transition-[transform] !duration-[500ms]  lg:w-[calc(50%+3vw)]`}>
+                ${position != "right" ? <div className="absolute inset-0 left-[50vw] w-[50vw] z-10 bg-gradient-to-r from-black/30 via-black/0" />
+                    : <div className="absolute inset-0 left-[0vw] w-[50vw] z-10 bg-gradient-to-l from-black/30 via-black/0" />}
+                <div className={`bg-gray-50 opacity-1 -ml-[3vw] -z-0   left-[1vw] -translate-x-[1vw]  ${position == "right" ? "" : "!left-[49vw] !translate-x-[1vw] !ml-[1vw]"} lg:absolute lg:inset-y-0  !transition-[transform] !duration-[500ms]  lg:w-[calc(50%+3vw)]`}>
 
 
                     {
@@ -212,7 +216,6 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                 className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             />
                     }
-
 
                 </div>
                 <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-10  ${position == "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300`} />
@@ -377,7 +380,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                     <div className="flex flex-col items-start gap-y-1 overflow-hidden  text-sm leading-6  text-gray-300">
 
 
-                                        <span className="relative z-20 mb-[8px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1  text-xs font-medium  text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                                        <span className="relative z-20 mb-[8px] inline-flex items-center rounded-full bg-white-600 px-2 py-1  text-xs font-medium  text-white-600 ring-1 ring-inset ring-white-500/10">
                                             {annonce.type}
                                         </span>
 

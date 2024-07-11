@@ -35,7 +35,7 @@ export function OfficeContent({ labels }: { labels: Label[] }) {
       </div>
 
 
-      <div>
+      <div className='mt-6'>
         L’office se positionne autour de valeurs fortes :
       </div>
 
@@ -56,8 +56,9 @@ export function OfficeContent({ labels }: { labels: Label[] }) {
 
       </div>
 
+      <div className='text-base font-semibold mt-12'>Labels & certifications</div>
 
-      <ul role="list" className="divide-y divide-gray-100 mt-12">
+      <ul role="list" className="divide-y divide-gray-100 mt-6">
         {labels.map((label) => (
           <li key={label.attributes.name} className="flex justify-between gap-x-6 py-5"
             style={{ borderColor: colors.attributes.border }}

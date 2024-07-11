@@ -17,9 +17,9 @@ export function Footer() {
       { name: "Contact", href: `/${scope}/contact` },
     ],
     legals: [
-      { name: "Mentions légales", href: `/${scope}/annonces` },
-      { name: "Politique de confidentialité", href: `/${scope}/annonces` },
-      { name: "Cookies", href: `/${scope}/annonces` },
+      { name: "Mentions légales", href: `/${scope}/legals` },
+      { name: "Politique de confidentialité", href: `/${scope}/privacy` },
+      { name: "Conditions générales d'utilisation", href: `/${scope}/usage` },
     ],
     timeline: [
       {

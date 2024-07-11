@@ -8,6 +8,7 @@ import { Etude } from '@/models/etudes'
 import { Scope } from '@/models/other'
 import { Color } from '@/models/colors'
 import { LienEtSocial } from '@/models/lienEtSocial'
+import { MainStyle } from '@/components/MainStyle'
 
 
 
@@ -103,6 +104,8 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <ThemeWatcher />
+                <MainStyle etude={etude} important />
+
                 {children}
             </ThemeProvider>
         </ AppContext.Provider >

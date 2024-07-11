@@ -4,6 +4,7 @@ import { Color } from "./colors";
 import { ApiRetrieveResponse, ObjectInterface, SeoObject } from "./other";
 import { DocumentFile } from "./documents";
 import { Image } from "./image";
+import { WebFont } from "./fonts";
 
 export class EtudeOuvertures {
 
@@ -36,6 +37,7 @@ export class Etude implements ObjectInterface {
         public attributes = {
             name: "",
             colors: new ApiRetrieveResponse<Color>(),
+            font: new ApiRetrieveResponse<WebFont>(),
             pricing: new ApiRetrieveResponse<DocumentFile>(),
             image: new ApiRetrieveResponse<Image>(),
             description: "",

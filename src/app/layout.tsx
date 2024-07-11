@@ -6,19 +6,17 @@ import { Layout } from '@/components/Layout'
 import '@/styles/tailwind.css'
 import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
+import { WebFont } from '@/models/fonts'
 import { headers } from 'next/headers';
 import { ApiListResponse, ApiRetrieveResponse, Scope } from '@/models/other'
-import { redirect } from 'next/navigation'
 import { LienEtSocial } from '@/models/lienEtSocial'
-import { Image } from '@/models/image'
 import { Favicon } from '@/models/favicon'
-
-
+import { MainStyle } from '@/components/MainStyle'
 
 
 
 async function getDefaultParameters() {
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
   let scope = Scope.Caulnes
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {
@@ -28,7 +26,6 @@ async function getDefaultParameters() {
   }
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
   let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
-  console.log(defaultEtude.attributes.pricing)
   return {
     defaultEtude: defaultEtude,
     defaultScope: scope,
@@ -77,8 +74,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 
 
-
-
 export default async function RootLayout({
   children,
 }: {
@@ -90,10 +85,13 @@ export default async function RootLayout({
 
 
 
-
   return (
-    <html lang="fr" className="h-full antialiased" suppressHydrationWarning>
-      <body className={`flex h-full`} style={{ background: parameters.defaultEtude.attributes.colors.data.attributes.background }}>
+    <html lang="fr" className={"h-full antialiased"} suppressHydrationWarning>
+
+
+      <MainStyle etude={parameters.defaultEtude} />
+
+      <body className={`flex h-full`}>
         <Providers etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
           <div className="flex w-full">
             <Layout colors={parameters.defaultEtude.attributes.colors.data}>{children}</Layout>

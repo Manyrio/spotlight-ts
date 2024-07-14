@@ -176,11 +176,14 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 function MobileNavigation(
   { props, documents }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents: DocumentFile[] }
 ) {
-  let { scope, etude } = useContext(AppContext)
+  let { scope, etude, colors } = useContext(AppContext)
 
   return (
     <Popover {...props}>
-      <PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:dark:text-gray-200 text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20">
+      <PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:dark:text-gray-200 text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
+        style={{ background: colors.attributes.tintedBackground, color: colors.attributes.accent }}
+
+      >
         Menu
         <ChevronDownIcon className="ml-3 h-auto w-5 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400" />
       </PopoverButton>
@@ -193,7 +196,9 @@ function MobileNavigation(
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <PopoverOverlay className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80" />
+          <PopoverOverlay className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm"
+            style={{ background: colors.attributes.tintedBackground }}
+          />
         </TransitionChild>
         <TransitionChild
           enter="duration-150 ease-out"
@@ -205,21 +210,30 @@ function MobileNavigation(
         >
           <PopoverPanel
             focus
-            className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 dark:bg-zinc-900 dark:ring-zinc-800"
+            className="fixed top-8  inset-x-4 z-50 origin-top  "
+
           >
-            <div className="flex flex-row-reverse items-center justify-between">
-              <PopoverButton aria-label="Close menu" className="-m-1 p-1">
-                <XMarkIcon className="h-6 w-6 dark:text-gray-200 text-zinc-500 dark:dark:text-gray-200 text-zinc-400" />
-              </PopoverButton>
-              <h2 className="dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400">
-                Navigation
-              </h2>
+            <div className='w-full  h-full p-8 rounded-3xl ring-1 ring-zinc-900/5'
+              style={{ background: colors.attributes.background }}
+            >
+              <div className="flex flex-row-reverse items-center justify-between">
+                <PopoverButton aria-label="Close menu" className="-m-1 p-1">
+                  <XMarkIcon className="h-6 w-6 dark:text-gray-200 text-zinc-500 dark:dark:text-gray-200 text-zinc-400"
+                    style={{ color: colors.attributes.accent }}
+                  />
+                </PopoverButton>
+                <h2 className="dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
+                  style={{ color: colors.attributes.accent }}
+                >
+                  Navigation
+                </h2>
+              </div>
+              <nav className="mt-6">
+                <ul className="-my-2 divide-y divide-zinc-100 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-800 dark:divide-zinc-100/5 dark:dark:text-gray-200 text-zinc-300">
+                  <Navigation documents={documents}></Navigation>
+                </ul>
+              </nav>
             </div>
-            <nav className="mt-6">
-              <ul className="-my-2 divide-y divide-zinc-100 dark:text-gray-200 text-base dark:text-gray-200 text-zinc-800 dark:divide-zinc-100/5 dark:dark:text-gray-200 text-zinc-300">
-                <Navigation documents={documents}></Navigation>
-              </ul>
-            </nav>
           </PopoverPanel>
         </TransitionChild>
       </Transition>
@@ -241,7 +255,9 @@ function NavItem({
 
 
   return (
-    <li>
+    <li
+      style={{ borderColor: colors.attributes.border }}
+    >
       <Link
         href={href || "#"}
         className={clsx(

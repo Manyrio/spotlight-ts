@@ -25,6 +25,10 @@ export class EtudeOuvertures {
     }
 }
 
+export enum EtudePosition {
+    left = "left",
+    right = "right",
+}
 
 
 export interface EtudeHoraires {
@@ -43,6 +47,7 @@ export class Etude implements ObjectInterface {
             description: "",
             addressDescription: "",
             email: "",
+            position: EtudePosition.left,
             phone: "",
             address: "",
             slug: "",

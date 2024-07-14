@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { AppContext } from '../providers'
 import { Member } from '@/models/members'
 import { Scope } from '@/models/other'
+import { EtudePosition } from '@/models/etudes'
 
 
 
@@ -129,29 +130,29 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
 
-    let position = etude.id == "1" ? "left" : "right"
+    let position = etude.attributes.position
 
     return (
         <>
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden ">
 
 
 
-                <div className="mx-auto max-w-7xl w-full h-screen ">
-                    <div className={`relative z-40 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == "right" ? "!translate-x-[2vw] ml-[50%]" : "!-translate-x-[2vw] ml-0"}`}>
+                <div className="mx-auto max-w-7xl w-full lg:h-screen ">
+                    <div className={`relative z-40 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? "lg:!translate-x-[2vw] lg:ml-[50%]" : "lg:!-translate-x-[2vw] lg:ml-0"}  `}>
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
                             aria-hidden="true"
-                            className={`absolute inset-y-0 -right-[35%] -z-10  ${position == "right" ? "-translate-x-[235%] !-scale-x-100" : "translate-x-0 !scale-x-100"}  hidden h-screen w-80   lg:block`}
+                            className={`absolute inset-y-0 -right-[35%] -z-10  ${position == EtudePosition.right ? "lg:-translate-x-[235%] lg:!-scale-x-100" : "lg:translate-x-0 lg:!scale-x-100"}  hidden h-screen w-80   lg:block`}
                             style={{ fill: colors.attributes.background }}
                         >
                             <polygon points="0,0 90,0 50,100 0,100" />
                         </svg>
-                        <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0">
-                            <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == "right" ? "text-right" : "text-left"}`}>
-                                <div className={`hidden sm:mb-8 sm:flex  ${position == "right" ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == "right" ? 'translate-x-[1vw]' : '-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
-                                    <div className={`relative rounded-full px-3 py-1 text-sm leading-6 textring-1 flex items-center ${position == "right" ? "ml-auto flex-row-reverse" : "text-left"}`}
+                        <div className="relative px-6 py-20  lg:px-8 lg:py-56 lg:pr-0">
+                            <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
+                                <div className={` mb-8 flex  ${position == EtudePosition.right ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1vw]' : 'lg:-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
+                                    <div className={`relative rounded-full px-0 py-1 text-sm leading-6 textring-1 flex items-center ${position == EtudePosition.right ? "lg:ml-auto flex-row-reverse" : "lg:text-left"}`}
 
                                         style={{ borderColor: colors.attributes.divider, color: colors.attributes.indicator }}
                                     >
@@ -164,13 +165,13 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         </Link>
                                     </div>
                                 </div>
-                                <h1 style={{ color: colors.attributes.accent }} className={`text-4xl font-bold tracking-tight sm:text-6xl ${position == "right" ? 'pr-[1.5vw]' : 'pl-[1.5vw]'} ${position == "right" ? 'translate-x-[1.5vw]' : '-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                                <h1 style={{ color: colors.attributes.accent }} className={`text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.name}
                                 </h1>
-                                <p style={{ color: colors.attributes.indicator }} className={`mt-6 text-lg leading-8 ${position == "right" ? 'pr-[2vw]' : 'pl-[2vw]'} ${position == "right" ? 'translate-x-[2vw]' : '-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>
+                                <p style={{ color: colors.attributes.indicator }} className={`mt-6 text-lg leading-8 ${position == EtudePosition.right ? 'lg:pr-[2vw]' : 'lg:pl-[2vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[2vw]' : 'lg:-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.description}
                                 </p>
-                                <div className={`mt-10 flex items-center gap-x-6 ${position == "right" ? "flex-row-reverse" : ""}  ${position == "right" ? 'pr-[2.5vw]' : 'pl-[2.5vw]'} ${position == "right" ? 'translate-x-[2.5vw]' : '-translate-x-[2.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                                <div className={`mt-10 flex items-center gap-x-6 ${position == EtudePosition.right ? "lg:flex-row-reverse" : ""}  ${position == EtudePosition.right ? 'lg:pr-[2.5vw]' : 'lg:pl-[2.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[2.5vw]' : 'lg:-translate-x-[2.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     <Link
                                         href={`/${scope}/rendezvous`}
                                         style={{ background: colors.attributes.primary }}
@@ -188,33 +189,33 @@ export default function HomeContent({ members }: { members: Member[] }) {
                     </div>
                 </div>
 
-                {position != "right" ? <div className="absolute inset-0 left-[50vw] w-[50vw] z-30 bg-gradient-to-r from-black/30 via-black/0 mix-blend-overlay" />
-                    : <div className="absolute inset-0 left-[0vw] w-[50vw] z-30 bg-gradient-to-l from-black/30 via-black/0 mix-blend-overlay" />}
-                <div className={`bg-gray-50 opacity-1 -ml-[3vw] -z-0   left-[1vw] -translate-x-[1vw]  ${position == "right" ? "" : "!left-[49vw] !translate-x-[1vw] !ml-[1vw]"} lg:absolute lg:inset-y-0  !transition-[transform] !duration-[500ms]  lg:w-[calc(50%+3vw)]`}>
+                {position != EtudePosition.right ? <div className="hidden lg:block absolute inset-0 left-[50vw] w-[50vw] z-30 bg-gradient-to-r from-black/30 via-black/0 mix-blend-overlay" />
+                    : <div className="hidden lg:block absolute inset-0 left-[0vw] w-[50vw] z-30 bg-gradient-to-l from-black/30 via-black/0 mix-blend-overlay" />}
+                <div className={`hidden lg:block bg-gray-50 opacity-1 -ml-[3vw] -z-0 absolute top-0 left-0  w-screen h-screen   lg:left-[1vw] lg:-translate-x-[1vw]  ${position == EtudePosition.right ? "" : "lg:!left-[49vw] lg:!translate-x-[1vw] lg:!ml-[1vw]"} lg:absolute lg:inset-y-0  !transition-[transform] !duration-[500ms]  lg:w-[calc(50%+3vw)]`}>
 
 
                     {
-                        position == "right" ?
+                        position == EtudePosition.right ?
                             <img
                                 alt=""
-                                key="right"
+                                key={EtudePosition.right}
                                 src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
-                                className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
+                                className="  aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             /> :
                             <img
                                 alt=""
-                                key="left"
+                                key={EtudePosition.left}
                                 src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
-                                className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
+                                className=" aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             />
                     }
 
                 </div>
-                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-50  ${position == "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300`} />
-                <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-50  ${position != "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300 `} />
+                <div style={{ background: colors.attributes.background }} className={`hidden  lg:block pointer-events-none absolute w-full h-full inset-0 z-50  ${position == EtudePosition.right ? "lg:opacity-0 lg:translate-x-[0]" : "lg:opacity-100 lg:translate-x-[100vw]"}  transition-opacity duration-300`} />
+                <div style={{ background: colors.attributes.background }} className={`hidden lg:block pointer-events-none absolute w-full h-full inset-0 z-50  ${position != EtudePosition.right ? "lg:opacity-0 lg:translate-x-[0]" : "lg:opacity-100 lg:translate-x-[100vw]"}  transition-opacity duration-300 `} />
 
                 <div className="absolute !z-50 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
-                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`!z-50 !-scale-x-100 ${position == 'right' ? '!-scale-x-100' : '!scale-x-100'}`} />
+                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`lg:!z-50 lg:!-scale-x-100 ${position == EtudePosition.right ? 'lg:!-scale-x-100' : 'lg:!scale-x-100'}`} />
                 </div>
 
 

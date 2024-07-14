@@ -1,4 +1,4 @@
-import { Scope } from "./etudes";
+import { Scope } from "./other";
 
 export interface PlaceInterface {
     address: string;

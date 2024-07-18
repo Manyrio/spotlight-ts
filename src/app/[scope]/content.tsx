@@ -401,7 +401,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         </div>
 
                                         <div className="flex gap-x-2.5">
-                                            frais d'agence: {(annonce.prixTotal * annonce.pourcentageFraisAgence).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.pourcentageFraisAgence * 100}%)
+                                            Honoraires de négociation: {(annonce.prixTotal * annonce.pourcentageFraisAgence).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.pourcentageFraisAgence * 100}%)
                                         </div>
                                     </div>
                                     <h3 className="mt-3  text-lg font-semibold leading-6  text-white">

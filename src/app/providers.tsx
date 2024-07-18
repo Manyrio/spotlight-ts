@@ -3,7 +3,6 @@
 import { createContext, useEffect, useRef, useState } from 'react'
 import { redirect, usePathname } from 'next/navigation'
 import { ThemeProvider, useTheme } from 'next-themes'
-import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
 import { Scope } from '@/models/other'
 import { Color } from '@/models/colors'
@@ -53,12 +52,14 @@ export const AppContext = createContext<{
     scope: Scope,
     setScope: React.Dispatch<React.SetStateAction<Scope>>,
     etude: Etude,
+    etudes: Etude[],
     colors: Color,
     lienEtSocial: LienEtSocial
 }>({
     scope: Scope.Caulnes,
     setScope: () => { },
     etude: new Etude(),
+    etudes: [new Etude()],
     colors: new Color(),
     lienEtSocial: new LienEtSocial()
 })
@@ -89,7 +90,6 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
         }
 
         setScope(Scope.Caulnes)
-        redirect("/" + Scope.Caulnes + "/" + pathname.split("/").pop())
 
     }, [pathname])
 
@@ -100,7 +100,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
 
     return (
         <AppContext.Provider value={{
-            previousPathname, scope, setScope, etude, colors, lienEtSocial
+            previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <ThemeWatcher />

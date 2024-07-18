@@ -12,6 +12,7 @@ import { ApiListResponse, ApiRetrieveResponse, Scope } from '@/models/other'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { Favicon } from '@/models/favicon'
 import { MainStyle } from '@/components/MainStyle'
+import { Color } from '@/models/colors'
 
 
 
@@ -25,12 +26,17 @@ async function getDefaultParameters() {
     scope = Scope.Cast
   }
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
+  if (defaultEtude.attributes.slug == Scope.Unknown) {
+    defaultEtude.attributes.colors.data = new Color()
+  }
   let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
+
+
   return {
-    defaultEtude: defaultEtude,
+    defaultEtude: JSON.parse(JSON.stringify(defaultEtude)),
     defaultScope: scope,
     etudes: etudes,
-    defaultLienEtSocial: responseLES.data
+    defaultLienEtSocial: responseLES.data || new LienEtSocial()
   }
 }
 

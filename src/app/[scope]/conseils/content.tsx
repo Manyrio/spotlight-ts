@@ -246,15 +246,15 @@ function Resource({ resource }: { resource: Resource }) {
   )
 }
 
-export function ServicesContent() {
+export function ConseilsContent() {
 
   let { colors } = useContext(AppContext)
 
   return (
     <SimpleLayout
 
-      title="Nos services numériques"
-      intro="Découvrez tous nos services numériques."
+      title="Nos conseils"
+      intro="Découvrez tous nos conseils numériques."
     >
 
 

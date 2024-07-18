@@ -30,16 +30,19 @@ export function OfficeContent({ labels }: { labels: Label[] }) {
       title="L'office"
       intro={"Découvrez " + etude.attributes.name}
     >
-      <div className='font-medium text-base'>
+      <div className='font-medium text-base'
+        style={{ color: colors.attributes.indicator }}>
         {etude.attributes.description}
       </div>
 
 
-      <div className='mt-6'>
+      <div className='mt-6'
+        style={{ color: colors.attributes.indicator }}>
         L’office se positionne autour de valeurs fortes :
       </div>
 
-      <ul className='mt-6 list-disc'>
+      <ul className='mt-6 list-disc'
+        style={{ color: colors.attributes.indicator }}>
         <li>L’exigence d’une grande sécurité juridique,</li>
         <li>La créativité pour faire aboutir les projets les plus complexes,</li>
         <li>L’impartialité dans le respect de la déontologie notariale et de l’ordre public,</li>
@@ -48,7 +51,8 @@ export function OfficeContent({ labels }: { labels: Label[] }) {
       </ul>
 
 
-      <div className='mt-6'>
+      <div className='mt-6'
+        style={{ color: colors.attributes.indicator }}>
 
         Les notaires de l'office et leurs collaborateurs accompagnent les particuliers et les professionnels, dans leurs projets immobiliers, familiaux et patrimoniaux.
 
@@ -56,7 +60,9 @@ export function OfficeContent({ labels }: { labels: Label[] }) {
 
       </div>
 
-      <div className='text-base font-semibold mt-12'>Labels & certifications</div>
+      <div className='text-base font-semibold mt-12'
+        style={{ color: colors.attributes.accent }}
+      >Labels & certifications</div>
 
       <ul role="list" className="divide-y divide-gray-100 mt-6">
         {labels.map((label) => (

@@ -4,17 +4,18 @@ import { AppContext } from '@/app/providers';
 import { Container } from '@/components/Container';
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Article } from '@/models/articles';
+import { Color } from '@/models/colors';
 import { BookOpenIcon } from '@heroicons/react/24/outline';
 import { RiMarkdownFill } from '@remixicon/react';
 import { useContext } from 'react';
 import Markdown from 'react-markdown'
 
-export default function ArticlePageContent({ article }: { article: Article }) {
+export function components(colors: Color) {
 
-    console.log(article)
-    let { colors, scope, etude } = useContext(AppContext)
 
-    const components = {
+
+
+    return {
         h1(props: any) {
             const { node, ...rest } = props;
             return <h1 className='text-2xl font-medium' {...rest} />;
@@ -100,6 +101,13 @@ export default function ArticlePageContent({ article }: { article: Article }) {
             return <td className='p-2' {...rest} />;
         }
     }
+}
+
+export default function ArticlePageContent({ article }: { article: Article }) {
+
+    console.log(article)
+    let { colors, scope, etude } = useContext(AppContext)
+
     return (
         <>
             <Container className='z-20 relative'>
@@ -150,7 +158,7 @@ export default function ArticlePageContent({ article }: { article: Article }) {
                     style={{ color: colors.attributes.accent }}
                 >
                     <Markdown
-                        components={components}
+                        components={components(colors)}
                     >{article.attributes.content}</Markdown>
                 </div>
 

@@ -5,15 +5,15 @@ export class Color implements ObjectInterface {
         public id: string = "",
         public attributes = {
             name: "",
-            hint: "",
-            background: "",
-            border: "",
-            tintedBackground: "",
-            divider: "",
-            primary: "",
-            secondary: "",
-            accent: "",
-            indicator: "",
+            hint: "#888888",
+            background: "#ffffff",
+            border: "#888888",
+            tintedBackground: "#EEEEEE",
+            divider: "#888888",
+            primary: "#181818",
+            secondary: "#888888",
+            accent: "#181818",
+            indicator: "#888888",
         }
     ) {
         this.id = id;

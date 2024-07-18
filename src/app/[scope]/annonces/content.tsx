@@ -77,16 +77,15 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
   const { colors } = useContext(AppContext)
 
 
-
   return (
-    <article className="md:grid w-full md:grid-cols-3 md:items-center gap-8">
-      <Card className="md:col-span-1">
+    <Link className="md:grid w-full md:grid-cols-3 md:items-center gap-8" href={`/annonces/${annonce.id} `}>
+      <Card className="md:col-span-1" >
         <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10" style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}>
           {annonce.type}
         </span>
         <p />
         <Card.Title
-          href={`/annonces/${annonce.id} `}
+
           style={{ color: colors.attributes.accent }}
         >
           Titre test
@@ -99,7 +98,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
         <p className="relative z-20 md:block dark:text-gray-200 text-sm dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
           style={{ color: colors.attributes.hint }}
         >
-          Frais d'agence: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
+          Honoraires de négociation: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
         </p>
         <Card.Eyebrow
           as="p"
@@ -133,7 +132,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
           <img src={annonce.images[0]} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
         </article>
       </Card.Eyebrow>
-    </article>
+    </Link>
   )
 }
 
@@ -141,33 +140,14 @@ function Contact() {
   const { colors } = useContext(AppContext)
 
   return (
-    <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 dark:text-gray-200 text-base leading-7 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-      <div>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>SERVICE DE NÉGOCIATION</h3>
-        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
-          <p>14, rue de Dinan</p>
-          <p>22350 CAULNES</p>
-        </address>
-      </div>
+    <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 dark:text-gray-200 text-base leading-7  sm:gap-y-16 lg:mx-0 lg:max-w-none ">
+
       <div>
         <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>Marie-Sophie LEGASTELOIS</h3>
         <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
-          <p>+33 2 96 83 96 84</p>
-          <p>nego@notaires-caulnes.fr</p>
-        </address>
-      </div>
-      <div>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>Ouvert du lundi au vendredi</h3>
-        <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
-          <p>9h00-12h30 et de 14h00-18h00</p>
-          <div
-            aria-hidden="true"
-            className="relative z-10 mt-1 flex items-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-teal-500"
-            style={{ color: colors.attributes.primary }}
-          >
-            En savoir plus
-            <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
-          </div>
+          <a href={`tel:+33 2 96 83 96 84`} >+33 2 96 83 96 84</a>
+          <br />
+          <a href={`mailto:nego@notaires-caulnes.fr`}>nego@notaires-caulnes.fr</a>
         </address>
       </div>
     </div>

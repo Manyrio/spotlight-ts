@@ -21,29 +21,6 @@ export function Footer() {
       { name: "Politique de confidentialité", href: `/${scope}/privacy` },
       { name: "Conditions générales d'utilisation", href: `/${scope}/usage` },
     ],
-    timeline: [
-      {
-        name: "Lundi",
-        hours: etude.attributes.ouvertures.lundi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
-        // ["9h - 12h", "14h - 18h"]
-      },
-      {
-        name: "Mardi",
-        hours: etude.attributes.ouvertures.mardi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
-      },
-      {
-        name: "Mercredi",
-        hours: etude.attributes.ouvertures.mercredi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
-      },
-      {
-        name: "Jeudi",
-        hours: etude.attributes.ouvertures.jeudi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
-      },
-      {
-        name: "Vendredi",
-        hours: etude.attributes.ouvertures.vendredi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
-      },
-    ],
     social: [
       {
         name: 'Facebook',
@@ -167,28 +144,30 @@ export function Footer() {
                 </div>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6" style={{ color: colors.attributes.accent }}>Horaires d'ouverture</h3>
-                <table className="mt-6 w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-sm font-semibold leading-6 text-left" style={{ color: colors.attributes.accent }}>Jour</th>
-                      <th className="text-sm font-semibold leading-6 text-right" style={{ color: colors.attributes.accent }}>Heures</th>
-                    </tr>
-                  </thead>
+                <h3 className="text-sm font-semibold leading-6 mb-6" style={{ color: colors.attributes.accent }}>Horaires d'ouverture</h3>
+
+                <table className=" text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line gap-2 flex flex-col" style={{ color: colors.attributes.indicator }}>
                   <tbody>
-                    {navigation.timeline.map((item) => (
-                      <tr key={item.name}>
-                        <td className="text-sm leading-6 text-left" style={{ color: colors.attributes.indicator }}>{item.name}</td>
-                        <td className="text-sm leading-6 text-right" style={{ color: colors.attributes.indicator }}>
-                          {item.hours.map((hour, index) => (
-                            index !== 0 ? <span key={index} style={{ color: colors.attributes.indicator }}> et {hour}</span> :
-                              <span key={index} style={{ color: colors.attributes.indicator }}>{hour}</span>
-                          ))}
-                        </td>
-                      </tr>
-                    ))}
+                    {Object.keys(etude.attributes.ouvertures).map((day) => {
+                      if (day === "id") return null;
+
+                      return (
+                        <tr key={day}>
+                          <td className='pr-4'>{day} </td>
+                          <td className="flex items-center">
+                            {etude.attributes.ouvertures[day].map((ouverture, index) => (
+                              <span key={index} className="block whitespace-nowrap">
+                                {index > 0 && <>&nbsp;et </>}
+                                {`${ouverture.start.split(".")[0].split(":").slice(0, -1).join(":")}-${ouverture.end.split(".")[0].split(":").slice(0, -1).join(":")}`}
+                              </span>
+                            ))}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
+
                 <a href="#" className="block mt-6 text-sm leading-6"
                   style={{ color: colors.attributes.accent }}>
                   Prendre rendez-vous →

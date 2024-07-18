@@ -16,8 +16,8 @@ export default function ArticlesContent({ articles }: { articles: Article[] }) {
     return (
 
         <SimpleLayout
-            title="Articles"
-            intro="Parcourez les dernièrs articles de notre blog et des dernières actualités."
+            title="Actualités juridiques"
+            intro="Parcourez les dernièrs actualités juridiques de notre blog."
         >
 
             <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-20">

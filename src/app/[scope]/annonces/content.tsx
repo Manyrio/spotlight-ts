@@ -99,7 +99,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
         <p className="relative z-20 md:block dark:text-gray-200 text-sm dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
           style={{ color: colors.attributes.hint }}
         >
-          Frais d'agence: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
+          Honoraires de négociation: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
         </p>
         <Card.Eyebrow
           as="p"

@@ -135,14 +135,14 @@ Card.Eyebrow = function CardEyebrow<T extends React.ElementType = 'p'>({
       className={clsx(
         className,
         'relative z-10 order-first mb-3 flex items-center dark:text-gray-200 text-sm dark:text-gray-200 text-zinc-400 dark:dark:text-gray-200 text-zinc-500',
-        decorate && 'pl-3.5',
+        decorate && 'lg:pl-3.5',
       )}
       style={{ color: colors.attributes.accent }}
       {...props}
     >
       {decorate && (
         <span
-          className="absolute inset-y-0 left-0 flex items-center"
+          className="hidden lg:block absolute inset-y-0 left-0 flex items-center"
           aria-hidden="true"
         >
           <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />

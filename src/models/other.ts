@@ -1,7 +1,8 @@
 
 export enum Scope {
     Cast = "cast",
-    Caulnes = "caulnes"
+    Caulnes = "caulnes",
+    Unknown = "unknown",
 }
 
 

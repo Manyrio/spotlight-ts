@@ -14,7 +14,7 @@ export function SimpleLayout({
 
   let { colors } = useContext(AppContext)
   return (
-    <Container className="mt-16 sm:mt-32">
+    <Container className="mt-32 sm:mt-32">
       <header className="max-w-2xl">
         <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
           style={{ color: colors.attributes.accent }}
@@ -44,7 +44,7 @@ export function SimpleLayoutWithTitleFooter({
   let { colors } = useContext(AppContext)
 
   return (
-    <Container className="mt-16 sm:mt-32">
+    <Container className="mt-32 sm:mt-32">
       <header className="max-w-2xl">
         <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
           style={{ color: colors.attributes.accent }}

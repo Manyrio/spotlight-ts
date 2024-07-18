@@ -1,7 +1,7 @@
 
 
 import { Color } from "./colors";
-import { ApiRetrieveResponse, ObjectInterface, SeoObject } from "./other";
+import { ApiListResponse, ApiRetrieveResponse, ObjectInterface, Scope, SeoObject } from "./other";
 import { DocumentFile } from "./documents";
 import { Image } from "./image";
 import { WebFont } from "./fonts";
@@ -25,6 +25,10 @@ export class EtudeOuvertures {
     }
 }
 
+export enum EtudePosition {
+    left = "left",
+    right = "right",
+}
 
 
 export interface EtudeHoraires {
@@ -43,9 +47,10 @@ export class Etude implements ObjectInterface {
             description: "",
             addressDescription: "",
             email: "",
+            position: EtudePosition.left,
             phone: "",
             address: "",
-            slug: "",
+            slug: Scope.Unknown,
             ouvertures: new EtudeOuvertures(),
             mapUrl: "",
             seo: new SeoObject(),

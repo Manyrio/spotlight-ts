@@ -4,11 +4,13 @@ import { Etude } from "@/models/etudes"
 import { ApiListResponse } from "@/models/other"
 import { Member } from "@/models/members"
 
+
+
 export default async function Home() {
 
   let members: ApiListResponse<Member> = new ApiListResponse<Member>()
   try {
-    members = await call("members?populate=*&pagination[pageSize]=6", Method.get)
+    members = await call("members?populate=*", Method.get)
   } catch (error) {
 
   }

@@ -24,24 +24,24 @@ export function Footer() {
     timeline: [
       {
         name: "Lundi",
-        hours: etude.attributes.ouvertures.lundi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`),
+        hours: etude.attributes.ouvertures.lundi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
         // ["9h - 12h", "14h - 18h"]
       },
       {
         name: "Mardi",
-        hours: etude.attributes.ouvertures.mardi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
+        hours: etude.attributes.ouvertures.mardi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
       },
       {
         name: "Mercredi",
-        hours: etude.attributes.ouvertures.mercredi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
+        hours: etude.attributes.ouvertures.mercredi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
       },
       {
         name: "Jeudi",
-        hours: etude.attributes.ouvertures.jeudi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
+        hours: etude.attributes.ouvertures.jeudi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
       },
       {
         name: "Vendredi",
-        hours: etude.attributes.ouvertures.vendredi.map((hour) => `${parse("1970-01-01T" + hour.start, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h - ${parse("1970-01-01T" + hour.end, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS', new Date()).getHours()}h`)
+        hours: etude.attributes.ouvertures.vendredi.map((hour) => `${hour.start.split(".")[0].split(":").slice(0, -1).join(":")} - ${hour.end.split(".")[0].split(":").slice(0, -1).join(":")}`),
       },
     ],
     social: [
@@ -95,17 +95,43 @@ export function Footer() {
               >
                 {lienEtSocial.attributes.description}
               </p>
+
+
               <div className="flex space-x-6">
-                {navigation.social.map((item) => (
-                  <a key={item.name} href={item.href}
-                    target='_blank'
-                    style={{ color: colors.attributes.accent }}
-                  // className="text-gray-400 hover:text-gray-500"
-                  >
-                    <span className="sr-only">{item.name}</span>
-                    <item.Icon aria-hidden="true" className="h-6 w-6" />
-                  </a>
-                ))}
+
+                {navigation.social.map((item) => {
+                  if (item.name != 'Facebook') return
+
+                  return (
+                    <a key={item.name} href={item.href}
+                      className='flex items-center gap-2'
+                      target='_blank'
+                      style={{ color: colors.attributes.accent }}
+                    // className="text-gray-400 hover:text-gray-500"
+                    >
+                      <item.Icon aria-hidden="true" className="h-10 w-10" />
+                      <span className='text-xl font-bold'>{item.name}</span>
+
+                    </a>
+                  )
+                })}
+              </div>
+              <div className="flex space-x-6">
+                {navigation.social.map((item) => {
+
+                  if (item.name == 'Facebook') return
+
+                  return (
+                    <a key={item.name} href={item.href}
+                      target='_blank'
+                      style={{ color: colors.attributes.indicator }}
+                    // className="text-gray-400 hover:text-gray-500"
+                    >
+                      <span className="sr-only">{item.name}</span>
+                      <item.Icon aria-hidden="true" className="h-6 w-6" />
+                    </a>
+                  )
+                })}
               </div>
             </div>
             <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">

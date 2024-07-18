@@ -54,31 +54,21 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
         }
       ]}
 
-        downloads={[
-          {
-            name: "Nos Tarifs",
-            href: `https://adminpreview.hicards.fr${etude.attributes.pricing.data.attributes.file.data.attributes.url}`,
-            description: `Consultez nos tarifs (${etude.attributes.name})`,
-          }
-        ]}></DropDown>
+        downloads={
+          [
+            {
+              name: "Nos Tarifs",
+              href: `https://adminpreview.hicards.fr${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
+              description: `Consultez nos tarifs (${etude.attributes.name})`,
+            },
+            ...documentsAsResource as any
+          ]
+        }></DropDown>
     </NavItem>
-    <NavItem >
-      <DropDown name="Services" resources={[
-        {
-          name: "Nos services",
-          href: `/${scope}/services`,
-          description: "Découvrez tous nos services",
-          Icon: SquaresPlusIcon,
-        },
+    <NavItem href={`/${scope}/annonces`}>Annonces Immobilières</NavItem>
 
-
-      ]}
-
-        downloads={documentsAsResource}></DropDown>
-
-    </NavItem>
-    <NavItem href={`/${scope}/annonces`}>Annonces</NavItem>
-    <NavItem href={`/${scope}/articles`}>Articles</NavItem>
+    <NavItem href={`/${scope}/conseils`}>  Conseils </NavItem >
+    <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
     <NavItem href={`/${scope}/contact`}>Contact</NavItem>
   </>)
 
@@ -95,6 +85,7 @@ interface Resource {
 
 function DropDown({ name, resources, downloads }: { name: string, resources: Resource[], downloads?: Resource[] }) {
   let { colors } = useContext(AppContext)
+  console.log(colors)
   const buttonRef: any = useRef();
 
   return (
@@ -261,7 +252,7 @@ function NavItem({
       <Link
         href={href || "#"}
         className={clsx(
-          'relative block md:px-3 py-2 transition',
+          'relative block md:px-3 py-2 transition whitespace-nowrap',
           isActive
             ? 'dark:text-gray-200  dark:dark:text-gray-200'
             : 'hover:dark:text-gray-200  dark:hover:dark:text-gray-200',

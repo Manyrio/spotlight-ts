@@ -5,7 +5,7 @@ import { Method, call } from "@/scripts/api";
 import LegalsContent from "./content";
 // either Static metadata
 export const metadata: Metadata = {
-    title: "Nos services",
+    title: "Mentions légales",
 }
 
 

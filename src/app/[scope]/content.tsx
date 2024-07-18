@@ -132,6 +132,9 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
     let position = etude.attributes.position
 
+
+    let memberIndex = 0
+
     return (
         <>
             <div className="relative overflow-hidden ">
@@ -149,7 +152,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         >
                             <polygon points="0,0 90,0 50,100 0,100" />
                         </svg>
-                        <div className="relative px-6 py-20  lg:px-8 lg:py-56 lg:pr-0">
+                        <div className="relative px-6 py-20   lg:px-8 sm:py-30  lg:pr-0">
                             <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
                                 <div className={` mb-8 flex  ${position == EtudePosition.right ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1vw]' : 'lg:-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
                                     <div className={`relative rounded-full px-0 py-1 text-sm leading-6 textring-1 flex items-center ${position == EtudePosition.right ? "lg:ml-auto flex-row-reverse" : "lg:text-left"}`}
@@ -299,7 +302,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                                                         <span>{day}</span>
                                                                         <span className='flex items-center'>
                                                                             {etude.attributes.ouvertures[day].map((ouverture, index) => {
-                                                                                return <span key={index} className="block">{index > 0 && <>&nbsp;et </>} {`${ouverture.start.split(".")[0].split(":")[0]}h`} - {`${ouverture.end.split(".")[0].split(":")[0]}h`}</span>
+                                                                                return <span key={index} className="block">{index > 0 && <>&nbsp;et </>} {`${ouverture.start.split(".")[0].split(":").slice(0, -1).join(":")}`} - {`${ouverture.end.split(".")[0].split(":").slice(0, -1).join(":")}`}</span>
                                                                             })}
                                                                         </span>
                                                                     </div>
@@ -343,13 +346,25 @@ export default function HomeContent({ members }: { members: Member[] }) {
                             role="list"
                             className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16  text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6"
                         >
-                            {members.map((member) => (
-                                <li key={member.attributes.name}>
-                                    <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
-                                    <h3 className="mt-6  text-base font-semibold leading-7 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
-                                    <p className=" text-sm leading-6  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
-                                </li>
-                            ))}
+                            {members.map((member, index) => {
+                                let allowed = false
+                                member.attributes.etudes.data.forEach(element => {
+                                    console.log(element.attributes.slug)
+
+                                    if (element.attributes.slug == etude.attributes.slug) allowed = true
+                                });
+
+
+                                if (!allowed || memberIndex > 6) return
+                                memberIndex++
+                                return (
+                                    <li key={member.attributes.name}>
+                                        <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                                        <h3 className="mt-6  text-base font-semibold leading-7 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
+                                        <p className=" text-sm leading-6  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </div>
 

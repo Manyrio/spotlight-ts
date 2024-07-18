@@ -213,8 +213,8 @@ export default function HomeContent({ members }: { members: Member[] }) {
                 <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-50  ${position == "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300`} />
                 <div style={{ background: colors.attributes.background }} className={` pointer-events-none absolute w-full h-full inset-0 z-50  ${position != "right" ? "opacity-0 translate-x-[0]" : "opacity-100 translate-x-[100vw]"}  transition-opacity duration-300 `} />
 
-                <div className="absolute !z-50 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
-                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`!z-50 !-scale-x-100 ${position == 'right' ? '!-scale-x-100' : '!scale-x-100'}`} />
+                <div className="absolute !z-40 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
+                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`!-scale-x-100 ${position == 'right' ? '!-scale-x-100' : '!scale-x-100'}`} />
                 </div>
 
 

@@ -253,7 +253,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
                                     <div className={`overflow-hidden mb-8`} >
 
-                                        <div className=" sm:px-0 h-12 relative flex flex-col justify-center  cursor-pointer" >
+                                        <div className=" sm:px-0 relative flex flex-col justify-center  cursor-pointer" >
                                             <h3 className=" text-base font-semibold  truncate " style={{ color: colors.attributes.accent }} >{etude.attributes.name}</h3>
                                             <p className=" max-w-2xl  text-sm leading-6  " style={{ color: colors.attributes.indicator }} >{etude.attributes.addressDescription}</p>
 
@@ -292,23 +292,27 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                                         style={{ borderColor: colors.attributes.divider }}
                                                     >
                                                         <dt className=" text-sm font-medium leading-6  text-gray-900 " style={{ color: colors.attributes.accent }}>Horaires</dt>
-                                                        <dd className="mt-1  text-sm leading-6  text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line gap-2 flex flex-col" style={{ color: colors.attributes.indicator }}>
+                                                        <table className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line gap-2 flex flex-col" style={{ color: colors.attributes.indicator }}>
+                                                            <tbody>
+                                                                {Object.keys(etude.attributes.ouvertures).map((day) => {
+                                                                    if (day === "id") return null;
 
-                                                            {Object.keys(etude.attributes.ouvertures).map((day) => {
-                                                                if (day == "id") return
-
-                                                                return (
-                                                                    <div key={day} className="flex justify-between">
-                                                                        <span>{day}</span>
-                                                                        <span className='flex items-center'>
-                                                                            {etude.attributes.ouvertures[day].map((ouverture, index) => {
-                                                                                return <span key={index} className="block">{index > 0 && <>&nbsp;et </>} {`${ouverture.start.split(".")[0].split(":").slice(0, -1).join(":")}`} - {`${ouverture.end.split(".")[0].split(":").slice(0, -1).join(":")}`}</span>
-                                                                            })}
-                                                                        </span>
-                                                                    </div>
-                                                                )
-                                                            })}
-                                                        </dd>
+                                                                    return (
+                                                                        <tr key={day}>
+                                                                            <td className='pr-4'>{day} </td>
+                                                                            <td className="flex items-center">
+                                                                                {etude.attributes.ouvertures[day].map((ouverture, index) => (
+                                                                                    <span key={index} className="block whitespace-nowrap">
+                                                                                        {index > 0 && <>&nbsp;et </>}
+                                                                                        {`${ouverture.start.split(".")[0].split(":").slice(0, -1).join(":")}-${ouverture.end.split(".")[0].split(":").slice(0, -1).join(":")}`}
+                                                                                    </span>
+                                                                                ))}
+                                                                            </td>
+                                                                        </tr>
+                                                                    );
+                                                                })}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 }
 

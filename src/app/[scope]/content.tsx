@@ -12,6 +12,7 @@ import { AppContext } from '../providers'
 import { Member } from '@/models/members'
 import { Scope } from '@/models/other'
 import { EtudePosition } from '@/models/etudes'
+import { capitalizeFirstLetter } from '@/scripts/capitalize'
 
 
 
@@ -160,7 +161,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         style={{ borderColor: colors.attributes.divider, color: colors.attributes.indicator }}
                                     >
 
-                                        Accédez à {scope == Scope.Cast ? "l'étude de Caulnes" : "l'étude de Cast"}
+                                        Accédez à l'étude de {capitalizeFirstLetter(scope == Scope.Cast ? "Caulnes" : "Cast")}
                                         <span>&nbsp;-&nbsp;</span>
                                         <Link href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}`} style={{ color: colors.attributes.indicator }} className="font-semibold text-black flex">
                                             <span aria-hidden="true" className="absolute inset-0" />

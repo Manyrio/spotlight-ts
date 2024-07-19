@@ -156,7 +156,7 @@ export function Footer() {
                           <td className='pr-4'>{day} </td>
                           <td className="flex items-center">
                             {etude.attributes.ouvertures[day].map((ouverture, index) => (
-                              <span key={index} className="block whitespace-nowrap">
+                              <span key={index} className="block">
                                 {index > 0 && <>&nbsp;et </>}
                                 {`${ouverture.start.split(".")[0].split(":").slice(0, -1).join(":")}-${ouverture.end.split(".")[0].split(":").slice(0, -1).join(":")}`}
                               </span>

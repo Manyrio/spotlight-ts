@@ -138,13 +138,13 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
               <ul role="list" className=" space-y-6">
                 {downloads.map((resource, index) => (
                   <li key={index} className="relative flex items-center w-full">
-                    <div className='w-11/12'>
-                      <div className="block text-xs leading-6 text-gray-600  w-full">
+                    <div className='w-9/12'>
+                      <div className="block text-xs leading-6 text-gray-600  w-9/12">
                         {resource.description}
                       </div>
                       <Link
                         onClick={() => buttonRef.current?.click()}
-                        href={resource.href} className="block truncate w-full text-sm font-semibold leading-6 text-gray-900">
+                        href={resource.href} className="block truncate w-9/12 text-sm font-semibold leading-6 text-gray-900">
                         {resource.name}
                         <span className="absolute inset-0" />
                       </Link>

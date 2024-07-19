@@ -360,7 +360,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                 });
 
 
-                                if (!allowed || memberIndex > 6) return
+                                if (!allowed || memberIndex > 5) return
                                 memberIndex++
                                 return (
                                     <li key={member.attributes.name}>

@@ -37,7 +37,7 @@ export default function TeamContent({ members }: { members: Member[] }) {
 
                             {
                                 member.attributes.image.data ?
-                                    <div className='flex flex-col gap-1 text-[12px] items-center'
+                                    <div className='flex flex-col gap-1 text-[12px] items-start'
                                         style={{ color: colors.attributes.hint }}>
                                         <img className="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data[0].attributes.url)} alt="" />
                                         © Lefrancois.Laurianne photographie

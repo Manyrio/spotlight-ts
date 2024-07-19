@@ -219,7 +219,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                 <div style={{ background: colors.attributes.background }} className={`hidden lg:block pointer-events-none absolute w-full h-full inset-0 z-50  ${position != EtudePosition.right ? "lg:opacity-0 lg:translate-x-[0]" : "lg:opacity-100 lg:translate-x-[100vw]"}  transition-opacity duration-300 `} />
 
                 <div className="absolute !z-50 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
-                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`lg:!z-50 lg:!-scale-x-100 ${position == EtudePosition.right ? 'lg:!-scale-x-100' : 'lg:!scale-x-100'}`} />
+                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`!z-50 !-scale-x-100 ${position == 'right' ? '!-scale-x-100' : '!scale-x-100'}`} />
                 </div>
 
 

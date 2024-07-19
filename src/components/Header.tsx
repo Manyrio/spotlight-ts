@@ -92,7 +92,7 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
   return (
     <Popover className="relative">
 
-      <PopoverButton ref={buttonRef} className="inline-flex items-center gap-x-1  leading-6 text-gray-900 outline-none">
+      <PopoverButton ref={buttonRef} className="inline-flex items-center gap-x-1 leading-6 text-gray-900 outline-none truncate ">
         <span>{name}</span>
         <ChevronDownIcon aria-hidden="true" className="ml-1 h-3 w-3" style={{ color: colors.attributes.accent }} />
       </PopoverButton>
@@ -385,7 +385,7 @@ export function Header() {
 
         <div
           ref={headerRef}
-          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out ${isScrolled ? 'shadow-lg' : ''} backdrop-blur-lg pointer-events-auto w-full`}
+          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out ${isScrolled ? 'shadow-lg backdrop-blur-lg' : ''} pointer-events-auto w-full`}
           style={{
             backgroundColor: isScrolled ? colors.attributes.background : "transparent",
             position:

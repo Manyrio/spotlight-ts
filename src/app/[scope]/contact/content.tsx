@@ -17,14 +17,25 @@ export default function ContactContent() {
   let [message, setMessage] = useState('')
   let [email, setEmail] = useState('')
   let [loader, setLoader] = useState(false)
+  let [response, setResponse] = useState("")
 
 
   async function submit(e: any) {
     e.preventDefault()
     if (loader) return
+    setMessage("")
     setLoader(true)
-    await call("/api/contact", Method.post, { message, email, name: name, lastName: lastName })
-    setLoader(false)
+    try {
+      await call("/api/contact", Method.post, { message: message, email: email, name: name, lastName: lastName })
+
+    } catch (error) {
+      setMessage("Erreur lors de l'envoi")
+
+    } finally {
+      setLoader(false)
+    }
+    setMessage("Message envoyé avec succès !")
+
   }
 
   return (
@@ -59,7 +70,7 @@ export default function ContactContent() {
                     id="first-name"
                     autoComplete="given-name"
                     className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                    style={{ background: colors.attributes.tintedBackground }}
+                    style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
 
                   />
                 </div>
@@ -80,7 +91,7 @@ export default function ContactContent() {
                     id="last-name"
                     autoComplete="family-name"
                     className="bg-gray-600/40  block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                    style={{ background: colors.attributes.tintedBackground }}
+                    style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
 
                   />
                 </div>
@@ -104,7 +115,7 @@ export default function ContactContent() {
                       type="email"
                       className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                      style={{ background: colors.attributes.tintedBackground }}
+                      style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
 
                     />
                   </div>
@@ -124,7 +135,7 @@ export default function ContactContent() {
                     rows={4}
                     className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
                     defaultValue={''}
-                    style={{ background: colors.attributes.tintedBackground }}
+                    style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
 
                   />
                 </div>
@@ -139,6 +150,7 @@ export default function ContactContent() {
               >
                 Envoyer le message
               </Button>
+              {message ? <div style={{ color: colors.attributes.indicator }}>{message}</div> : ""}
             </div>
             <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
               style={{ color: colors.attributes.hint }}

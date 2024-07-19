@@ -17,10 +17,11 @@ import clsx from 'clsx'
 import { Container } from '@/components/Container'
 import avatarImage from '@/images/avatar.jpg'
 import { AppContext } from '@/app/providers'
-import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ApiListResponse } from '@/models/other'
+import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ApiListResponse, Scope } from '@/models/other'
 import { Method, call } from '@/scripts/api'
 import { DocumentFile } from '@/models/documents'
+import { capitalizeFirstLetter } from '@/scripts/capitalize'
 
 
 
@@ -370,7 +371,7 @@ export function Header() {
     };
 
   }, [pathname]);
-  let { colors } = useContext(AppContext)
+  let { colors, scope } = useContext(AppContext)
 
   return (
     <>
@@ -399,19 +400,27 @@ export function Header() {
             }}
           >
             <div className="relative flex gap-4">
-              <div className="flex flex-1">
+              <div className="flex ">
                 <AvatarContainer>
                   <Avatar />
                 </AvatarContainer>
+                <Link className='flex items-center text-xs cursor-pointer rounded-full px-4 py-2 ml-2 font-medium'
+                  href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
+                  style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}
+                > <div className='max-lg:hidden'>Accéder à l'étude de&nbsp;</div> {capitalizeFirstLetter(scope == Scope.Cast ? Scope.Caulnes : Scope.Cast)} <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon>
+                </Link>
               </div>
-              <div className="flex flex-1 justify-end md:justify-center">
+              <div className="flex ml-auto justify-end md:justify-center">
                 <MobileNavigation props={{ className: "pointer-events-auto md:hidden" }} documents={documents} />
                 <DesktopNavigation props={{ className: "pointer-events-auto hidden md:block" }} documents={documents} />
               </div>
             </div>
           </Container>
-        </div>
-      </header>
+        </div >
+      </header >
+
+
+
 
     </>
   )

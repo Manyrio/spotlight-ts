@@ -65,7 +65,7 @@ Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en F
         ] // Liste des images
     ),
 
-    new Annonce('12345', // Identifiant de l'annonce
+    new Annonce('123456', // Identifiant de l'annonce
         TypeTransaction.Vente, // Type de transaction (Vente)
         new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
         294390, // Prix total (frais d'agence inclus)
@@ -300,7 +300,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
                                                                     return (
                                                                         <tr key={day}>
-                                                                            <td className='pr-4'>{day} </td>
+                                                                            <td className='pr-4 max-sm:block'>{day} </td>
                                                                             <td className="flex items-center">
                                                                                 {etude.attributes.ouvertures[day].map((ouverture, index) => (
                                                                                     <span key={index} className="block whitespace-nowrap">

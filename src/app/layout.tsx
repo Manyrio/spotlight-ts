@@ -95,9 +95,10 @@ export default async function RootLayout({
     <html lang="fr" className={"h-full antialiased"} suppressHydrationWarning>
 
 
-      <MainStyle etude={parameters.defaultEtude} />
 
       <body className={`flex h-full`}>
+        <MainStyle etude={parameters.defaultEtude} />
+
         <Providers etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
           <div className="flex w-full">
             <Layout colors={parameters.defaultEtude.attributes.colors.data}>{children}</Layout>

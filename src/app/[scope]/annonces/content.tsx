@@ -483,7 +483,7 @@ export default function AnnoncesContent() {
       ] // Liste des images
     ),
 
-    new Annonce('12345', // Identifiant de l'annonce
+    new Annonce('123456', // Identifiant de l'annonce
       TypeTransaction.Vente, // Type de transaction (Vente)
       new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
       294390, // Prix total (frais d'agence inclus)
@@ -542,7 +542,7 @@ export default function AnnoncesContent() {
         'https://media.immobilier.notaires.fr/inotr/media/29/22044/1620881/ad6c678a_VGA.jpg'
       ] // Liste des images
     ),
-    new Annonce('12345', // Identifiant de l'annonce
+    new Annonce('123457', // Identifiant de l'annonce
       TypeTransaction.Vente, // Type de transaction (Vente)
       new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
       250000, // Prix total (frais d'agence inclus)
@@ -589,7 +589,7 @@ export default function AnnoncesContent() {
       ] // Liste des images
     ),
 
-    new Annonce('12345', // Identifiant de l'annonce
+    new Annonce('123458', // Identifiant de l'annonce
       TypeTransaction.Vente, // Type de transaction (Vente)
       new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
       294390, // Prix total (frais d'agence inclus)

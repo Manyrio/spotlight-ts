@@ -93,7 +93,7 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
     <Popover className="relative">
 
       <PopoverButton ref={buttonRef} className="inline-flex items-center gap-x-1 leading-6 text-gray-900 outline-none truncate ">
-        <span>{name}</span>
+        <span style={{ color: colors.attributes.accent }} >{name}</span>
         <ChevronDownIcon aria-hidden="true" className="ml-1 h-3 w-3" style={{ color: colors.attributes.accent }} />
       </PopoverButton>
 
@@ -139,12 +139,14 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
                 {downloads.map((resource, index) => (
                   <li key={index} className="relative flex items-center w-full">
                     <div className='w-9/12'>
-                      <div className="block text-xs leading-6 text-gray-600  w-9/12">
+                      <div className="block text-xs leading-6 text-gray-600  w-9/12" style={{ color: colors.attributes.indicator }}>
                         {resource.description}
                       </div>
                       <Link
                         onClick={() => buttonRef.current?.click()}
-                        href={resource.href} className="block truncate w-9/12 text-sm font-semibold leading-6 text-gray-900">
+                        href={resource.href} className="block truncate w-9/12 text-sm font-semibold leading-6 text-gray-900"
+                        style={{ color: colors.attributes.accent }}
+                      >
                         {resource.name}
                         <span className="absolute inset-0" />
                       </Link>
@@ -177,7 +179,9 @@ function MobileNavigation(
 
       >
         Menu
-        <ChevronDownIcon className="ml-3 h-auto w-5 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400" />
+        <ChevronDownIcon className="ml-3 h-auto w-5"
+          style={{ color: colors.attributes.accent }}
+        />
       </PopoverButton>
       <Transition>
         <TransitionChild
@@ -404,15 +408,15 @@ export function Header() {
                 <AvatarContainer>
                   <Avatar />
                 </AvatarContainer>
-                <Link className='flex items-center text-xs cursor-pointer rounded-full px-4 py-2 ml-2 font-medium'
+                <Link className='flex items-center text-xs cursor-pointer rounded-full px-4 py-2 ml-2 font-medium whitespace-nowrap'
                   href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
                   style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}
-                > <div className='max-lg:hidden'>Accéder à l'étude de&nbsp;</div> {capitalizeFirstLetter(scope == Scope.Cast ? Scope.Caulnes : Scope.Cast)} <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon>
+                > <div className='max-xl:hidden'>Accéder à l'étude de&nbsp;</div> {capitalizeFirstLetter(scope == Scope.Cast ? Scope.Caulnes : Scope.Cast)} <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon>
                 </Link>
               </div>
               <div className="flex ml-auto justify-end md:justify-center">
-                <MobileNavigation props={{ className: "pointer-events-auto md:hidden" }} documents={documents} />
-                <DesktopNavigation props={{ className: "pointer-events-auto hidden md:block" }} documents={documents} />
+                <MobileNavigation props={{ className: "pointer-events-auto lg:hidden" }} documents={documents} />
+                <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} />
               </div>
             </div>
           </Container>

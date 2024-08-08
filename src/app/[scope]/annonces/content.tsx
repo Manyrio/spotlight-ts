@@ -165,7 +165,7 @@ function Contact() {
     } finally {
       setLoader(false)
     }
-    setMessage("Demande envoyée avec succès")
+    setMessage("Demande envoyée avec succès ! Nous vous recontacterons dans les plus brefs délais.")
 
   }
 
@@ -199,8 +199,8 @@ function Contact() {
           <div className="fixed inset-0 w-screen overflow-y-auto p-4 ">
             <div className="flex min-h-full items-center justify-center">
 
-              <DialogPanel className="max-w-lg space-y-4 border bg-white p-12 rounded-md"
-                style={{ color: colors.attributes.accent }}
+              <DialogPanel className="max-w-lg space-y-4  bg-white p-12 rounded-md"
+                style={{ color: colors.attributes.accent, background: colors.attributes.background }}
               >
                 <DialogTitle className="font-bold"
                   style={{ color: colors.attributes.accent }}
@@ -208,7 +208,7 @@ function Contact() {
                 <Description className={"pb-6"}
                   style={{ color: colors.attributes.indicator }}
 
-                >Faites votre demande en direct, nous reviendrons vers vous rapidement.</Description>
+                >Dites-nous ce que vous recherchez. Nous reviendrons vers vous rapidement.</Description>
 
                 <form onSubmit={(e) => submit(e)} >
 
@@ -227,8 +227,8 @@ function Contact() {
                           name="first-name"
                           id="first-name"
                           autoComplete="given-name"
-                          className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                          className="bg-gray-600/40 border-[1px]   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                         />
                       </div>
@@ -248,8 +248,8 @@ function Contact() {
                           name="last-name"
                           id="last-name"
                           autoComplete="family-name"
-                          className="bg-gray-600/40  block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                          className="bg-gray-600/40 border-[1px]   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                         />
                       </div>
@@ -271,9 +271,9 @@ function Contact() {
                             id="email"
                             name="email"
                             type="email"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40 border-[1px]    block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                           />
                         </div>
@@ -293,9 +293,9 @@ function Contact() {
                             id="tel"
                             name="tel"
                             type="phone"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40 border-[1px]    block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                           />
                         </div>
@@ -317,9 +317,9 @@ function Contact() {
                             value={type}
                             id="type"
                             name="type"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40 border-[1px]    block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}>
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}>
 
                             <option value="Appartement">Appartement</option>
                             <option value="Maison">Maison</option>
@@ -350,9 +350,9 @@ function Contact() {
                             id="budget"
                             name="budget"
                             type="number"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40  border-[1px]   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                           />
                         </div>
@@ -361,7 +361,7 @@ function Contact() {
 
                     </div>
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-4">
                     <Button
                       disabled={loader}
                       type="submit"
@@ -370,7 +370,7 @@ function Contact() {
                     >
                       Envoyer la demande
                     </Button>
-                    {message ? <div style={{ color: colors.attributes.indicator }}>{message}</div> : ""}
+                    {message ? <div style={{ color: colors.attributes.indicator }} className='mt-2'>{message}</div> : ""}
                   </div>
                   <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
                     style={{ color: colors.attributes.hint }}

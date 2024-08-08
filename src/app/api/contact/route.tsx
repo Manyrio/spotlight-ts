@@ -13,7 +13,7 @@ export async function POST(req: any) {
     let lastName = body["lastName"]
 
     try {
-        await sendMail("Nouveau message des notaires lol", "contact.hicards@gmail.com",
+        await sendMail("Nouveau message de https://laube-lhomme-caulnes.notaires.fr/", "contact.hicards@gmail.com",
             `${message} \n \n 
             email: ${email}\n 
             Prénom: ${name}\n 

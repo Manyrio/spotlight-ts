@@ -6,7 +6,6 @@ import { Layout } from '@/components/Layout'
 import '@/styles/tailwind.css'
 import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
-import { WebFont } from '@/models/fonts'
 import { headers } from 'next/headers';
 import { ApiListResponse, ApiRetrieveResponse, Scope } from '@/models/other'
 import { LienEtSocial } from '@/models/lienEtSocial'
@@ -17,7 +16,7 @@ import { Color } from '@/models/colors'
 
 
 async function getDefaultParameters() {
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
   let scope = Scope.Caulnes
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {

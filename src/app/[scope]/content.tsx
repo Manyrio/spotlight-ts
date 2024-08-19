@@ -143,7 +143,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                 <div className="mx-auto max-w-7xl w-full lg:h-screen ">
-                    <div className={`relative z-40 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? "lg:!translate-x-[2vw] lg:ml-[50%]" : "lg:!-translate-x-[2vw] lg:ml-0"}  `}>
+                    <div className={`relative z-40 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? " lg:ml-[50%]" : " lg:ml-0"}  `}>
                         <svg
                             viewBox="0 0 100 100"
                             preserveAspectRatio="none"
@@ -153,8 +153,8 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         >
                             <polygon points="0,0 90,0 50,100 0,100" />
                         </svg>
-                        <div className="relative px-6 py-20   lg:px-8 sm:py-30  lg:pr-0">
-                            <div className={`mx-auto max-w-2xl lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
+                        <div className="relative py-20   sm:py-30  lg:pr-0">
+                            <div className={`mx-auto max-w-2xl px-6 lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
                                 <div className={` mb-8 flex  ${position == EtudePosition.right ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1vw]' : 'lg:-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
                                     <div className={`relative rounded-full px-0 py-1 text-sm leading-6 textring-1 flex items-center ${position == EtudePosition.right ? "lg:ml-auto flex-row-reverse" : "lg:text-left"}`}
 
@@ -169,7 +169,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                         </Link>
                                     </div>
                                 </div>
-                                <h1 style={{ color: colors.attributes.accent }} className={`text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                                <h1 style={{ color: colors.attributes.accent }} className={`titleFont text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.name}
                                 </h1>
                                 <p style={{ color: colors.attributes.indicator }} className={`mt-6 text-lg leading-8 ${position == EtudePosition.right ? 'lg:pr-[2vw]' : 'lg:pl-[2vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[2vw]' : 'lg:-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>

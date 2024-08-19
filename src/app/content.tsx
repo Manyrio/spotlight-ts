@@ -30,7 +30,7 @@ export default function HomePageContent() {
                                         let colors = etude.attributes.colors.data
                                         return (<div className={`${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
 
-                                            <h1 style={{ color: colors.attributes.accent }} className={`text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                                            <h1 style={{ color: colors.attributes.accent }} className={`titleFont text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                                 {etude.attributes.name}
                                             </h1>
                                             <p style={{ color: colors.attributes.indicator }} className={`mt-6 text-lg leading-8 ${position == EtudePosition.right ? 'lg:pr-[2vw]' : 'lg:pl-[2vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[2vw]' : 'lg:-translate-x-[2vw]'} !transition-[transform] !duration-[500ms]`}>
@@ -42,7 +42,7 @@ export default function HomePageContent() {
                                                     style={{ background: colors.attributes.primary }}
                                                     className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm drop-shadow-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                                 >
-                                                   Accéder
+                                                    Accéder
                                                 </Link>
                                                 <Link
                                                     style={{ color: colors.attributes.accent }} href={`/${etude.attributes.slug}/contact`} className="text-sm font-semibold leading-6 text-gray-900">

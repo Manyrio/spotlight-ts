@@ -155,20 +155,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         </svg>
                         <div className="relative py-20   sm:py-30  lg:pr-0">
                             <div className={`mx-auto max-w-2xl px-6 lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
-                                <div className={` mb-8 flex  ${position == EtudePosition.right ? 'pr-[1vw]' : 'pl-[1vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1vw]' : 'lg:-translate-x-[1vw]'} !transition-[transform] !duration-[500ms]`}>
-                                    <div className={`relative rounded-full px-0 py-1 text-sm leading-6 textring-1 flex items-center ${position == EtudePosition.right ? "lg:ml-auto flex-row-reverse" : "lg:text-left"}`}
 
-                                        style={{ borderColor: colors.attributes.divider, color: colors.attributes.indicator }}
-                                    >
-
-                                        Accédez à l'étude de {capitalizeFirstLetter(scope == Scope.Cast ? "Caulnes" : "Cast")}
-                                        <span>&nbsp;-&nbsp;</span>
-                                        <Link href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}`} style={{ color: colors.attributes.indicator }} className="font-semibold text-black flex">
-                                            <span aria-hidden="true" className="absolute inset-0" />
-                                            {scope != Scope.Cast && <>←&nbsp;</>}Visiter {scope == Scope.Cast && <>&nbsp;→</>}
-                                        </Link>
-                                    </div>
-                                </div>
                                 <h1 style={{ color: colors.attributes.accent }} className={`titleFont text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.name}
                                 </h1>

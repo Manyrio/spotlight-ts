@@ -17,11 +17,12 @@ import clsx from 'clsx'
 import { Container } from '@/components/Container'
 import avatarImage from '@/images/avatar.jpg'
 import { AppContext } from '@/app/providers'
-import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ApiListResponse, Scope } from '@/models/other'
 import { Method, call } from '@/scripts/api'
 import { DocumentFile } from '@/models/documents'
 import { capitalizeFirstLetter } from '@/scripts/capitalize'
+import { EtudePosition } from '@/models/etudes'
 
 
 
@@ -167,14 +168,14 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 
 
 function MobileNavigation(
-  { props, documents }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents: DocumentFile[] }
+  { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents: DocumentFile[], isScrolled: boolean }
 ) {
   let { colors } = useContext(AppContext)
 
   return (
     <Popover {...props}>
-      <PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:dark:text-gray-200 text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
-        style={{ background: colors.attributes.tintedBackground, color: colors.attributes.accent }}
+      <PopoverButton className="group flex items-center rounded-full px-4 py-2 text-sm"
+        style={{ color: colors.attributes.accent }}
 
       >
         Menu
@@ -273,12 +274,12 @@ function NavItem({
   )
 }
 
-function DesktopNavigation({ props, documents }: { props: React.ComponentPropsWithoutRef<'nav'>, documents: DocumentFile[] }) {
+function DesktopNavigation({ props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<'nav'>, documents: DocumentFile[], isScrolled: boolean }) {
   let { colors, scope, etude } = useContext(AppContext)
 
   return (
     <nav {...props}>
-      <ul className="flex rounded-full px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur  " style={{ background: colors.attributes.tintedBackground }}>
+      <ul className={`flex rounded-full px-3 text-sm font-medium text-zinc-800 `} >
         <Navigation documents={documents}></Navigation>
       </ul>
     </nav>
@@ -339,6 +340,7 @@ export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
   let { colors, etude } = useContext(AppContext)
+  let position = etude.attributes.position
 
   let [documents, setDocuments] = useState<DocumentFile[]>([])
 
@@ -385,7 +387,7 @@ export function Header() {
   return (
     <>
       <header
-        className="pointer-events-none  w-full z-50 flex flex-none flex-col fixed top-0"
+        className="pointer-events-none  w-full z-[60] flex flex-none flex-col fixed top-0"
         style={{
           height: 'var(--header-height)',
           marginBottom: 'var(--header-mb)',
@@ -394,9 +396,9 @@ export function Header() {
 
         <div
           ref={headerRef}
-          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out ${isScrolled ? 'shadow-lg backdrop-blur-lg' : ''} pointer-events-auto w-full`}
+          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out pointer-events-auto w-full ${isScrolled ? 'shadow-lg backdrop-blur-xl ' : 'backdrop-blur !bg-transparent'}`}
           style={{
-            backgroundColor: isScrolled ? colors.attributes.background : "transparent",
+            background: colors.attributes.background,
             position:
               'var(--header-position)' as React.CSSProperties['position'],
           }}
@@ -413,8 +415,12 @@ export function Header() {
               <Link
                 href={`/${etude.attributes.slug}`}
                 aria-label="Home"
-                className={`transition-all shrink-0 absolute rounded-full  ${(!isScrolled && allowedResize) ? `!-bottom-16 ${etude.attributes.slug == Scope.Cast ? ' !-left-28' : ' !-right-12'}` : `${etude.attributes.slug == Scope.Cast ? ' !left-6' : ' !right-[calc(100%-70px)]'}  -bottom-[4px]`} max-lg:!left-0`}
-                style={{ background: colors.attributes.tintedBackground }}
+                className={`transition-all shrink-0 absolute rounded-full  
+                  ${(!isScrolled && allowedResize) ? `!-bottom-16 
+                    ${position == EtudePosition.left ? 'left-0 lg:!-left-28' : 'right-0 lg:!-right-12 '}`
+                    : `${position == EtudePosition.left ? 'left-0 lg:!left-6' : ' right-0 lg:!right-6'}  
+                    -bottom-[4px]`} `}
+
               >
                 <Image
                   src={avatarImage}
@@ -428,17 +434,22 @@ export function Header() {
               </Link>
 
 
-              <div className={`flex ml-auto lg:ml-0 justify-end md:justify-center transition-all`}>
-                <MobileNavigation props={{ className: "pointer-events-auto lg:hidden" }} documents={documents} />
-                <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} />
+              <div className={`flex  lg:ml-0 justify-end md:justify-center transition-all `}>
+                <MobileNavigation props={{ className: `pointer-events-auto lg:hidden` }} documents={documents} isScrolled={isScrolled} />
+                <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
               </div>
 
 
 
-              <Link className='max-lg:hidden flex absolute right-6 items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap'
+              <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
+              
+                transition-all shrink-0 absolute rounded-full  
+                    ${position == EtudePosition.right ? 'left-0 lg:!-left-6  ' : 'right-0 lg:!-right-6'}
+                    
+                    `}
                 href={`/${etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
-                style={{ color: colors.attributes.accent }}
-              > <div className='max-xl:hidden'></div> {capitalizeFirstLetter(etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast)} <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon>
+                style={{ color: colors.attributes.hint }}
+              >  {position == EtudePosition.right ? <ChevronLeftIcon className='h-4 w-4 mr-2'></ChevronLeftIcon> : ""} {capitalizeFirstLetter(etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast)} {position == EtudePosition.left ? <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon> : ""}
               </Link>
 
             </div>

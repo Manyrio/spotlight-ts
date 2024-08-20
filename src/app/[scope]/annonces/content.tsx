@@ -6,7 +6,7 @@ import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLa
 import { Annonce, TypeTransaction, FinancesImmobilieres, TypePropriete, ClasseEnergie, ClasseGaz, TypeChauffage, EtatPropriete, OrientationPropriete } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
-import { Description, Dialog, DialogPanel, DialogTitle, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
+import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { AppContext } from '@/app/providers';
 import Link from 'next/link';
@@ -194,7 +194,7 @@ function Contact() {
       {opened &&
 
         <Dialog open={opened} onClose={() => setOpened(false)}
-          className="fixed z-50 inset-0 flex w-screen items-center justify-center bg-black/30 p-4   "
+          className="fixed z-[100] inset-0 flex w-screen items-center justify-center bg-black/30 p-4   "
         >
           <div className="fixed inset-0 w-screen overflow-y-auto p-4 ">
             <div className="flex min-h-full items-center justify-center">
@@ -419,16 +419,55 @@ function FiltresAnnonces() {
     <section aria-labelledby="filter-heading" className=" pt-6">
       <Contact />
 
-      {/* <h2 id="filter-heading" className="sr-only">
+      <h2 id="filter-heading" className="sr-only">
         Filtres
-      </h2> */}
+      </h2>
 
-      {/* <div className="flex items-center gap-8 flex-wrap">
-        {wn({ tiDropDotle: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })}
-        {DropDown({ title: "Prix", enumObject: Prix, selected: Prix.zeroToHundred, setSelected: (value) => { console.log(value) } })}
+      <div className="flex items-center gap-8 flex-wrap">
 
-        {DropDown({ title: "Localisation", enumObject: Localisation, selected: Localisation.Paris, setSelected: (value) => { console.log(value) } })}
-      </div> */}
+
+        <div>
+
+          <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+            style={{ color: colors.attributes.indicator }}
+          >
+            Surface habitable minimum (m²)
+          </label>
+          <div className="mt-2.5">
+            <input
+              type="number"
+              min={9}
+              max={1000}
+              className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+              style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+            />
+          </div>
+        </div>
+        <div>
+
+          <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+            style={{ color: colors.attributes.indicator }}
+          >
+            Localisation (ville)
+          </label>
+          <div className="mt-2.5">
+            <input
+              type="text"
+              name="first-name"
+              id="first-name"
+              autoComplete="given-name"
+              className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+              style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+            />
+          </div>
+        </div>
+        {/* {wn({ tiDropDotle: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })} */}
+        {/* {DropDown({ title: "Prix", enumObject: Prix, selected: Prix.zeroToHundred, setSelected: (value) => { console.log(value) } })} */}
+
+        {/* {DropDown({ title: "Localisation", enumObject: Localisation, selected: Localisation.Paris, setSelected: (value) => { console.log(value) } })} */}
+      </div>
     </section>
   )
 }

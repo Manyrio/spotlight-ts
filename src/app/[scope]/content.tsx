@@ -142,17 +142,19 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
 
-                <div className="mx-auto max-w-7xl w-full lg:h-screen ">
+                <div className="mx-auto relative max-w-7xl w-full lg:h-screen ">
+                    <svg
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                        className={`absolute top-0 inset-y-0   z-10  ${position == EtudePosition.right ? " lg:!-scale-x-100 lg:right-[45%]" : " lg:!scale-x-100 lg:left-[45%]"}  hidden h-screen w-80   lg:block`}
+                        style={{ fill: colors.attributes.background }}
+                    >
+                        <polygon points="0,0 90,0 50,100 0,100" />
+                    </svg>
+
                     <div className={`relative z-40 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? " lg:ml-[50%]" : " lg:ml-0"}  `}>
-                        <svg
-                            viewBox="0 0 100 100"
-                            preserveAspectRatio="none"
-                            aria-hidden="true"
-                            className={`absolute inset-y-0 -right-[35%] -z-10  ${position == EtudePosition.right ? "lg:-translate-x-[235%] lg:!-scale-x-100" : "lg:translate-x-0 lg:!scale-x-100"}  hidden h-screen w-80   lg:block`}
-                            style={{ fill: colors.attributes.background }}
-                        >
-                            <polygon points="0,0 90,0 50,100 0,100" />
-                        </svg>
+
                         <div className="relative py-20   sm:py-30  lg:pr-0">
                             <div className={`mx-auto max-w-2xl px-6 lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
 
@@ -180,8 +182,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                     </div>
                 </div>
 
-                {position != EtudePosition.right ? <div className="hidden lg:block absolute inset-0 left-[50vw] w-[50vw] z-30 bg-gradient-to-r from-black/30 via-black/0 mix-blend-overlay" />
-                    : <div className="hidden lg:block absolute inset-0 left-[0vw] w-[50vw] z-30 bg-gradient-to-l from-black/30 via-black/0 mix-blend-overlay" />}
+
                 <div className={`hidden lg:block bg-gray-50 opacity-1 -ml-[3vw] -z-0 absolute top-0 left-0  w-screen h-screen   lg:left-[1vw] lg:-translate-x-[1vw]  ${position == EtudePosition.right ? "" : "lg:!left-[49vw] lg:!translate-x-[1vw] lg:!ml-[1vw]"} lg:absolute lg:inset-y-0  !transition-[transform] !duration-[500ms]  lg:w-[calc(50%+3vw)]`}>
 
 

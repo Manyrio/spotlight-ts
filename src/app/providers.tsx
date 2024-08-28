@@ -66,7 +66,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
             return;
         }
 
-        setScope(Scope.Caulnes)
+        setScope(Scope.Cast)
 
     }, [pathname])
 

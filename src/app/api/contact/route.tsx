@@ -9,16 +9,9 @@ export async function POST(req: any) {
 
     let message = body["message"]
     let email = body["email"]
-    let name = body["name"]
-    let lastName = body["lastName"]
 
     try {
-        await sendMail("Nouveau message de https://laube-lhomme-caulnes.notaires.fr/", "contact.hicards@gmail.com",
-            `${message} \n \n 
-            email: ${email}\n 
-            Prénom: ${name}\n 
-            Nom: ${lastName}
-            `, email)
+        await sendMail("Nouveau message de https://laube-lhomme-caulnes.notaires.fr/", "contact.hicards@gmail.com", message, email)
 
     } catch (error) {
 

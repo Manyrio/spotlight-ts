@@ -7,7 +7,7 @@ export async function sendMail(subject: string, toEmail: string, otpText: string
 
 
     var transporter = nodemailer.createTransport({
-        host: 'shunter.fr',
+        host: 'mail.shunter.fr',
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {

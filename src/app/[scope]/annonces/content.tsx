@@ -82,8 +82,8 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
 
 
   return (
-    <Link className="md:grid w-full md:grid-cols-3 md:items-center gap-8" href={`/annonces/${annonce.id} `}>
-      <Card className="md:col-span-1" >
+    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/annonces/${annonce.id} `}>
+      <Card className="md:col-span-2" >
         <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10" style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}>
           {annonce.type}
         </span>
@@ -127,7 +127,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
       </Card>
       <Card.Eyebrow
         as="p"
-        className="mt-1 hidden md:block md:col-span-2"
+        className="mt-1 hidden md:block md:col-span-2 "
       >
         <article
           key={annonce.id}

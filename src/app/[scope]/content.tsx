@@ -153,7 +153,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         <polygon points="0,0 90,0 50,100 0,100" />
                     </svg>
 
-                    <div className={`relative z-40 pt-14 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? " lg:ml-[50%]" : " lg:ml-0"}  `}>
+                    <div className={`relative z-40 pt-16 lg:pt-40 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? " lg:ml-[50%]" : " lg:ml-0"}  `}>
 
                         <div className="relative py-20   sm:py-30  lg:pr-0">
                             <div className={`mx-auto max-w-2xl px-6 lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
@@ -231,7 +231,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                 <div className="isolate w-full">
 
                     {/* Content section */}
-                    <div className="mx-auto max-w-7xl px-6 sm:mt-0 lg:px-8 pt-20">
+                    <div className="mx-auto max-w-7xl  sm:mt-0 pt-20">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Nous trouver</h2>
                             <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
@@ -327,7 +327,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
 
                     {/* Team section */}
-                    <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-30 lg:px-8">
+                    <div className="mx-auto mt-32 max-w-7xl  sm:mt-30 ">
                         <div className="mx-auto max-w-2xl lg:mx-0">
                             <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Rencontrez l'équipe</h2>
                             <p className="mt-6  text-lg leading-8 " style={{ color: colors.attributes.indicator }}>
@@ -362,7 +362,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                     </div>
 
                     {/* Blog section */}
-                    <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
+                    <div className="mx-auto mt-32 max-w-7xl sm:mt-40 ">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <h2 className=" text-3xl font-bold tracking-tight  text-gray-900  text-4xl" style={{ color: colors.attributes.accent }}>Annonces immobilières</h2>
                             <p className="mt-2  text-lg leading-8  text-gray-600" style={{ color: colors.attributes.indicator }}>

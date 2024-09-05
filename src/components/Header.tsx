@@ -358,7 +358,6 @@ export function Header() {
   }, [])
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [allowedResize, setAllowedResize] = useState(false);
   let pathname = usePathname()
 
   useEffect(() => {
@@ -367,12 +366,6 @@ export function Header() {
       const position = window.scrollY > 10;
       setIsScrolled(position);
     };
-
-    if (pathname == "/" + etude.attributes.slug) {
-      setAllowedResize(true)
-    } else {
-      setAllowedResize(false)
-    }
 
     handleScroll()
     // Attach the event listener
@@ -386,76 +379,98 @@ export function Header() {
 
   return (
     <>
-      <header
-        className="pointer-events-none  w-full z-[60] flex flex-none flex-col fixed top-0"
-        style={{
-          height: 'var(--header-height)',
-          marginBottom: 'var(--header-mb)',
-        }}
-      >
 
-        <div
-          ref={headerRef}
-          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out pointer-events-auto w-full ${isScrolled ? 'shadow-lg backdrop-blur-xl ' : 'backdrop-blur !bg-transparent'}`}
-          style={{
-            background: colors.attributes.background,
-            position:
-              'var(--header-position)' as React.CSSProperties['position'],
-          }}
-        >
-          <Container
-            className="top-[var(--header-top,theme(spacing.6))] w-full lg:!px-6"
+      {etude.attributes.slug != Scope.Unknown ?
+        <>
+          <header
+            className="pointer-events-none  w-full z-[60] flex flex-none flex-col fixed top-0"
             style={{
-              position:
-                'var(--header-inner-position)' as React.CSSProperties['position'],
+              height: 'var(--header-height)',
+              marginBottom: 'var(--header-mb)',
             }}
           >
-            <div className={` relative transiton-all w-full flex items-start justify-center gap-4 items-start relative`}>
-
-              <Link
-                href={`/${etude.attributes.slug}`}
-                aria-label="Home"
-                className={`transition-all shrink-0 absolute rounded-full  
-                  ${(!isScrolled && allowedResize) ? `!-bottom-16 
-                    ${position == EtudePosition.left ? 'left-0 lg:!-left-28' : 'right-0 lg:!-right-12 '}`
-                    : `${position == EtudePosition.left ? 'left-0 lg:!left-6' : ' right-0 lg:!right-6'}  
-                    -bottom-[4px]`} `}
-
+            <div
+              ref={headerRef}
+              className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out pointer-events-auto w-full ${isScrolled ? 'shadow-lg backdrop-blur-xl ' : 'backdrop-blur-sm !bg-transparent'}`}
+              style={{
+                background: colors.attributes.background,
+                position:
+                  'var(--header-position)' as React.CSSProperties['position'],
+              }}
+            >
+              <Container
+                className="top-[var(--header-top,theme(spacing.6))] w-full lg:!px-6"
+                style={{
+                  position:
+                    'var(--header-inner-position)' as React.CSSProperties['position'],
+                }}
               >
-                <Image
-                  src={avatarImage}
-                  alt=""
-                  className={clsx(
-                    'object-cover transition-all shrink-0',
-                    (!isScrolled && allowedResize) ? '!h-16 !w-16 p-3 ' : 'h-12 w-12 p-2',
-                  )}
-                  priority
-                />
-              </Link>
-
-
-              <div className={`flex  lg:ml-0 justify-end md:justify-center transition-all `}>
-                <MobileNavigation props={{ className: `pointer-events-auto lg:hidden` }} documents={documents} isScrolled={isScrolled} />
-                <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
-              </div>
+                <div className={` relative transiton-all w-full flex items-start flex-col items-center gap-4 justify-end relative transition-all ${!isScrolled ? "lg:pt-28" : "pt-0"}`}>
 
 
 
-              <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
-              
-                transition-all shrink-0 absolute rounded-full  
-                    ${position == EtudePosition.right ? 'left-0 lg:!-left-6  ' : 'right-0 lg:!-right-6'}
-                    
+                  <Link
+                    href={`/${etude.attributes.slug}`}
+                    aria-label="Home"
+                    className={`transition-all shrink-0  rounded-full   absolute
+                  ${!isScrolled ? ` top-0 right-[calc(50%-48px)]`
+                        :
+                        `right-[calc(50%-24px)] -top-[4px] lg:right-6 lg:-top-[4px]`} `}
+
+                  >
+                    <Image
+                      src={avatarImage}
+                      alt=""
+                      className={clsx(
+                        'object-cover transition-all shrink-0',
+                        !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
+                      )}
+                      priority
+                    />
+                  </Link>
+
+
+                  <div className={`flex  lg:ml-0 w-full justify-end md:justify-center transition-all `}>
+                    <MobileNavigation props={{ className: `pointer-events-auto lg:hidden ml-auto` }} documents={documents} isScrolled={isScrolled} />
+                    <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
+                  </div>
+
+
+
+                  <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
+                   transition-all shrink-0 absolute rounded-full  -left-0 lg:!left-0 
                     `}
-                href={`/${etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
-                style={{ color: colors.attributes.hint }}
-              >  {position == EtudePosition.right ? <ChevronLeftIcon className='h-4 w-4 mr-2'></ChevronLeftIcon> : ""} {capitalizeFirstLetter(etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast)} {position == EtudePosition.left ? <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon> : ""}
-              </Link>
+                    href={`/${etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
+                    style={{ color: colors.attributes.hint }}
+                  >  <ChevronLeftIcon className='h-4 w-4 mr-2'></ChevronLeftIcon>  {capitalizeFirstLetter(etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast)}
+                  </Link>
 
-            </div>
-          </Container>
-        </div >
-      </header >
+                </div>
+              </Container>
+            </div >
+          </header>
+        </>
+        :
+        <header
+          className='absolute  z-[60] top-0 left-0 w-full py-8 touch-none pointer-events-none'>
+          <Link
+            href={`/`}
+            aria-label="Home"
+            className={`transition-all shrink-0  rounded-full `}
+
+          >
+            <Image
+              src={avatarImage}
+              alt=""
+              className={clsx(
+                'object-cover transition-all mx-auto shrink-0 w-16 h-16 lg:h-32 lg:w-32 '
+              )}
+              priority
+            />
+          </Link>
+        </header >
+
+      }
 
 
 

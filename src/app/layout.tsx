@@ -12,12 +12,13 @@ import { LienEtSocial } from '@/models/lienEtSocial'
 import { Favicon } from '@/models/favicon'
 import { MainStyle } from '@/components/MainStyle'
 import { Color } from '@/models/colors'
+import { Image } from '@/models/image'
 
 
 
 async function getDefaultParameters() {
   let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
-  let scope = Scope.Cast
+  let scope = Scope.Unknown
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {
     scope = Scope.Caulnes
@@ -27,9 +28,9 @@ async function getDefaultParameters() {
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
   if (defaultEtude.attributes.slug == Scope.Unknown) {
     defaultEtude.attributes.colors.data = new Color()
+    defaultEtude.attributes.image.data = new Image()
   }
   let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
-
 
   return {
     defaultEtude: JSON.parse(JSON.stringify(defaultEtude)),

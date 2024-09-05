@@ -8,6 +8,7 @@ import { Scope } from '@/models/other'
 import { Color } from '@/models/colors'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { MainStyle } from '@/components/MainStyle'
+import { Image } from '@/models/image'
 
 
 
@@ -52,6 +53,11 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
     useEffect(() => {
         let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
         setEtude(etude)
+        console.log(etude)
+        if (etude.attributes.slug == Scope.Unknown) {
+            etude.attributes.colors.data = new Color()
+            etude.attributes.image.data = new Image()
+        }
         setColors(etude.attributes.colors.data)
         setLienEtSocial(lienEtSocial)
     }, [scope])
@@ -65,8 +71,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
             setScope(Scope.Cast)
             return;
         }
-
-        setScope(Scope.Cast)
+        setScope(Scope.Unknown)
 
     }, [pathname])
 

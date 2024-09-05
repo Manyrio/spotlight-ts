@@ -5,17 +5,17 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Member } from '@/models/members'
+import { Steps } from '@/models/steps'
 import { Method, call } from '@/scripts/api'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useRef, useState } from 'react'
 
-export default function RendezvousContent({ members }: { members: Member[] }) {
+export default function RendezvousContent({ members, steps }: { members: Member[], steps: Steps }) {
   const container = useRef(null)
   const containerNav = useRef(null)
   const containerOffset = useRef(null)
-
 
   let [currentStep, setCurrentStep] = useState<number>(1)
 
@@ -25,6 +25,8 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
   let [contact, setContact] = useState<Member>()
   let [loader, setLoader] = useState(false)
   let [response, setResponse] = useState("")
+
+  let [stepResponses, setStepReponses] = useState<any>({})
 
   let [name, setName] = useState('')
   let [lastName, setLastName] = useState('')
@@ -42,9 +44,10 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
   //       1440
   //   }, [])
 
+  const maxSteps = steps.attributes.steps.length + 4 //one final and three initial step
 
   useEffect(() => {
-    if (currentStep == 4 && !hasContact) setCurrentStep(currentStep - 1)
+    if (currentStep == maxSteps - 1 && !hasContact) setCurrentStep(currentStep - 1)
   }, [currentStep])
 
 
@@ -56,10 +59,21 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
     setLoader(true)
     try {
       await call("/api/contact", Method.post, {
-        message: `Nouvelle demande de rendez-vous concernant "${subject}" avec ${contact ? contact.attributes.name : "n'importe quel membre de l'équipe."}  Tél:${phone}`,
-        email: email,
-        name: name,
-        lastName: lastName
+        message: `Nouvelle demande de rendez-vous concernant avec ${contact ? contact.attributes.name : "n'importe quel membre de l'équipe."} 
+        <br/>
+        <br/>
+        Réponses aux questions:<br/><br/>
+        ${Object.keys(stepResponses).map((key) => {
+          return `${key}:<br/>${stepResponses[key]}`
+        }).join("<br/><br/>")}
+<br/><br/><br/>
+        Tél: ${phone}<br/>
+        Email: ${email}<br/>
+        Nom: ${name}<br/>
+        Prénom: ${lastName}
+
+        `,
+        email: email
       })
 
     } catch (error) {
@@ -69,9 +83,14 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
       setLoader(false)
     }
     setResponse("Demande envoyée avec succès ! Nous vons recontacterons dans les plus brefs délais.")
+    setEmail("")
+    setPhone("")
+    setName("")
+    setLastName("")
 
   }
-
+  console.log("maxSteps", maxSteps)
+  console.log("currentStep", currentStep)
 
   return (
 
@@ -108,61 +127,69 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
 
           }
 
-          {currentStep == 2 && <>
+          {(currentStep == 2 && openedCase) ?
+            <>
+              <span>{steps.attributes.contact.title}</span>
+              <span className='text-sm mt-2'
+                style={{ color: colors.attributes.indicator }}
+              >{steps.attributes.contact.description}</span>
 
-            {openedCase ?
-              <>
-                <span>Dossier déjà ouvert</span>
-                <span className='text-sm mt-2'
-                  style={{ color: colors.attributes.indicator }}
-                >Votre dossier est déjà ouvert, appelez-nous directement pour en discuter.</span>
-
-                <div className=" mt-9 dark:text-gray-200 text-base leading-7 gap-8 flex flex-col ">
+              <div className=" mt-9 dark:text-gray-200 text-base leading-7 gap-8 flex flex-col ">
 
 
 
-                  {etude.attributes.address && (
-                    <div>
-                      <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900"
-                        style={{ color: colors.attributes.accent, borderColor: colors.attributes.primary }}
+                {etude.attributes.address && (
+                  <div>
+                    <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900"
+                      style={{ color: colors.attributes.accent, borderColor: colors.attributes.primary }}
 
-                      >{etude.attributes.name}</h3>
-                      <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600"
-                        style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}
-                      >
-                        <p className='flex items-center'> <EnvelopeIcon className='h-4 w-4 mr-2'></EnvelopeIcon>{etude.attributes.email}</p>
-                        <p className='flex items-center'> <PhoneIcon className='h-4 w-4 mr-2'></PhoneIcon>{etude.attributes.phone}</p>
-                      </address>
-                    </div>
-                  )}
-
-
-
-                </div>
-              </> :
-              <>
-                <span>Sur quel sujet souhaitez-vous vous renseigner ?</span>
-                <div className='flex w-full flex-col gap-2 items-center mt-6'>
-
-                  <Button className='w-full' onClick={() => { setSubject("Succession"); setCurrentStep(currentStep + 1) }} style={{ background: colors.attributes.primary }}>Succession</Button>
-                  <Button className='w-full' onClick={() => { setSubject("Vente"); setCurrentStep(currentStep + 1) }} style={{ background: colors.attributes.primary }}>Vente</Button>
-                  <Button className='w-full' onClick={() => { setSubject("Donation"); setCurrentStep(currentStep + 1) }} style={{ background: colors.attributes.primary }}>Donation</Button>
-
-                </div>
-
-              </>
-            }
+                    >{etude.attributes.name}</h3>
+                    <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600"
+                      style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}
+                    >
+                      <p className='flex items-center'> <EnvelopeIcon className='h-4 w-4 mr-2'></EnvelopeIcon>{etude.attributes.email}</p>
+                      <p className='flex items-center'> <PhoneIcon className='h-4 w-4 mr-2'></PhoneIcon>{etude.attributes.phone}</p>
+                    </address>
+                  </div>
+                )}
 
 
 
-          </>
+              </div>
+            </>
+            :
+            <>
+              {(currentStep != 1 && currentStep < maxSteps - 2) &&
+                <>
+                  <span>{steps.attributes.steps[currentStep - 2].question}</span>
 
+                  <div className='flex w-full flex-col gap-2 items-center mt-6'>
+
+                    {steps.attributes.steps[currentStep - 2].responses.map((response, index) => {
+                      return <Button className='w-full' onClick={() => {
+                        var newStepResponses = { ...stepResponses };
+                        newStepResponses[steps.attributes.steps[currentStep - 2].question] = response.response
+                        setStepReponses(newStepResponses);
+                        setCurrentStep(currentStep + 1)
+                      }}
+                        style={{ background: colors.attributes.primary }}>{response.response}</Button>
+                    }
+                    )}
+
+                  </div>
+
+                </>
+
+              }
+            </>
           }
 
 
 
 
-          {currentStep == 3 && <>
+
+
+          {currentStep == maxSteps - 2 && <>
 
             <span>Avez-vous déjà un contact au sein de notre office ?</span>
 
@@ -177,7 +204,7 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
 
 
           {
-            currentStep == 4 && <>
+            currentStep == maxSteps - 1 && <>
 
               <span>Sélection du contact</span>
 
@@ -217,7 +244,7 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
 
 
           {
-            currentStep == 5 && <>
+            currentStep == maxSteps && <>
 
               <span>Quelques informations pour terminer...</span>
 
@@ -233,6 +260,7 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
                     </label>
                     <div className="mt-2.5">
                       <input
+                        required
                         onChange={(e) => setName(e.target.value)}
                         value={name}
                         type="text"
@@ -254,6 +282,7 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
                     </label>
                     <div className="mt-2.5">
                       <input
+                        required
                         onChange={(e) => setLastName(e.target.value)}
                         value={lastName}
                         type="text"
@@ -278,6 +307,7 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
                       </label>
                       <div className="mt-2.5">
                         <input
+                          required
                           onChange={(e) => setEmail(e.target.value)}
                           value={email}
                           id="email"
@@ -307,6 +337,7 @@ export default function RendezvousContent({ members }: { members: Member[] }) {
                       </label>
                       <div className="mt-2.5">
                         <input
+                          required
                           onChange={(e) => setPhone(e.target.value)}
                           value={phone}
                           id="phone"

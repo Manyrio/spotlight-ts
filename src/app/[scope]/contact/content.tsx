@@ -49,8 +49,8 @@ export default function ContactContent() {
 
 
 
-        <div className="-mt-6 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
-          <form action="#" method="POST" className="lg:flex-auto" onSubmit={(e) => submit(e)}
+        <div className="-mt-6 flex flex-col gap-8 sm:gap-y-20 lg:flex-row">
+          <form action="#" method="POST" className="lg:flex-auto max-w-2xl" onSubmit={(e) => submit(e)}
 
 
           >

@@ -33,7 +33,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
   let documentsAsResource = documents?.map((document) => ({
     name: document.attributes.name,
-    href: `https://adminpreview.hicards.fr${document.attributes.file.data.attributes.url}`,
+    href: `https://admin.laube-lhomme-caulnes.notaires.fr${document.attributes.file.data.attributes.url}`,
     description: document.attributes.description,
   }))
 
@@ -60,7 +60,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           [
             {
               name: "Nos Tarifs",
-              href: `https://adminpreview.hicards.fr${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
+              href: `https://admin.laube-lhomme-caulnes.notaires.fr${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
               description: `Consultez nos tarifs (${etude.attributes.name})`,
             },
             ...documentsAsResource as any

@@ -191,13 +191,13 @@ export default function HomeContent({ members }: { members: Member[] }) {
                             <img
                                 alt=""
                                 key={EtudePosition.right}
-                                src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
+                                src={"https://admin.laube-lhomme-caulnes.notaires.fr" + etude.attributes.image.data.attributes.url}
                                 className="  aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             /> :
                             <img
                                 alt=""
                                 key={EtudePosition.left}
-                                src={"https://adminpreview.hicards.fr" + etude.attributes.image.data.attributes.url}
+                                src={"https://admin.laube-lhomme-caulnes.notaires.fr" + etude.attributes.image.data.attributes.url}
                                 className=" aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             />
                     }
@@ -352,7 +352,7 @@ export default function HomeContent({ members }: { members: Member[] }) {
                                 memberIndex++
                                 return (
                                     <li key={member.attributes.name}>
-                                        <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                                        <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={"https://admin.laube-lhomme-caulnes.notaires.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
                                         <h3 className="mt-6  text-base font-semibold leading-7 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
                                         <p className=" text-sm leading-6  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
                                     </li>

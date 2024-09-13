@@ -229,7 +229,7 @@ export default function RendezvousContent({ members, steps }: { members: Member[
                     <li onClick={() => { setContact(member); setCurrentStep(currentStep + 1) }} key={member.attributes.name} className=' hover:brightness-[110%] transition-all border truncate p-4 rounded-md cursor-pointer  flex items-start flex-col  align-top '
                       style={{ borderColor: colors.attributes.border, backgroundColor: colors.attributes.tintedBackground }}
                     >
-                      <img className="h-14 w-14 rounded-full object-cover object-top" src={"https://adminpreview.hicards.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                      <img className="h-14 w-14 rounded-full object-cover object-top" src={"https://admin.laube-lhomme-caulnes.notaires.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
                       <h3 className="mt-4 w-full truncate  text-sm text-left font-semibold leading-4 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
                       <p className=" text-xs w-full truncate leading-6 text-left  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
                     </li>

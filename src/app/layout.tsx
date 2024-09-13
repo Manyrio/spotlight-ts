@@ -65,8 +65,8 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: [
         {
-          url: 'https://adminpreview.hicards.fr' + favicon.data.attributes.icon.data.attributes.url,
-          href: 'https://adminpreview.hicards.fr' + favicon.data.attributes.icon.data.attributes.url,
+          url: 'https://admin.laube-lhomme-caulnes.notaires.fr' + favicon.data.attributes.icon.data.attributes.url,
+          href: 'https://admin.laube-lhomme-caulnes.notaires.fr' + favicon.data.attributes.icon.data.attributes.url,
         },
       ],
     },

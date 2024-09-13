@@ -57,7 +57,7 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
             showThumbs={false}
             showStatus={false}>
             {carousel.attributes.images.data.map((image) => (
-              <img src={`https://adminpreview.hicards.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
+              <img src={`https://admin.laube-lhomme-caulnes.notaires.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
             ))}
           </Carousel>
         </div>
@@ -103,7 +103,7 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
               <div className="flex min-w-0 gap-x-4">
 
                 {label.attributes.image.data ?
-                  <img className='h-20 w-20 rounded-full shrink-0' src={"https://adminpreview.hicards.fr" + label.attributes.image.data.attributes.url}></img>
+                  <img className='h-20 w-20 rounded-full shrink-0' src={"https://admin.laube-lhomme-caulnes.notaires.fr" + label.attributes.image.data.attributes.url}></img>
                   :
                   <div className='rounded-full flex h-20 w-20 items-center justify-center shrink-0' style={{ background: colors.attributes.tintedBackground }} >
 

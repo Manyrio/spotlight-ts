@@ -42,6 +42,7 @@ export class Etude implements ObjectInterface {
             name: "",
             colors: new ApiRetrieveResponse<Color>(),
             font: new ApiRetrieveResponse<WebFont>(),
+            titleFont: new ApiRetrieveResponse<WebFont>(),
             pricing: new ApiRetrieveResponse<DocumentFile>(),
             image: new ApiRetrieveResponse<Image>(),
             description: "",

@@ -22,7 +22,7 @@ export async function call(url: string, method: Method, data: any = null, type =
 
 
         if (!url.startsWith("http") && !url.startsWith("/")) {
-            url = "https://adminpreview.hicards.fr/api/" + url
+            url = "https://admin.laube-lhomme-caulnes.notaires.fr/api/" + url
         }
 
 

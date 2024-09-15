@@ -8,6 +8,7 @@ import { Scope } from '@/models/other'
 import { Color } from '@/models/colors'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { MainStyle } from '@/components/MainStyle'
+import { Image } from '@/models/image'
 
 
 
@@ -24,29 +25,6 @@ function usePrevious<T>(value: T) {
 
 
 
-function ThemeWatcher() {
-    let { resolvedTheme, setTheme } = useTheme()
-
-    useEffect(() => {
-        let media = window.matchMedia('(prefers-color-scheme: dark)')
-
-        function onMediaChange() {
-            let systemTheme = media.matches ? 'dark' : 'light'
-            if (resolvedTheme === systemTheme) {
-                setTheme('system')
-            }
-        }
-
-        onMediaChange()
-        media.addEventListener('change', onMediaChange)
-
-        return () => {
-            media.removeEventListener('change', onMediaChange)
-        }
-    }, [resolvedTheme, setTheme])
-
-    return null
-}
 export const AppContext = createContext<{
     previousPathname?: string,
     scope: Scope,
@@ -75,6 +53,11 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
     useEffect(() => {
         let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
         setEtude(etude)
+        console.log(etude)
+        if (etude.attributes.slug == Scope.Unknown) {
+            etude.attributes.colors.data = new Color()
+            etude.attributes.image.data = new Image()
+        }
         setColors(etude.attributes.colors.data)
         setLienEtSocial(lienEtSocial)
     }, [scope])
@@ -88,8 +71,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
             setScope(Scope.Cast)
             return;
         }
-
-        setScope(Scope.Caulnes)
+        setScope(Scope.Unknown)
 
     }, [pathname])
 
@@ -103,7 +85,6 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
             previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
-                <ThemeWatcher />
                 <MainStyle etude={etude} important />
 
                 {children}

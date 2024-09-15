@@ -17,11 +17,12 @@ import clsx from 'clsx'
 import { Container } from '@/components/Container'
 import avatarImage from '@/images/avatar.jpg'
 import { AppContext } from '@/app/providers'
-import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ApiListResponse, Scope } from '@/models/other'
 import { Method, call } from '@/scripts/api'
 import { DocumentFile } from '@/models/documents'
 import { capitalizeFirstLetter } from '@/scripts/capitalize'
+import { EtudePosition } from '@/models/etudes'
 
 
 
@@ -32,7 +33,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
   let documentsAsResource = documents?.map((document) => ({
     name: document.attributes.name,
-    href: `https://adminpreview.hicards.fr${document.attributes.file.data.attributes.url}`,
+    href: `https://admin.laube-lhomme-caulnes.notaires.fr${document.attributes.file.data.attributes.url}`,
     description: document.attributes.description,
   }))
 
@@ -59,7 +60,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           [
             {
               name: "Nos Tarifs",
-              href: `https://adminpreview.hicards.fr${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
+              href: `https://admin.laube-lhomme-caulnes.notaires.fr${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
               description: `Consultez nos tarifs (${etude.attributes.name})`,
             },
             ...documentsAsResource as any
@@ -67,8 +68,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
         }></DropDown>
     </NavItem>
     <NavItem href={`/${scope}/annonces`}>Annonces Immobilières</NavItem>
-
-    <NavItem href={`/${scope}/conseils`}>  Conseils </NavItem >
+    <NavItem href={`/${scope}/conseils`}>Conseils </NavItem >
     <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
     <NavItem href={`/${scope}/contact`}>Contact</NavItem>
   </>)
@@ -86,14 +86,14 @@ interface Resource {
 
 function DropDown({ name, resources, downloads }: { name: string, resources: Resource[], downloads?: Resource[] }) {
   let { colors } = useContext(AppContext)
-  console.log(colors)
   const buttonRef: any = useRef();
+
 
   return (
     <Popover className="relative">
 
       <PopoverButton ref={buttonRef} className="inline-flex items-center gap-x-1 leading-6 text-gray-900 outline-none truncate ">
-        <span>{name}</span>
+        <span style={{ color: colors.attributes.accent }} >{name}</span>
         <ChevronDownIcon aria-hidden="true" className="ml-1 h-3 w-3" style={{ color: colors.attributes.accent }} />
       </PopoverButton>
 
@@ -139,12 +139,14 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
                 {downloads.map((resource, index) => (
                   <li key={index} className="relative flex items-center w-full">
                     <div className='w-9/12'>
-                      <div className="block text-xs leading-6 text-gray-600  w-9/12">
+                      <div className="block text-xs leading-6 text-gray-600  w-9/12" style={{ color: colors.attributes.indicator }}>
                         {resource.description}
                       </div>
                       <Link
                         onClick={() => buttonRef.current?.click()}
-                        href={resource.href} className="block truncate w-9/12 text-sm font-semibold leading-6 text-gray-900">
+                        href={resource.href} className="block truncate w-9/12 text-sm font-semibold leading-6 text-gray-900"
+                        style={{ color: colors.attributes.accent }}
+                      >
                         {resource.name}
                         <span className="absolute inset-0" />
                       </Link>
@@ -166,18 +168,20 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 
 
 function MobileNavigation(
-  { props, documents }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents: DocumentFile[] }
+  { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents: DocumentFile[], isScrolled: boolean }
 ) {
-  let { scope, etude, colors } = useContext(AppContext)
+  let { colors } = useContext(AppContext)
 
   return (
     <Popover {...props}>
-      <PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:dark:text-gray-200 text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
-        style={{ background: colors.attributes.tintedBackground, color: colors.attributes.accent }}
+      <PopoverButton className="group flex items-center rounded-full px-4 py-2 text-sm"
+        style={{ color: colors.attributes.accent }}
 
       >
         Menu
-        <ChevronDownIcon className="ml-3 h-auto w-5 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400" />
+        <ChevronDownIcon className="ml-3 h-auto w-5"
+          style={{ color: colors.attributes.accent }}
+        />
       </PopoverButton>
       <Transition>
         <TransitionChild
@@ -188,8 +192,7 @@ function MobileNavigation(
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <PopoverOverlay className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm"
-            style={{ background: colors.attributes.tintedBackground }}
+          <PopoverOverlay className="fixed h-screen w-screen inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm"
           />
         </TransitionChild>
         <TransitionChild
@@ -217,7 +220,7 @@ function MobileNavigation(
                 <h2 className="dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
                   style={{ color: colors.attributes.accent }}
                 >
-                  Navigation
+                  Menu
                 </h2>
               </div>
               <nav className="mt-6">
@@ -240,7 +243,6 @@ function NavItem({
   href?: string
   children: React.ReactNode
 }) {
-  console.log()
   let isActive = usePathname() == href
 
   let { colors } = useContext(AppContext)
@@ -250,6 +252,7 @@ function NavItem({
     <li
       style={{ borderColor: colors.attributes.border }}
     >
+
       <Link
         href={href || "#"}
         className={clsx(
@@ -271,12 +274,12 @@ function NavItem({
   )
 }
 
-function DesktopNavigation({ props, documents }: { props: React.ComponentPropsWithoutRef<'nav'>, documents: DocumentFile[] }) {
+function DesktopNavigation({ props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<'nav'>, documents: DocumentFile[], isScrolled: boolean }) {
   let { colors, scope, etude } = useContext(AppContext)
 
   return (
     <nav {...props}>
-      <ul className="flex rounded-full px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur  " style={{ background: colors.attributes.tintedBackground }}>
+      <ul className={`flex rounded-full px-3 text-sm font-medium text-zinc-800 `} >
         <Navigation documents={documents}></Navigation>
       </ul>
     </nav>
@@ -336,6 +339,8 @@ function Avatar({
 export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
+  let { colors, etude } = useContext(AppContext)
+  let position = etude.attributes.position
 
   let [documents, setDocuments] = useState<DocumentFile[]>([])
 
@@ -358,7 +363,7 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       // Set isScrolled to true if the page is scrolled more than 50 pixels, otherwise false
-      const position = window.scrollY > 50;
+      const position = window.scrollY > 10;
       setIsScrolled(position);
     };
 
@@ -370,54 +375,102 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
 
-  }, [pathname]);
-  let { colors, scope } = useContext(AppContext)
+  }, [pathname, etude]);
 
   return (
     <>
-      <header
-        className="pointer-events-none  w-full z-50 flex flex-none flex-col fixed top-0"
-        style={{
-          height: 'var(--header-height)',
-          marginBottom: 'var(--header-mb)',
-        }}
-      >
 
-        <div
-          ref={headerRef}
-          className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out ${isScrolled ? 'shadow-lg backdrop-blur-lg' : ''} pointer-events-auto w-full`}
-          style={{
-            backgroundColor: isScrolled ? colors.attributes.background : "transparent",
-            position:
-              'var(--header-position)' as React.CSSProperties['position'],
-          }}
-        >
-          <Container
-            className="top-[var(--header-top,theme(spacing.6))] w-full"
+      {etude.attributes.slug != Scope.Unknown ?
+        <>
+          <header
+            className="pointer-events-none  w-full z-[60] flex flex-none flex-col fixed top-0"
             style={{
-              position:
-                'var(--header-inner-position)' as React.CSSProperties['position'],
+              height: 'var(--header-height)',
+              marginBottom: 'var(--header-mb)',
             }}
           >
-            <div className="relative flex gap-4">
-              <div className="flex ">
-                <AvatarContainer>
-                  <Avatar />
-                </AvatarContainer>
-                <Link className='flex items-center text-xs cursor-pointer rounded-full px-4 py-2 ml-2 font-medium'
-                  href={`/${scope == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
-                  style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}
-                > <div className='max-lg:hidden'>Accéder à l'étude de&nbsp;</div> {capitalizeFirstLetter(scope == Scope.Cast ? Scope.Caulnes : Scope.Cast)} <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon>
-                </Link>
-              </div>
-              <div className="flex ml-auto justify-end md:justify-center">
-                <MobileNavigation props={{ className: "pointer-events-auto md:hidden" }} documents={documents} />
-                <DesktopNavigation props={{ className: "pointer-events-auto hidden md:block" }} documents={documents} />
-              </div>
-            </div>
-          </Container>
-        </div >
-      </header >
+            <div
+              ref={headerRef}
+              className={`top-0 z-10  ${isScrolled ? 'h-18 pt-4 pb-4' : 'h-22 pt-6 pb-6'} transition-all duration-200 ease-in-out pointer-events-auto w-full ${isScrolled ? 'shadow-lg backdrop-blur-xl ' : 'backdrop-blur-sm !bg-transparent'}`}
+              style={{
+                background: colors.attributes.background,
+                position:
+                  'var(--header-position)' as React.CSSProperties['position'],
+              }}
+            >
+              <Container
+                className="top-[var(--header-top,theme(spacing.6))] w-full lg:!px-6"
+                style={{
+                  position:
+                    'var(--header-inner-position)' as React.CSSProperties['position'],
+                }}
+              >
+                <div className={` relative transiton-all w-full flex items-start flex-col items-center gap-4 justify-end relative transition-all ${!isScrolled ? "lg:pt-28" : "pt-0"}`}>
+
+
+
+                  <Link
+                    href={`/${etude.attributes.slug}`}
+                    aria-label="Home"
+                    className={`transition-all shrink-0  rounded-full   absolute
+                  ${!isScrolled ? ` top-0 right-[calc(50%-48px)]`
+                        :
+                        `right-[calc(50%-24px)] -top-[4px] lg:right-6 lg:-top-[4px]`} `}
+
+                  >
+                    <Image
+                      src={avatarImage}
+                      alt=""
+                      className={clsx(
+                        'object-cover transition-all shrink-0',
+                        !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
+                      )}
+                      priority
+                    />
+                  </Link>
+
+
+                  <div className={`flex  lg:ml-0 w-full justify-end md:justify-center transition-all `}>
+                    <MobileNavigation props={{ className: `pointer-events-auto lg:hidden ml-auto` }} documents={documents} isScrolled={isScrolled} />
+                    <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
+                  </div>
+
+
+
+                  <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
+                   transition-all shrink-0 absolute rounded-full  -left-0 lg:!left-0 
+                    `}
+                    href={`/${etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
+                    style={{ color: colors.attributes.hint }}
+                  >  <ChevronLeftIcon className='h-4 w-4 mr-2'></ChevronLeftIcon>  {capitalizeFirstLetter(etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast)}
+                  </Link>
+
+                </div>
+              </Container>
+            </div >
+          </header>
+        </>
+        :
+        <header
+          className='absolute  z-[60] top-0 left-0 w-full py-8 touch-none pointer-events-none'>
+          <Link
+            href={`/`}
+            aria-label="Home"
+            className={`transition-all shrink-0  rounded-full `}
+
+          >
+            <Image
+              src={avatarImage}
+              alt=""
+              className={clsx(
+                'object-cover transition-all mx-auto shrink-0 w-16 h-16 lg:h-32 lg:w-32 '
+              )}
+              priority
+            />
+          </Link>
+        </header >
+
+      }
 
 
 

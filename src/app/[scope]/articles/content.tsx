@@ -27,7 +27,7 @@ export default function ArticlesContent({ articles }: { articles: Article[] }) {
 
                             {
                                 article.attributes.image.data ?
-                                    <img className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover" src={"https://adminpreview.hicards.fr" + (article.attributes.image.data.attributes.url)} alt="" />
+                                    <img className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover" src={"https://admin.laube-lhomme-caulnes.notaires.fr" + (article.attributes.image.data.attributes.url)} alt="" />
 
                                     : <div className='absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover flex items-center justify-center' style={{ background: colors.attributes.tintedBackground }}>
 

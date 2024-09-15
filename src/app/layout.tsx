@@ -6,19 +6,19 @@ import { Layout } from '@/components/Layout'
 import '@/styles/tailwind.css'
 import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
-import { WebFont } from '@/models/fonts'
 import { headers } from 'next/headers';
 import { ApiListResponse, ApiRetrieveResponse, Scope } from '@/models/other'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { Favicon } from '@/models/favicon'
 import { MainStyle } from '@/components/MainStyle'
 import { Color } from '@/models/colors'
+import { Image } from '@/models/image'
 
 
 
 async function getDefaultParameters() {
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
-  let scope = Scope.Caulnes
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+  let scope = Scope.Unknown
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {
     scope = Scope.Caulnes
@@ -28,9 +28,9 @@ async function getDefaultParameters() {
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
   if (defaultEtude.attributes.slug == Scope.Unknown) {
     defaultEtude.attributes.colors.data = new Color()
+    defaultEtude.attributes.image.data = new Image()
   }
   let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
-
 
   return {
     defaultEtude: JSON.parse(JSON.stringify(defaultEtude)),
@@ -65,8 +65,8 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: [
         {
-          url: 'https://adminpreview.hicards.fr' + favicon.data.attributes.icon.data.attributes.url,
-          href: 'https://adminpreview.hicards.fr' + favicon.data.attributes.icon.data.attributes.url,
+          url: 'https://admin.laube-lhomme-caulnes.notaires.fr' + favicon.data.attributes.icon.data.attributes.url,
+          href: 'https://admin.laube-lhomme-caulnes.notaires.fr' + favicon.data.attributes.icon.data.attributes.url,
         },
       ],
     },
@@ -95,9 +95,10 @@ export default async function RootLayout({
     <html lang="fr" className={"h-full antialiased"} suppressHydrationWarning>
 
 
-      <MainStyle etude={parameters.defaultEtude} />
 
       <body className={`flex h-full`}>
+        <MainStyle etude={parameters.defaultEtude} />
+
         <Providers etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
           <div className="flex w-full">
             <Layout colors={parameters.defaultEtude.attributes.colors.data}>{children}</Layout>

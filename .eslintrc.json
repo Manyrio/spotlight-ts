@@ -1,6 +1,12 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "react/no-unescaped-entities": 0
+    "react/no-unescaped-entities": 0,
+    "react/jsx-key": [
+      1,
+      {
+        "checkFragmentShorthand": true
+      }
+    ]
   }
 }

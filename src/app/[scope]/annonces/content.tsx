@@ -419,16 +419,16 @@ function FiltresAnnonces() {
     <section aria-labelledby="filter-heading" className=" pt-6">
       <Contact />
 
-      <h2 id="filter-heading" className="sr-only">
+      {/* <h2 id="filter-heading" className="sr-only">
         Filtres
-      </h2>
+      </h2> */}
 
-      <div className="flex items-center gap-8 flex-wrap">
-        {DropDown({ title: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })}
+      {/* <div className="flex items-center gap-8 flex-wrap">
+        {wn({ tiDropDotle: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })}
         {DropDown({ title: "Prix", enumObject: Prix, selected: Prix.zeroToHundred, setSelected: (value) => { console.log(value) } })}
 
         {DropDown({ title: "Localisation", enumObject: Localisation, selected: Localisation.Paris, setSelected: (value) => { console.log(value) } })}
-      </div>
+      </div> */}
     </section>
   )
 }

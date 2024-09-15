@@ -6,7 +6,7 @@ import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLa
 import { Annonce, TypeTransaction, FinancesImmobilieres, TypePropriete, ClasseEnergie, ClasseGaz, TypeChauffage, EtatPropriete, OrientationPropriete } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
-import { Description, Dialog, DialogPanel, DialogTitle, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
+import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { AppContext } from '@/app/providers';
 import Link from 'next/link';
@@ -82,8 +82,8 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
 
 
   return (
-    <Link className="md:grid w-full md:grid-cols-3 md:items-center gap-8" href={`/annonces/${annonce.id} `}>
-      <Card className="md:col-span-1" >
+    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/annonces/${annonce.id} `}>
+      <Card className="md:col-span-2" >
         <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10" style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}>
           {annonce.type}
         </span>
@@ -127,7 +127,7 @@ function ElementAnnonce({ annonce }: { annonce: Annonce }) {
       </Card>
       <Card.Eyebrow
         as="p"
-        className="mt-1 hidden md:block md:col-span-2"
+        className="mt-1 hidden md:block md:col-span-2 "
       >
         <article
           key={annonce.id}
@@ -165,7 +165,7 @@ function Contact() {
     } finally {
       setLoader(false)
     }
-    setMessage("Demande envoyée avec succès")
+    setMessage("Demande envoyée avec succès ! Nous vous recontacterons dans les plus brefs délais.")
 
   }
 
@@ -194,13 +194,13 @@ function Contact() {
       {opened &&
 
         <Dialog open={opened} onClose={() => setOpened(false)}
-          className="fixed z-50 inset-0 flex w-screen items-center justify-center bg-black/30 p-4   "
+          className="fixed z-[100] inset-0 flex w-screen items-center justify-center bg-black/30 p-4   "
         >
           <div className="fixed inset-0 w-screen overflow-y-auto p-4 ">
             <div className="flex min-h-full items-center justify-center">
 
-              <DialogPanel className="max-w-lg space-y-4 border bg-white p-12 rounded-md"
-                style={{ color: colors.attributes.accent }}
+              <DialogPanel className="max-w-lg space-y-4  bg-white p-12 rounded-md"
+                style={{ color: colors.attributes.accent, background: colors.attributes.background }}
               >
                 <DialogTitle className="font-bold"
                   style={{ color: colors.attributes.accent }}
@@ -208,7 +208,7 @@ function Contact() {
                 <Description className={"pb-6"}
                   style={{ color: colors.attributes.indicator }}
 
-                >Faites votre demande en direct, nous reviendrons vers vous rapidement.</Description>
+                >Dites-nous ce que vous recherchez. Nous reviendrons vers vous rapidement.</Description>
 
                 <form onSubmit={(e) => submit(e)} >
 
@@ -227,8 +227,8 @@ function Contact() {
                           name="first-name"
                           id="first-name"
                           autoComplete="given-name"
-                          className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                          className="bg-gray-600/40 border-[1px]   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                         />
                       </div>
@@ -248,8 +248,8 @@ function Contact() {
                           name="last-name"
                           id="last-name"
                           autoComplete="family-name"
-                          className="bg-gray-600/40  block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                          className="bg-gray-600/40 border-[1px]   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                          style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                         />
                       </div>
@@ -271,9 +271,9 @@ function Contact() {
                             id="email"
                             name="email"
                             type="email"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40 border-[1px]    block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                           />
                         </div>
@@ -293,9 +293,9 @@ function Contact() {
                             id="tel"
                             name="tel"
                             type="phone"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40 border-[1px]    block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                           />
                         </div>
@@ -317,9 +317,9 @@ function Contact() {
                             value={type}
                             id="type"
                             name="type"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40 border-[1px]    block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}>
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}>
 
                             <option value="Appartement">Appartement</option>
                             <option value="Maison">Maison</option>
@@ -350,9 +350,9 @@ function Contact() {
                             id="budget"
                             name="budget"
                             type="number"
-                            className="bg-gray-600/40   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                            className="bg-gray-600/40  border-[1px]   block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
 
-                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator }}
+                            style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
 
                           />
                         </div>
@@ -361,7 +361,7 @@ function Contact() {
 
                     </div>
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-4">
                     <Button
                       disabled={loader}
                       type="submit"
@@ -370,7 +370,7 @@ function Contact() {
                     >
                       Envoyer la demande
                     </Button>
-                    {message ? <div style={{ color: colors.attributes.indicator }}>{message}</div> : ""}
+                    {message ? <div style={{ color: colors.attributes.indicator }} className='mt-2'>{message}</div> : ""}
                   </div>
                   <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
                     style={{ color: colors.attributes.hint }}
@@ -419,236 +419,276 @@ function FiltresAnnonces() {
     <section aria-labelledby="filter-heading" className=" pt-6">
       <Contact />
 
-      {/* <h2 id="filter-heading" className="sr-only">
+      <h2 id="filter-heading" className="sr-only">
         Filtres
-      </h2> */}
+      </h2>
 
-      {/* <div className="flex items-center gap-8 flex-wrap">
-        {wn({ tiDropDotle: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })}
-        {DropDown({ title: "Prix", enumObject: Prix, selected: Prix.zeroToHundred, setSelected: (value) => { console.log(value) } })}
+      <div className="flex items-center gap-8 flex-wrap">
 
-        {DropDown({ title: "Localisation", enumObject: Localisation, selected: Localisation.Paris, setSelected: (value) => { console.log(value) } })}
-      </div> */}
+
+        <div>
+
+          <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+            style={{ color: colors.attributes.indicator }}
+          >
+            Surface habitable minimum (m²)
+          </label>
+          <div className="mt-2.5">
+            <input
+              type="number"
+              min={9}
+              max={1000}
+              className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+              style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+            />
+          </div>
+        </div>
+        <div>
+
+          <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+            style={{ color: colors.attributes.indicator }}
+          >
+            Localisation (ville)
+          </label>
+          <div className="mt-2.5">
+            <input
+              type="text"
+              name="first-name"
+              id="first-name"
+              autoComplete="given-name"
+              className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+              style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+            />
+          </div>
+        </div>
+        {/* {wn({ tiDropDotle: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })} */}
+        {/* {DropDown({ title: "Prix", enumObject: Prix, selected: Prix.zeroToHundred, setSelected: (value) => { console.log(value) } })} */}
+
+        {/* {DropDown({ title: "Localisation", enumObject: Localisation, selected: Localisation.Paris, setSelected: (value) => { console.log(value) } })} */}
+      </div>
     </section>
   )
 }
 
 export default function AnnoncesContent() {
   const { colors } = useContext(AppContext)
-  let annonces: Annonce[] = [
-    new Annonce('12345', // Identifiant de l'annonce
-      TypeTransaction.Vente, // Type de transaction (Vente)
-      new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-      250000, // Prix total (frais d'agence inclus)
-      0.05, // Pourcentage des frais d'agence
-      {
-        latitude: 48.8566,
-        longitude: 2.3522,
-        addresse: {
-          rue: '1 rue de Paris',
-          codePostal: '75001',
-          ville: 'Caulnes',
-          pays: 'France'
-        }
-      }, // Localisation
-      {
-        type: TypePropriete.Appartement, // Type de propriété (Appartement)
-        surface: 75, // Surface totale en m²
-        surfaceHabitable: 70, // Surface habitable en m²
-        pieces: 3, // Nombre de pièces
-        chambres: 2, // Nombre de chambres
-        sallesDeBain: 1, // Nombre de salles de bain
-        classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-        classeGaz: ClasseGaz.C, // Classe gaz (C)
-        typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-        etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-        orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-      }, // Propriété
-      `Maison / villa à vendre - BROONS (22250)
+  let annonces: any = []
+  // let annonces: Annonce[] = [
+  //   new Annonce('12345', // Identifiant de l'annonce
+  //     TypeTransaction.Vente, // Type de transaction (Vente)
+  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
+  //     250000, // Prix total (frais d'agence inclus)
+  //     0.05, // Pourcentage des frais d'agence
+  //     {
+  //       latitude: 48.8566,
+  //       longitude: 2.3522,
+  //       addresse: {
+  //         rue: '1 rue de Paris',
+  //         codePostal: '75001',
+  //         ville: 'Caulnes',
+  //         pays: 'France'
+  //       }
+  //     }, // Localisation
+  //     {
+  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
+  //       surface: 75, // Surface totale en m²
+  //       surfaceHabitable: 70, // Surface habitable en m²
+  //       pieces: 3, // Nombre de pièces
+  //       chambres: 2, // Nombre de chambres
+  //       sallesDeBain: 1, // Nombre de salles de bain
+  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
+  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
+  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
+  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
+  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
+  //     }, // Propriété
+  //     `Maison / villa à vendre - BROONS (22250)
 
-          Une maison de 139m² comprenant :
-          - Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
-          - A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
-          - Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
-          Dépendances : garage, préau, chenil, serre
-          Jardin de 1988m²
+  //         Une maison de 139m² comprenant :
+  //         - Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
+  //         - A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
+  //         - Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
+  //         Dépendances : garage, préau, chenil, serre
+  //         Jardin de 1988m²
 
-          Visites : Sur rendez-vous.
+  //         Visites : Sur rendez-vous.
 
-          Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
-      'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-      new Date(), // Date de la dernière mise à jour
-      [
-        'https://media.immobilier.notaires.fr/inotr/media/29/22044/1604370/781b34f5_VGA.jpg'
-      ] // Liste des images
-    ),
+  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
+  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
+  //     new Date(), // Date de la dernière mise à jour
+  //     [
+  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1604370/781b34f5_VGA.jpg'
+  //     ] // Liste des images
+  //   ),
 
-    new Annonce('12345', // Identifiant de l'annonce
-      TypeTransaction.Vente, // Type de transaction (Vente)
-      new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-      294390, // Prix total (frais d'agence inclus)
-      0.051, // Pourcentage des frais d'agence
-      {
-        latitude: 48.8566,
-        longitude: 2.3522,
-        addresse: {
-          rue: '1 rue de Paris',
-          codePostal: '75001',
-          ville: 'Caulnes',
-          pays: 'France'
-        }
-      }, // Localisation
-      {
-        type: TypePropriete.Appartement, // Type de propriété (Appartement)
-        surface: 75, // Surface totale en m²
-        surfaceHabitable: 70, // Surface habitable en m²
-        pieces: 3, // Nombre de pièces
-        chambres: 2, // Nombre de chambres
-        sallesDeBain: 1, // Nombre de salles de bain
-        classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-        classeGaz: ClasseGaz.C, // Classe gaz (C)
-        typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-        etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-        orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-      }, // Propriété
-      `  Maison / villa à vendre - DINARD (35800)
+  //   new Annonce('123456', // Identifiant de l'annonce
+  //     TypeTransaction.Vente, // Type de transaction (Vente)
+  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
+  //     294390, // Prix total (frais d'agence inclus)
+  //     0.051, // Pourcentage des frais d'agence
+  //     {
+  //       latitude: 48.8566,
+  //       longitude: 2.3522,
+  //       addresse: {
+  //         rue: '1 rue de Paris',
+  //         codePostal: '75001',
+  //         ville: 'Caulnes',
+  //         pays: 'France'
+  //       }
+  //     }, // Localisation
+  //     {
+  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
+  //       surface: 75, // Surface totale en m²
+  //       surfaceHabitable: 70, // Surface habitable en m²
+  //       pieces: 3, // Nombre de pièces
+  //       chambres: 2, // Nombre de chambres
+  //       sallesDeBain: 1, // Nombre de salles de bain
+  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
+  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
+  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
+  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
+  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
+  //     }, // Propriété
+  //     `  Maison / villa à vendre - DINARD (35800)
 
-          A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-          1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-          Maison 4 pièces de 69,15 m² composée de :
-          - Au RDC : garage, séjour -cuisine, dégagement, wc
-          - A l'étage mansardé : trois chambres, salle de bains, wc
-          Jardin de 381m²
-          Pas de vis à vis, au calme d'une impasse.
+  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+  //         Maison 4 pièces de 69,15 m² composée de :
+  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
+  //         - A l'étage mansardé : trois chambres, salle de bains, wc
+  //         Jardin de 381m²
+  //         Pas de vis à vis, au calme d'une impasse.
 
-          Visites : Sur rendez-vous.
+  //         Visites : Sur rendez-vous.
 
-          Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
+  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
 
-          A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-          1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-          Maison 4 pièces de 69,15 m² composée de :
-          - Au RDC : garage, séjour -cuisine, dégagement, wc
-          - A l'étage mansardé : trois chambres, salle de bains, wc
-          Jardin de 381m²
-          Pas de vis à vis, au calme d'une impasse.
+  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+  //         Maison 4 pièces de 69,15 m² composée de :
+  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
+  //         - A l'étage mansardé : trois chambres, salle de bains, wc
+  //         Jardin de 381m²
+  //         Pas de vis à vis, au calme d'une impasse.
 
-          Visites : Sur rendez-vous.
+  //         Visites : Sur rendez-vous.
 
-          Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
-      'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-      new Date(), // Date de la dernière mise à jour
-      [
-        'https://media.immobilier.notaires.fr/inotr/media/29/22044/1620881/ad6c678a_VGA.jpg'
-      ] // Liste des images
-    ),
-    new Annonce('12345', // Identifiant de l'annonce
-      TypeTransaction.Vente, // Type de transaction (Vente)
-      new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-      250000, // Prix total (frais d'agence inclus)
-      0.05, // Pourcentage des frais d'agence
-      {
-        latitude: 48.8566,
-        longitude: 2.3522,
-        addresse: {
-          rue: '1 rue de Paris',
-          codePostal: '75001',
-          ville: 'Caulnes',
-          pays: 'France'
-        }
-      }, // Localisation
-      {
-        type: TypePropriete.Appartement, // Type de propriété (Appartement)
-        surface: 75, // Surface totale en m²
-        surfaceHabitable: 70, // Surface habitable en m²
-        pieces: 3, // Nombre de pièces
-        chambres: 2, // Nombre de chambres
-        sallesDeBain: 1, // Nombre de salles de bain
-        classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-        classeGaz: ClasseGaz.C, // Classe gaz (C)
-        typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-        etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-        orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-      }, // Propriété
-      `Maison / villa à vendre - BROONS (22250)
+  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
+  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
+  //     new Date(), // Date de la dernière mise à jour
+  //     [
+  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1620881/ad6c678a_VGA.jpg'
+  //     ] // Liste des images
+  //   ),
+  //   new Annonce('123457', // Identifiant de l'annonce
+  //     TypeTransaction.Vente, // Type de transaction (Vente)
+  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
+  //     250000, // Prix total (frais d'agence inclus)
+  //     0.05, // Pourcentage des frais d'agence
+  //     {
+  //       latitude: 48.8566,
+  //       longitude: 2.3522,
+  //       addresse: {
+  //         rue: '1 rue de Paris',
+  //         codePostal: '75001',
+  //         ville: 'Caulnes',
+  //         pays: 'France'
+  //       }
+  //     }, // Localisation
+  //     {
+  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
+  //       surface: 75, // Surface totale en m²
+  //       surfaceHabitable: 70, // Surface habitable en m²
+  //       pieces: 3, // Nombre de pièces
+  //       chambres: 2, // Nombre de chambres
+  //       sallesDeBain: 1, // Nombre de salles de bain
+  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
+  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
+  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
+  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
+  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
+  //     }, // Propriété
+  //     `Maison / villa à vendre - BROONS (22250)
 
-          Une maison de 139m² comprenant :
-          - Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
-          - A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
-          - Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
-          Dépendances : garage, préau, chenil, serre
-          Jardin de 1988m²
+  //         Une maison de 139m² comprenant :
+  //         - Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
+  //         - A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
+  //         - Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
+  //         Dépendances : garage, préau, chenil, serre
+  //         Jardin de 1988m²
 
-          Visites : Sur rendez-vous.
+  //         Visites : Sur rendez-vous.
 
-          Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
-      'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-      new Date(), // Date de la dernière mise à jour
-      [
-        'https://media.immobilier.notaires.fr/inotr/media/29/22044/1657276/f56bba0d_VGA.jpg'
-      ] // Liste des images
-    ),
+  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
+  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
+  //     new Date(), // Date de la dernière mise à jour
+  //     [
+  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1657276/f56bba0d_VGA.jpg'
+  //     ] // Liste des images
+  //   ),
 
-    new Annonce('12345', // Identifiant de l'annonce
-      TypeTransaction.Vente, // Type de transaction (Vente)
-      new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-      294390, // Prix total (frais d'agence inclus)
-      0.051, // Pourcentage des frais d'agence
-      {
-        latitude: 48.8566,
-        longitude: 2.3522,
-        addresse: {
-          rue: '1 rue de Paris',
-          codePostal: '75001',
-          ville: 'Caulnes',
-          pays: 'France'
-        }
-      }, // Localisation
-      {
-        type: TypePropriete.Appartement, // Type de propriété (Appartement)
-        surface: 75, // Surface totale en m²
-        surfaceHabitable: 70, // Surface habitable en m²
-        pieces: 3, // Nombre de pièces
-        chambres: 2, // Nombre de chambres
-        sallesDeBain: 1, // Nombre de salles de bain
-        classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-        classeGaz: ClasseGaz.C, // Classe gaz (C)
-        typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-        etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-        orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-      }, // Propriété
-      `  Maison / villa à vendre - DINARD (35800)
+  //   new Annonce('123458', // Identifiant de l'annonce
+  //     TypeTransaction.Vente, // Type de transaction (Vente)
+  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
+  //     294390, // Prix total (frais d'agence inclus)
+  //     0.051, // Pourcentage des frais d'agence
+  //     {
+  //       latitude: 48.8566,
+  //       longitude: 2.3522,
+  //       addresse: {
+  //         rue: '1 rue de Paris',
+  //         codePostal: '75001',
+  //         ville: 'Caulnes',
+  //         pays: 'France'
+  //       }
+  //     }, // Localisation
+  //     {
+  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
+  //       surface: 75, // Surface totale en m²
+  //       surfaceHabitable: 70, // Surface habitable en m²
+  //       pieces: 3, // Nombre de pièces
+  //       chambres: 2, // Nombre de chambres
+  //       sallesDeBain: 1, // Nombre de salles de bain
+  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
+  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
+  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
+  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
+  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
+  //     }, // Propriété
+  //     `  Maison / villa à vendre - DINARD (35800)
 
-          A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-          1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-          Maison 4 pièces de 69,15 m² composée de :
-          - Au RDC : garage, séjour -cuisine, dégagement, wc
-          - A l'étage mansardé : trois chambres, salle de bains, wc
-          Jardin de 381m²
-          Pas de vis à vis, au calme d'une impasse.
+  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+  //         Maison 4 pièces de 69,15 m² composée de :
+  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
+  //         - A l'étage mansardé : trois chambres, salle de bains, wc
+  //         Jardin de 381m²
+  //         Pas de vis à vis, au calme d'une impasse.
 
-          Visites : Sur rendez-vous.
+  //         Visites : Sur rendez-vous.
 
-          Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
+  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
 
-          A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-          1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-          Maison 4 pièces de 69,15 m² composée de :
-          - Au RDC : garage, séjour -cuisine, dégagement, wc
-          - A l'étage mansardé : trois chambres, salle de bains, wc
-          Jardin de 381m²
-          Pas de vis à vis, au calme d'une impasse.
+  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
+  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
+  //         Maison 4 pièces de 69,15 m² composée de :
+  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
+  //         - A l'étage mansardé : trois chambres, salle de bains, wc
+  //         Jardin de 381m²
+  //         Pas de vis à vis, au calme d'une impasse.
 
-          Visites : Sur rendez-vous.
+  //         Visites : Sur rendez-vous.
 
-          Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
-      'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-      new Date(), // Date de la dernière mise à jour
-      [
-        'https://media.immobilier.notaires.fr/inotr/media/29/22044/1668051/9e6eb71e_VGA.jpg'
-      ] // Liste des images
-    )
-  ];
+  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
+  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
+  //     new Date(), // Date de la dernière mise à jour
+  //     [
+  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1668051/9e6eb71e_VGA.jpg'
+  //     ] // Liste des images
+  //   )
+  // ];
 
   return (
     <SimpleLayoutWithTitleFooter

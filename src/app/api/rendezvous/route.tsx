@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Client } from '@microsoft/microsoft-graph-client';
 
 import { NextResponse } from 'next/server'
 
@@ -14,12 +13,6 @@ export async function POST(req: any) {
 
   try {
     const accessToken = await getAccessToken();
-
-    const msGraphClient = Client.init({
-      authProvider: (done) => {
-        done(null, accessToken);
-      },
-    });
 
     const calendarEvent = {
       subject: `Rendez-vous avec ${clientName}`,

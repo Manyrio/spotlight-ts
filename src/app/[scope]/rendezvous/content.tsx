@@ -97,7 +97,18 @@ export default function RendezvousContent({ members, steps }: { members: Member[
     <SimpleLayout
       title='Prendre un rendez-vous'
       intro='Parcourez notre calendrier et prenez rendez-vous pour une consultation ou un entretien.'
-    >
+    > <Button className='w-full' onClick={async () => {
+      let response = call("/api/rendezvous", Method.post, {
+        notaryId: "jeremycochard0@gmail.com",
+        clientName: "test",
+        clientEmail: "joe.roagan@mail.com",
+        startDateTime: new Date("2025-01-16").toISOString(),
+        endDateTime: new Date("2025-01-17").toISOString(),
+        description: "test"
+      })
+      console.log(response)
+    }} style={{ background: colors.attributes.primary }}>Oui</Button>
+
       <div className='flex items-center w-full justify-center'>
         <div className=' p-8 flex justify-center flex-col w-fit rounded-md shadow-md w-full max-w-[100%] lg:max-w-[60%] '
           style={{ backgroundColor: colors.attributes.tintedBackground, color: colors.attributes.accent }}>

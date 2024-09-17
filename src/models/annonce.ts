@@ -1,166 +1,240 @@
-import glob from 'fast-glob'
-import test from 'node:test'
-import { Localisation } from './localisation'
-
+// Enum pour le type de transaction
 export enum TypeTransaction {
-  Vente = 'Vente',
-  Location = 'Location',
-  Encheres = 'Encheres',
-  // indefini = 'indefini',
+  VenteTraditionnelle = "vente_traditionnelle",
+  VenteImmoInteractif = "vente_immo_interactif",
+  VenteViager = "vente_viager",
+  Location = "location"
 }
 
-export enum TypePropriete {
-  Appartement = 'Appartement',
-  Maison = 'Maison',
-  Terrain = 'Terrain',
-  BatimentAgricole = 'Bâtiment Agricole',
-  LocauxCommerciaux = 'Locaux Commerciaux',
-  Commerce = 'Commerce',
-  Garage = 'Garage',
-  Divers = 'Divers'
-  // indefini = 'indefini',
-}
-
-export enum ClasseEnergie {
-  A = 'A',
-  B = 'B',
-  C = 'C',
-  D = 'D',
-  E = 'E',
-  F = 'F',
-  G = 'G',
-  // indefini = 'indefini',
-}
-
-export enum ClasseGaz {
-  A = 'A',
-  B = 'B',
-  C = 'C',
-  D = 'D',
-  E = 'E',
-  F = 'F',
-  G = 'G',
-  // indefini = 'indefini',
-}
-
-export enum TypeChauffage {
-  Gaz = 'Gaz',
-  Electrique = 'Electrique',
-  Fioul = 'Fioul',
-  Bois = 'Bois',
-  // indefini = 'indefini',
-}
-
-export enum EtatPropriete {
-  Neuf = 'Neuf',
-  Ancien = 'Ancien',
-  // indefini = 'indefini',
-}
-
-export enum OrientationPropriete {
-  Nord = 'Nord',
-  Sud = 'Sud',
-  Est = 'Est',
-  Ouest = 'Ouest',
-  // indefini = 'indefini',
-}
-
-
-/// Définition des interfaces pour les finances
-interface Finances {
-  prixTotal: number;
-  pourcentageFraisAgence: number;
-
-  calculerFraisAgence(): number;
-}
-
-export class FinancesImmobilieres implements Finances {
-  prixTotal: number;
-  pourcentageFraisAgence: number;
-
-  constructor(prixTotal: number, pourcentageFraisAgence: number) {
-    this.prixTotal = prixTotal;
-    this.pourcentageFraisAgence = pourcentageFraisAgence;
-  }
-
-  calculerFraisAgence(): number {
-    return this.prixTotal * (this.pourcentageFraisAgence / 100);
-  }
-}
-
-
-/// Définition des interfaces pour les propriétés
-interface ProprieteBase {
-  type: TypePropriete;
-  surface: number;
-  classeEnergie: ClasseEnergie;
-  classeGaz: ClasseGaz;
-  typeChauffage: TypeChauffage;
-  etatPropriete: EtatPropriete;
-  orientationPropriete: OrientationPropriete;
-}
-
-export interface Appartement extends ProprieteBase {
-  type: TypePropriete.Appartement;
-  surfaceHabitable: number;
-  pieces: number;
-  chambres: number;
-  sallesDeBain: number;
-}
-
-export interface Maison extends ProprieteBase {
-  type: TypePropriete.Maison;
-  surfaceHabitable: number;
-  pieces: number;
-  chambres: number;
-  sallesDeBain: number;
-}
-
-export interface Terrain extends ProprieteBase {
-  type: TypePropriete.Terrain;
-}
-
-export type Propriete = Appartement | Maison | Terrain;
-
-
-/// Définition des interfaces pour la localisation
-export class Annonce {
-  id: string;                 // Identifiant de l'annonce
-  type: TypeTransaction;      // Type de transaction (Vente ou Location)
-  finances: FinancesImmobilieres;    // Finances
-  prixTotal: number;            // Prix total (frais d'agence inclus)
-  pourcentageFraisAgence: number;  // Pourcentage des frais d'agence
-  localisation: Localisation;   // Lieu de l'annonce
-  propriete: Propriete;         // Details du bien
-  details: string;              // Description du bien
-  lienPlusInfo: string;         // Lien pour plus d'informations
-  derniereMiseAJour: Date;      // Date de la derniere mise a jour
-  images: string[];             // Liste des images
+// Classe de base pour les transactions communes
+export class AnnonceBase {
+  uuid: string;
+  reference: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+  diffused: boolean;
+  office: Office;
+  contact: Contact;
+  bien: Bien;
+  transaction: TypeTransaction;  // Utilisation de l'énumération pour le type de transaction
 
   constructor(
-    id: string,
-    type: TypeTransaction,
-    finances: FinancesImmobilieres,
-    prixTotal: number ,
-    pourcentageFraisAgence: number ,
-    localisation: Localisation,
-    propriete: Propriete,
-    details: string,
-    lienPlusInfo: string,
-    derniereMiseAJour: Date = new Date(),
-    images: string[] = []
+    uuid: string,
+    reference: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    diffused: boolean,
+    office: Office,
+    contact: Contact,
+    bien: Bien,
+    transaction: TypeTransaction
   ) {
-    this.id = id;
-    this.type = type;
-    this.finances = finances;
-    this.prixTotal = prixTotal;
-    this.pourcentageFraisAgence = pourcentageFraisAgence;
-    this.localisation = localisation;
-    this.propriete = propriete;
-    this.details = details;
-    this.lienPlusInfo = lienPlusInfo;
-    this.derniereMiseAJour = derniereMiseAJour;
-    this.images = images;
+    this.uuid = uuid;
+    this.reference = reference;
+    this.description = description;
+    this.createdAt = new Date(createdAt);
+    this.updatedAt = new Date(updatedAt);
+    this.diffused = diffused;
+    this.office = office;
+    this.contact = contact;
+    this.bien = bien;
+    this.transaction = transaction;
   }
-  
+}
+
+// Classe pour "vente_viager"
+export class VenteViager extends AnnonceBase {
+  prix: number | null;
+  typeHonoraires: string;
+  honoraires: number;
+  honorairesPourcentage: number;
+  chargesCopropriete: number;
+  bouquet: number;
+  bouquetHni: number;
+  bouquetNv: number;
+  rente: Rente;
+  fraisActe: number;
+
+  constructor(
+    uuid: string,
+    reference: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    diffused: boolean,
+    office: Office,
+    contact: Contact,
+    bien: Bien,
+    transaction: TypeTransaction,
+    prix: number | null,
+    typeHonoraires: string,
+    honoraires: number,
+    honorairesPourcentage: number,
+    chargesCopropriete: number,
+    bouquet: number,
+    bouquetHni: number,
+    bouquetNv: number,
+    rente: Rente,
+    fraisActe: number
+  ) {
+    super(uuid, reference, description, createdAt, updatedAt, diffused, office, contact, bien, transaction);
+    this.prix = prix;
+    this.typeHonoraires = typeHonoraires;
+    this.honoraires = honoraires;
+    this.honorairesPourcentage = honorairesPourcentage;
+    this.chargesCopropriete = chargesCopropriete;
+    this.bouquet = bouquet;
+    this.bouquetHni = bouquetHni;
+    this.bouquetNv = bouquetNv;
+    this.rente = rente;
+    this.fraisActe = fraisActe;
+  }
+}
+
+// Classe pour "location"
+export class Location extends AnnonceBase {
+  loyer: number;
+  loyerPeriodicite: string;
+  chargesIncluses: boolean;
+  montantCharges: number;
+  montantEtatLieux: number;
+  meuble: boolean;
+  montantDepotGarantie: number;
+
+  constructor(
+    uuid: string,
+    reference: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    diffused: boolean,
+    office: Office,
+    contact: Contact,
+    bien: Bien,
+    transaction: TypeTransaction,
+    loyer: number,
+    loyerPeriodicite: string,
+    chargesIncluses: boolean,
+    montantCharges: number,
+    montantEtatLieux: number,
+    meuble: boolean,
+    montantDepotGarantie: number
+  ) {
+    super(uuid, reference, description, createdAt, updatedAt, diffused, office, contact, bien, transaction);
+    this.loyer = loyer;
+    this.loyerPeriodicite = loyerPeriodicite;
+    this.chargesIncluses = chargesIncluses;
+    this.montantCharges = montantCharges;
+    this.montantEtatLieux = montantEtatLieux;
+    this.meuble = meuble;
+    this.montantDepotGarantie = montantDepotGarantie;
+  }
+}
+
+// Classe pour "vente_traditionnelle"
+export class VenteTraditionnelle extends AnnonceBase {
+  prix: number;
+  prixHni: number;
+  prixNv: number;
+  typeHonoraires: string;
+  honoraires: number;
+  honorairesPourcentage: number;
+  chargesCopropriete: number;
+  fraisActe?: number;  // Optionnel si non présent dans l'objet
+
+  constructor(
+    uuid: string,
+    reference: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    diffused: boolean,
+    office: Office,
+    contact: Contact,
+    bien: Bien,
+    transaction: TypeTransaction,
+    prix: number,
+    prixHni: number,
+    prixNv: number,
+    typeHonoraires: string,
+    honoraires: number,
+    honorairesPourcentage: number,
+    chargesCopropriete: number,
+    fraisActe?: number
+  ) {
+    super(uuid, reference, description, createdAt, updatedAt, diffused, office, contact, bien, transaction);
+    this.prix = prix;
+    this.prixHni = prixHni;
+    this.prixNv = prixNv;
+    this.typeHonoraires = typeHonoraires;
+    this.honoraires = honoraires;
+    this.honorairesPourcentage = honorairesPourcentage;
+    this.chargesCopropriete = chargesCopropriete;
+    this.fraisActe = fraisActe;
+  }
+}
+
+// Sous-classes pour les objets imbriqués
+
+// Classe pour l'office notarial
+export class Office {
+  uuid: string;
+  crpcen: string;
+  raisonSociale: string;
+
+  constructor(uuid: string, crpcen: string, raisonSociale: string) {
+    this.uuid = uuid;
+    this.crpcen = crpcen;
+    this.raisonSociale = raisonSociale;
+  }
+}
+
+// Classe pour le contact
+export class Contact {
+  nom: string;
+
+  constructor(nom: string) {
+    this.nom = nom;
+  }
+}
+
+// Classe pour les informations du bien
+export class Bien {
+  commune: Commune;
+  nature: string;
+  photos: { href: string }[];
+  surface: number;
+
+  constructor(commune: Commune, nature: string, photos: { href: string }[], surface: number) {
+    this.commune = commune;
+    this.nature = nature;
+    this.photos = photos;
+    this.surface = surface;
+  }
+}
+
+// Classe pour la commune du bien
+export class Commune {
+  codeInsee: string;
+  codePostal: string;
+  libelle: string;
+
+  constructor(codeInsee: string, codePostal: string, libelle: string) {
+    this.codeInsee = codeInsee;
+    this.codePostal = codePostal;
+    this.libelle = libelle;
+  }
+}
+
+// Classe pour les informations de la rente (dans le cas du viager)
+export class Rente {
+  montant: number;
+  periodicite: string;
+
+  constructor(montant: number, periodicite: string) {
+    this.montant = montant;
+    this.periodicite = periodicite;
+  }
 }

@@ -3,7 +3,7 @@
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Button } from '@/components/Button'
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '@/app/providers'
 import { Method, call } from '@/scripts/api'
 
@@ -37,6 +37,7 @@ export default function ContactContent() {
     setMessage("Message envoyé avec succès ! Nous reviendrons vers vous dans les plus brefs délais.")
 
   }
+
 
   return (
 

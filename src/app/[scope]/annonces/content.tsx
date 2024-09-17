@@ -1,9 +1,9 @@
 'use client';
 
-import { Component, use, useContext, useState } from 'react'
+import { Component, use, useContext, useEffect, useState } from 'react'
 import { Card } from '@/components/Card'
 import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLayout'
-import { Annonce, TypeTransaction, FinancesImmobilieres, TypePropriete, ClasseEnergie, ClasseGaz, TypeChauffage, EtatPropriete, OrientationPropriete } from '@/models/annonce'
+import { AnnonceBase, Location, TypeTransaction, VenteTraditionnelle, VenteViager } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
 import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
@@ -12,6 +12,7 @@ import { AppContext } from '@/app/providers';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Method, call } from '@/scripts/api';
+import { NotyResponse } from '@/models/other';
 
 
 
@@ -77,68 +78,103 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
     </Menu>)
 }
 
-function ElementAnnonce({ annonce }: { annonce: Annonce }) {
-  const { colors } = useContext(AppContext)
 
+function ElementAnnonce({ annonce }: { annonce: AnnonceBase }) {
+  const { colors } = useContext(AppContext);
+
+  // Directly create a variable for newAnnonce based on the type
+  let newAnnonce: Location | VenteTraditionnelle | VenteViager;
+
+  if (annonce.transaction === TypeTransaction.Location) {
+    newAnnonce = annonce as Location;
+  } else if (
+    annonce.transaction === TypeTransaction.VenteImmoInteractif ||
+    annonce.transaction === TypeTransaction.VenteTraditionnelle
+  ) {
+    newAnnonce = annonce as VenteTraditionnelle;
+  } else if (annonce.transaction === TypeTransaction.VenteViager) {
+    newAnnonce = annonce as VenteViager;
+  } else {
+    return null; // Return null if no matching type is found
+  }
 
   return (
-    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/annonces/${annonce.id} `}>
-      <Card className="md:col-span-2" >
-        <span className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10" style={{ color: colors.attributes.accent, background: colors.attributes.tintedBackground }}>
-          {annonce.type}
+    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/annonces/${newAnnonce.uuid}`}>
+      <Card className="md:col-span-2">
+        <span
+          className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10"
+          style={{
+            color: colors.attributes.accent,
+            background: colors.attributes.tintedBackground,
+          }}
+        >
+          {newAnnonce.transaction}
         </span>
+
         <p />
-        <Card.Title
-
-          style={{ color: colors.attributes.accent }}
-        >
-          Titre test
+        <Card.Title style={{ color: colors.attributes.accent }}>
+          {newAnnonce.bien.nature}
         </Card.Title>
-        <p className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
-          style={{ color: colors.attributes.hint }}
-        >
-          {annonce.finances.prixTotal.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-        </p>
-        <p className="relative z-20 md:block dark:text-gray-200 text-sm dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
-          style={{ color: colors.attributes.hint }}
-        >
-          Honoraires de négociation: {annonce.finances.calculerFraisAgence().toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.finances.pourcentageFraisAgence}%)
-        </p>
-        <Card.Eyebrow
-          as="p"
-          className="md:hidden"
-          decorate
-        >
-          <img
-            src="https://media.immobilier.notaires.fr/inotr/media/29/22044/1600131/34199f92_VGA.jpg"
-            alt=""
-            // make image rounded and full wi
-            className="rounded-lg w-full shrink-0"
-          />
-        </Card.Eyebrow>
-        <br />
-        <Card.Description>{annonce.details}</Card.Description>
-        <br />
 
-        <p className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg dark:text-gray-200 text-zinc-600 dark:dark:text-gray-200 text-zinc-400"
+        <p
+          className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg text-zinc-600"
           style={{ color: colors.attributes.hint }}
-        >{annonce.localisation.addresse.ville}</p>
+        >
+          {newAnnonce instanceof Location && newAnnonce.loyer.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+          {newAnnonce instanceof VenteTraditionnelle && newAnnonce.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+          {newAnnonce instanceof VenteViager && newAnnonce.rente.montant.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+        </p>
+
+        <p
+          className="relative z-20 md:block dark:text-gray-200 text-sm text-zinc-600"
+          style={{ color: colors.attributes.hint }}
+        >
+          Honoraires de négociation:{" "}
+          {newAnnonce instanceof Location && newAnnonce.montantDepotGarantie.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+          {newAnnonce instanceof VenteTraditionnelle && newAnnonce.honoraires.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+          {newAnnonce instanceof VenteViager && newAnnonce.honoraires.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
+        </p>
+
+        <Card.Eyebrow as="p" className="md:hidden" decorate>
+          {newAnnonce.bien.photos.length > 0 && (
+            <img
+              src={newAnnonce.bien.photos[0].href}
+              alt="Bien image"
+              className="rounded-lg w-full shrink-0"
+            />
+          )}
+        </Card.Eyebrow>
+
+        <Card.Description>{newAnnonce.description}</Card.Description>
+
+        <p
+          className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg text-zinc-600"
+          style={{ color: colors.attributes.hint }}
+        >
+          {newAnnonce.bien.commune.libelle}
+        </p>
+
         <Card.Cta>En savoir plus</Card.Cta>
       </Card>
-      <Card.Eyebrow
-        as="p"
-        className="mt-1 hidden md:block md:col-span-2 "
-      >
-        <article
-          key={annonce.id}
-          className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
-        >
-          <img src={annonce.images[0]} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
-        </article>
+
+      <Card.Eyebrow as="p" className="mt-1 hidden md:block md:col-span-2">
+        {newAnnonce.bien.photos.length > 0 && (
+          <article
+            key={newAnnonce.uuid}
+            className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
+          >
+            <img
+              src={newAnnonce.bien.photos[0].href}
+              alt="Bien image"
+              className="absolute inset-0 -z-10 h-full w-full object-cover"
+            />
+          </article>
+        )}
       </Card.Eyebrow>
     </Link>
-  )
+  );
 }
+
 
 function Contact() {
   const { colors } = useContext(AppContext)
@@ -474,221 +510,19 @@ function FiltresAnnonces() {
 
 export default function AnnoncesContent() {
   const { colors } = useContext(AppContext)
-  let annonces: any = []
-  // let annonces: Annonce[] = [
-  //   new Annonce('12345', // Identifiant de l'annonce
-  //     TypeTransaction.Vente, // Type de transaction (Vente)
-  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-  //     250000, // Prix total (frais d'agence inclus)
-  //     0.05, // Pourcentage des frais d'agence
-  //     {
-  //       latitude: 48.8566,
-  //       longitude: 2.3522,
-  //       addresse: {
-  //         rue: '1 rue de Paris',
-  //         codePostal: '75001',
-  //         ville: 'Caulnes',
-  //         pays: 'France'
-  //       }
-  //     }, // Localisation
-  //     {
-  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
-  //       surface: 75, // Surface totale en m²
-  //       surfaceHabitable: 70, // Surface habitable en m²
-  //       pieces: 3, // Nombre de pièces
-  //       chambres: 2, // Nombre de chambres
-  //       sallesDeBain: 1, // Nombre de salles de bain
-  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
-  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-  //     }, // Propriété
-  //     `Maison / villa à vendre - BROONS (22250)
+  let [annonces, setAnnonces] = useState<AnnonceBase[]>()
 
-  //         Une maison de 139m² comprenant :
-  //         - Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
-  //         - A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
-  //         - Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
-  //         Dépendances : garage, préau, chenil, serre
-  //         Jardin de 1988m²
+  useEffect(() => {
+    async function fetchData() {
+      let response: NotyResponse<AnnonceBase> = await call("/api/noty?path=annonces", Method.get)
+      setAnnonces(response.results)
+    }
 
-  //         Visites : Sur rendez-vous.
+    fetchData()
 
-  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
-  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-  //     new Date(), // Date de la dernière mise à jour
-  //     [
-  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1604370/781b34f5_VGA.jpg'
-  //     ] // Liste des images
-  //   ),
+  }, [])
 
-  //   new Annonce('123456', // Identifiant de l'annonce
-  //     TypeTransaction.Vente, // Type de transaction (Vente)
-  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-  //     294390, // Prix total (frais d'agence inclus)
-  //     0.051, // Pourcentage des frais d'agence
-  //     {
-  //       latitude: 48.8566,
-  //       longitude: 2.3522,
-  //       addresse: {
-  //         rue: '1 rue de Paris',
-  //         codePostal: '75001',
-  //         ville: 'Caulnes',
-  //         pays: 'France'
-  //       }
-  //     }, // Localisation
-  //     {
-  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
-  //       surface: 75, // Surface totale en m²
-  //       surfaceHabitable: 70, // Surface habitable en m²
-  //       pieces: 3, // Nombre de pièces
-  //       chambres: 2, // Nombre de chambres
-  //       sallesDeBain: 1, // Nombre de salles de bain
-  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
-  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-  //     }, // Propriété
-  //     `  Maison / villa à vendre - DINARD (35800)
 
-  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-  //         Maison 4 pièces de 69,15 m² composée de :
-  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
-  //         - A l'étage mansardé : trois chambres, salle de bains, wc
-  //         Jardin de 381m²
-  //         Pas de vis à vis, au calme d'une impasse.
-
-  //         Visites : Sur rendez-vous.
-
-  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
-
-  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-  //         Maison 4 pièces de 69,15 m² composée de :
-  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
-  //         - A l'étage mansardé : trois chambres, salle de bains, wc
-  //         Jardin de 381m²
-  //         Pas de vis à vis, au calme d'une impasse.
-
-  //         Visites : Sur rendez-vous.
-
-  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
-  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-  //     new Date(), // Date de la dernière mise à jour
-  //     [
-  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1620881/ad6c678a_VGA.jpg'
-  //     ] // Liste des images
-  //   ),
-  //   new Annonce('123457', // Identifiant de l'annonce
-  //     TypeTransaction.Vente, // Type de transaction (Vente)
-  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-  //     250000, // Prix total (frais d'agence inclus)
-  //     0.05, // Pourcentage des frais d'agence
-  //     {
-  //       latitude: 48.8566,
-  //       longitude: 2.3522,
-  //       addresse: {
-  //         rue: '1 rue de Paris',
-  //         codePostal: '75001',
-  //         ville: 'Caulnes',
-  //         pays: 'France'
-  //       }
-  //     }, // Localisation
-  //     {
-  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
-  //       surface: 75, // Surface totale en m²
-  //       surfaceHabitable: 70, // Surface habitable en m²
-  //       pieces: 3, // Nombre de pièces
-  //       chambres: 2, // Nombre de chambres
-  //       sallesDeBain: 1, // Nombre de salles de bain
-  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
-  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-  //     }, // Propriété
-  //     `Maison / villa à vendre - BROONS (22250)
-
-  //         Une maison de 139m² comprenant :
-  //         - Au rez-de-chaussée : entrée, dégagement, cuisine aménagée et équipée, salle à manger - salon, bureau, chambre, salle d’eau, wc
-  //         - A l’étage : dégagement, trois chambres avec placards, deux greniers, lingerie, wc avec lave main.
-  //         - Au sous-sol : atelier, buanderie avec cheminée, cave, garage, water-closet.
-  //         Dépendances : garage, préau, chenil, serre
-  //         Jardin de 1988m²
-
-  //         Visites : Sur rendez-vous.
-
-  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`, // Description du bien
-  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-  //     new Date(), // Date de la dernière mise à jour
-  //     [
-  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1657276/f56bba0d_VGA.jpg'
-  //     ] // Liste des images
-  //   ),
-
-  //   new Annonce('123458', // Identifiant de l'annonce
-  //     TypeTransaction.Vente, // Type de transaction (Vente)
-  //     new FinancesImmobilieres(250000, 5), // Finances avec prix total de 250000 et pourcentage des frais d'agence de 5%
-  //     294390, // Prix total (frais d'agence inclus)
-  //     0.051, // Pourcentage des frais d'agence
-  //     {
-  //       latitude: 48.8566,
-  //       longitude: 2.3522,
-  //       addresse: {
-  //         rue: '1 rue de Paris',
-  //         codePostal: '75001',
-  //         ville: 'Caulnes',
-  //         pays: 'France'
-  //       }
-  //     }, // Localisation
-  //     {
-  //       type: TypePropriete.Appartement, // Type de propriété (Appartement)
-  //       surface: 75, // Surface totale en m²
-  //       surfaceHabitable: 70, // Surface habitable en m²
-  //       pieces: 3, // Nombre de pièces
-  //       chambres: 2, // Nombre de chambres
-  //       sallesDeBain: 1, // Nombre de salles de bain
-  //       classeEnergie: ClasseEnergie.B, // Classe énergie (B)
-  //       classeGaz: ClasseGaz.C, // Classe gaz (C)
-  //       typeChauffage: TypeChauffage.Electrique, // Type de chauffage (Electrique)
-  //       etatPropriete: EtatPropriete.Ancien, // Etat de la propriété (Ancien)
-  //       orientationPropriete: OrientationPropriete.Sud // Orientation de la propriété (Sud)
-  //     }, // Propriété
-  //     `  Maison / villa à vendre - DINARD (35800)
-
-  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-  //         Maison 4 pièces de 69,15 m² composée de :
-  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
-  //         - A l'étage mansardé : trois chambres, salle de bains, wc
-  //         Jardin de 381m²
-  //         Pas de vis à vis, au calme d'une impasse.
-
-  //         Visites : Sur rendez-vous.
-
-  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.Maison / villa à vendre - DINARD (35800)
-
-  //         A 1,6 km de la Plage du Prieuré, 2km de la zone commerciale Cap Emeraude
-  //         1,4 Km de l'école maternelle publique Jules Verne, et 1,5km de l'école maternelle privée, 650 m du Collège Le Bocage, 1,3km du Lycée Hôtelier Yvon Bourges
-  //         Maison 4 pièces de 69,15 m² composée de :
-  //         - Au RDC : garage, séjour -cuisine, dégagement, wc
-  //         - A l'étage mansardé : trois chambres, salle de bains, wc
-  //         Jardin de 381m²
-  //         Pas de vis à vis, au calme d'une impasse.
-
-  //         Visites : Sur rendez-vous.
-
-  //         Immobilier.notaires® : Evaluer, acheter & vendre avec les notaires partout en France. 12 000 notaires, experts et négociateurs vous accompagnent dans vos projets immobiliers en toute confiance.`,
-  //     'https://www.exemple.com/annonce/12345', // Lien pour plus d'informations
-  //     new Date(), // Date de la dernière mise à jour
-  //     [
-  //       'https://media.immobilier.notaires.fr/inotr/media/29/22044/1668051/9e6eb71e_VGA.jpg'
-  //     ] // Liste des images
-  //   )
-  // ];
 
   return (
     <SimpleLayoutWithTitleFooter
@@ -698,8 +532,8 @@ export default function AnnoncesContent() {
     >
       <div className="md:border-l md:pl-6 " style={{ borderColor: colors.attributes.border }}>
         <div className="flex w-full flex-col space-y-16">
-          {annonces.map((annonce) => (
-            <ElementAnnonce key={annonce.id} annonce={annonce} />
+          {annonces && annonces.map((annonce) => (
+            <ElementAnnonce key={annonce.uuid} annonce={annonce} />
           ))}
         </div>
       </div>

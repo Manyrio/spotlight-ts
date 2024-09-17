@@ -5,6 +5,14 @@ export enum Scope {
     Unknown = "unknown",
 }
 
+export interface NotyResponse<T> {
+    page: number,
+    pages: number,
+    total: number,
+    limit: number,
+    results: T[]
+}
+
 
 export interface ObjectInterface {
     attributes: any

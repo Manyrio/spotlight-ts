@@ -15,7 +15,6 @@
     "@mapbox/rehype-prism": "^0.9.0",
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
-    "@microsoft/microsoft-graph-client": "^3.0.7",
     "@next/mdx": "^14.0.4",
     "@remixicon/react": "^4.2.0",
     "@strapi/plugin-seo": "^1.9.9",

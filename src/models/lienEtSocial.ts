@@ -4,13 +4,13 @@ export class LienEtSocial implements ObjectInterface {
     constructor(
         public id: string = "",
         public attributes = {
-          facebook: "",
-          twitter: "",
-          instagram: "",
-          youtube: "",
-          titre: "",
-          description: "",
-          copyright: "",
+            facebook: "",
+            twitter: "",
+            instagram: "",
+            youtube: "",
+            titre: "",
+            description: "",
+            copyright: "",
         },
     ) {
         this.id = id;

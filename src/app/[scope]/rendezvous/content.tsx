@@ -258,12 +258,12 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
           {
             currentStep == maxSteps - 1 && (
               <>
-                <div className="grid w-full grid-cols-2 grid-rows-2 gap-4 p-4">
+                <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
 
                   {/* Calendar slots */}
                   <Calendar reservationMap={currentMonthSlots}></Calendar>
                 </div>
-                <div className="grid w-full grid-cols-2 grid-rows-2 gap-4 p-4">
+                <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
 
                   {/* Calendar slots */}
                   <Calendar reservationMap={nextMonthSlots}></Calendar>
@@ -748,19 +748,19 @@ function Calendar({ reservationMap }: { reservationMap: ReservationMap }) {
       // Only show future or current days
       if (reservationDate >= currentDate) {
         return (
-          <div key={key} className="border p-2 rounded-lg text-center">
+          <div key={key} className="border p-2 rounded-lg text-center ">
             {/* Display the day and date */}
             <div className="font-semibold">{translateDayToFrench(day)} {reservationDate.toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' })}</div>
 
             {/* Display time slots */}
-            <div className="mt-2">
+            <div className="mt-2 grid grid-cols-3 gap-2">
               {slots.map((slot, index) => (
                 <div
                   key={index}
-                  className={`p-1 py-2 mt-2 font-semibold text-sm rounded-lg cursor-pointer ${slot.available ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                  className={`p-1 py-2  font-semibold text-sm rounded-lg cursor-pointer hover:brightness-80 ${slot.available ? 'bg-green-400 text-green-800' : 'bg-red-100 text-red-600'
                     }`}
                 >
-                  {slot.time} - {slot.available ? 'Disponible' : 'Réservé'}
+                  {slot.time}
                 </div>
               ))}
             </div>

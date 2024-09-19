@@ -1,8 +1,10 @@
 import { Etude } from '@/models/etudes';
 import { Favicon } from '@/models/favicon';
 import { LienEtSocial } from '@/models/lienEtSocial';
+
 import nodemailer from 'nodemailer';
 import { text } from 'stream/consumers';
+import showdown from 'showdown';
 
 export function getFooter(
     etude: Etude,

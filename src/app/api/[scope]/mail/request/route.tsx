@@ -5,8 +5,7 @@ import nodemailer from 'nodemailer';
 import { createICS, sendEmail } from '../utils';
 import { getApiDefaultParameters } from '../../utils';
 import { getFooter } from '../footer';
-import { mailSenderHandler } from '../handler';
-import { getFormattedMailAttributes, ReservationType } from '../content';
+import { ReservationType } from '../content';
 
 export async function GET(req: any) {
     //let body = await req.json();
@@ -23,11 +22,12 @@ export async function GET(req: any) {
     //     createICS(new Date(startDateTime), new Date(endDateTime), `Rendez-vous avec ${clientName}`, 'Cabinet Notarial Laubé Lhomme Caulnes')
     // );
 
-    let formattedMailAttributes = await getFormattedMailAttributes(
-        ReservationType.Demande,
-        clientName,
-        new Date(startDateTime),
-    );
+    let formattedMailAttributes: any = {}
+    //  await getFormattedMailAttributes(
+    //     ReservationType.Demande,
+    //     clientName,
+    //     new Date(startDateTime),
+    // );
 
     try {
         sendEmail(

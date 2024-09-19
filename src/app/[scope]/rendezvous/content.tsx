@@ -79,12 +79,12 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
         <br/>
         <br/>
         Date de rendez-vous: <br/><br/>
-        
+
         Réponses aux questions:<br/><br/>
         ${Object.keys(stepResponses).map((key) => {
           return `${key}:<br/>${stepResponses[key]}`
         }).join("<br/><br/>")}
-<br/><br/><br/>
+      <br/><br/><br/>
         Tél: ${phone}<br/>
         Email: ${email}<br/>
         Nom: ${name}<br/>
@@ -194,11 +194,8 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
                         style={{ background: colors.attributes.primary }}>{response.response}</Button>
                     }
                     )}
-
                   </div>
-
                 </>
-
               }
             </>
           }
@@ -208,7 +205,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
 
 
-          {currentStep == maxSteps - 3 && <>
+          {(currentStep == maxSteps - 3 && !openedCase) && <>
 
             <span>Avez-vous déjà un contact au sein de notre office ?</span>
 
@@ -263,12 +260,12 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
           {
             currentStep == maxSteps - 1 && (
               <>
-                <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
+                <div className="grid w-full grid-cols-2  gap-4">
 
                   {/* Calendar slots */}
                   <Calendar reservationMap={currentMonthSlots} setSlot={setSlot}></Calendar>
                 </div>
-                <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
+                <div className="grid w-full grid-cols-2 gap-4 mt-4">
 
                   {/* Calendar slots */}
                   <Calendar reservationMap={nextMonthSlots} setSlot={setSlot}></Calendar>

@@ -23,18 +23,18 @@ export default function ContactContent() {
   async function submit(e: any) {
     e.preventDefault()
     if (loader) return
-    setMessage("")
+    setResponse("")
     setLoader(true)
     try {
       await call("/api/contact", Method.post, { message: message, email: email, name: name, lastName: lastName })
 
     } catch (error) {
-      setMessage("Erreur lors de l'envoi")
+      setResponse("Erreur lors de l'envoi")
 
     } finally {
       setLoader(false)
     }
-    setMessage("Message envoyé avec succès ! Nous reviendrons vers vous dans les plus brefs délais.")
+    setResponse("Message envoyé avec succès ! Nous reviendrons vers vous dans les plus brefs délais.")
 
   }
 
@@ -151,7 +151,7 @@ export default function ContactContent() {
               >
                 Envoyer le message
               </Button>
-              {message ? <div style={{ color: colors.attributes.indicator }} className='mt-2'>{message}</div> : ""}
+              {response ? <div style={{ color: colors.attributes.indicator }} className='mt-2'>{response}</div> : ""}
             </div>
             <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
               style={{ color: colors.attributes.hint }}

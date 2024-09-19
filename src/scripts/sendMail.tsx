@@ -2,12 +2,12 @@ var nodemailer = require("nodemailer");
 //-----------------------------------------------------------------------------
 export async function sendMail(subject: string, toEmail: string, otpText: string, replyTo?: string) {
 
-    let from = "contact@shunter.fr"
+    let from = "ne-pas-repondre@laube-lhomme-caulnes.notaires.fr"
 
 
 
     var transporter = nodemailer.createTransport({
-        host: 'mail.shunter.fr',
+        host: 'mail.hicards.fr',
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
@@ -18,7 +18,7 @@ export async function sendMail(subject: string, toEmail: string, otpText: string
 
 
     const mailOptions: any = {
-        from: 'shunter <' + from + '>',
+        from: 'laube-lhomme-caulnes.notaires.fr <' + from + '>',
         to: toEmail,
         replyTo: replyTo ?? toEmail,
         subject: subject,

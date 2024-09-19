@@ -120,10 +120,23 @@ export enum BienNature {
   Autre = "autre"
 }
 
-
+interface EstimationCouts {
+  cout_min: number;
+  cout_max: number;
+  annee_reference: string;
+}
 export type Bien = {
   commune: Commune;
   photos: { href: string }[];
+  performance_energetique: {
+    date_diagnostic: string;  // "2021-07-06 00:00:00" (ISO date string)
+    dpe_value: number;
+    dpe_classe: string;
+    ges_value: number;
+    ges_classe: string;
+    estimation_couts: EstimationCouts;
+  },
+
 } & (
     | { nature: BienNature.Appartement; surface_plancher: number }
     | { nature: BienNature.Maison; surface_habitable: number }

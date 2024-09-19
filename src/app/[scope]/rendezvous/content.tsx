@@ -117,8 +117,8 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
       intro='Parcourez notre calendrier et prenez rendez-vous pour une consultation ou un entretien.'
     >
 
-      <div className='flex items-center w-full justify-center'>
-        <div className=' p-8 flex justify-center flex-col w-fit rounded-md shadow-md w-full max-w-[100%] lg:max-w-[60%] '
+      <div className='flex items-center w-full justify-center md:justify-start'>
+        <div className=' p-8 flex justify-center flex-col w-fit rounded-md shadow-md w-full max-w-[100%] lg:max-w-[50%] '
           style={{ backgroundColor: colors.attributes.tintedBackground, color: colors.attributes.accent }}>
 
           {currentStep != 1 && <span className='border-[1px] text-xs flex items-center cursor-pointer w-fit rounded-md px-2 mb-4'
@@ -260,12 +260,15 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
           {
             currentStep == maxSteps - 1 && (
               <>
-                <div className="grid w-full grid-cols-2  gap-4">
+                <div className="grid w-full grid-cols-2  gap-4 mt-4">
 
                   {/* Calendar slots */}
                   <Calendar reservationMap={currentMonthSlots} setSlot={setSlot}></Calendar>
                 </div>
-                <div className="grid w-full grid-cols-2 gap-4 mt-4">
+                <div className='h-[1px] w-full my-8 '
+                  style={{ background: colors.attributes.divider }}
+                ></div>
+                <div className="grid w-full grid-cols-2 gap-4">
 
                   {/* Calendar slots */}
                   <Calendar reservationMap={nextMonthSlots} setSlot={setSlot}></Calendar>
@@ -739,6 +742,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
 function Calendar({ reservationMap, setSlot }: { reservationMap: ReservationMap, setSlot: (value: { date: string, slot: Slot }) => void }) {
 
+  let { colors } = useContext(AppContext)
 
   return <>
     {Object.keys(reservationMap).map((key) => {
@@ -750,7 +754,9 @@ function Calendar({ reservationMap, setSlot }: { reservationMap: ReservationMap,
       // Only show future or current days
       if (reservationDate >= currentDate) {
         return (
-          <div key={key} className="border p-2 rounded-lg text-center ">
+          <div key={key} className="border p-3 rounded-lg text-center "
+            style={{ borderColor: colors.attributes.border }}
+          >
             {/* Display the day and date */}
             <div className="font-semibold">{translateDayToFrench(day)} {reservationDate.toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' })}</div>
 
@@ -763,7 +769,7 @@ function Calendar({ reservationMap, setSlot }: { reservationMap: ReservationMap,
                     slot: slot
                   })}
                   key={index}
-                  className={`p-1 py-2  font-semibold text-sm rounded-lg cursor-pointer hover:brightness-[90%] ${slot.available ? 'bg-green-400 text-green-800' : 'bg-red-100 text-red-600'
+                  className={`p-1 py-2  font-semibold text-sm rounded-lg cursor-pointer hover:brightness-[90%] ${slot.available ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
                     }`}
                 >
                   {slot.time}

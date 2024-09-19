@@ -3,10 +3,10 @@ import nodemailer from 'nodemailer';
 import { text } from 'stream/consumers';
 
 export async function sendEmail(
-    clientEmail: string,
+    email: string,
     subject: string,
     text: string,
-    icalEvent: any
+    //icalEvent: any
 ) {
 
     let transporter = nodemailer.createTransport({
@@ -22,10 +22,10 @@ export async function sendEmail(
 
     let mailOptions = {
         from: process.env.NODEMAILER_EMAIL,
-        to: clientEmail,
+        to: email,
         subject: subject,
         html: text,
-        icalEvent: icalEvent
+        //icalEvent: icalEvent
     };
 
     let info = await transporter.sendMail(mailOptions);

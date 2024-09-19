@@ -27,7 +27,6 @@ export async function call(url: string, method: Method, data: any = null, type =
             console.log("url", url)
         }
 
-
         const response = await fetch(url, {
             next: { revalidate: 0 },
             method: method,
@@ -51,6 +50,7 @@ export async function call(url: string, method: Method, data: any = null, type =
         return result;
 
     } catch (error) {
+        console.log("url", url)
         throw error;
     }
 }

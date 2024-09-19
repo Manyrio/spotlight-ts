@@ -3,7 +3,7 @@
 import { Component, use, useContext, useEffect, useState } from 'react'
 import { Card } from '@/components/Card'
 import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLayout'
-import { Annonce, AnnonceBase, BienNature, getAnnonceSurface, getAnnonceType, Location, TypeHonoraires, TypeTransaction, VenteImmoInteractif, VenteTraditionnelle, VenteViager } from '@/models/annonce'
+import { Annonce, BienNature, getAnnoncePeriodicite, getAnnonceSurface, getAnnonceType, TypeHonoraires, TypeTransaction } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
 import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
@@ -14,6 +14,7 @@ import { Button } from '@/components/Button';
 import { Method, call } from '@/scripts/api';
 import { NotyResponse } from '@/models/other';
 import { currency } from '../../../models/annonce';
+import { RiBuilding3Line, RiHome3Line, RiShakeHandsLine } from '@remixicon/react';
 
 
 
@@ -101,56 +102,71 @@ export function ElementAnnonce({ annonce }: { annonce: Annonce }) {
         </span>
 
         <p />
-        <p
-          className="relative z-20 md:block dark:text-gray-200 text-sm text-zinc-600 "
-          style={{ color: colors.attributes.hint }}
-        >
-          {annonce.bien.nature}- {getAnnonceSurface(annonce)}
-        </p>
+
 
         <Card.Title style={{ color: colors.attributes.accent }}>
-          <AnnonceLines annonce={annonce}></AnnonceLines>
+
+          {annonce.transaction == TypeTransaction.location ?
+            <>{currency(annonce.loyer)} {annonce.charges_incluses ? "cc" : ""} / {getAnnoncePeriodicite(annonce.loyer_periodicite)} </>
+            :
+            annonce.transaction == TypeTransaction.vente_viager ?
+              <>{currency(annonce.rente.montant)} / {getAnnoncePeriodicite(annonce.rente.periodicite)}</>
+              :
+              <>{currency(annonce.prix_hni)}</>}
         </Card.Title>
 
 
-
-
-
-
         <Card.Eyebrow as="p" className="md:hidden" decorate>
-          {annonce.bien.photos.length > 0 && (
+          {annonce.bien.photos.length > 0 ?
             <img
-              src={annonce.bien.photos[0].href}
+              src={annonce.bien.photos[0].href || "https://placehold.co/600x400"}
               alt="Bien image"
               className="rounded-lg w-full shrink-0"
             />
-          )}
+            : <img
+              src={"https://placehold.co/600x400"}
+              alt="Bien image"
+              className="rounded-lg w-full shrink-0"
+            />
+          }
         </Card.Eyebrow>
 
-
         <p
-          className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg text-zinc-600 mt-5"
-          style={{ color: colors.attributes.hint }}
+          className="relative z-20 font-semibold md:block dark:text-gray-200 text-base text-zinc-600 "
+          style={{ color: colors.attributes.indicator }}
         >
-          {annonce.bien.commune.libelle} ({annonce.bien.commune.code_postal})
+          à {annonce.bien.commune.libelle} ({annonce.bien.commune.code_postal})
         </p>
 
-        <Card.Cta>En savoir plus</Card.Cta>
+        <p
+          className="relative z-20 font-semibold  text-base flex items-center mt-2"
+          style={{ color: colors.attributes.hint }}
+        >
+          <RiBuilding3Line className='h-5 w-5 mr-1'></RiBuilding3Line>
+          {annonce.bien.nature}
+        </p>
+
+        <Card.Cta>Voir l'annonce</Card.Cta>
       </Card>
 
       <Card.Eyebrow as="p" className="mt-1 hidden md:block md:col-span-2">
-        {annonce.bien.photos.length > 0 && (
-          <article
-            key={annonce.uuid}
-            className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
-          >
+        <article
+          key={annonce.uuid}
+          className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
+        >
+          {annonce.bien.photos.length > 0 ?
             <img
-              src={annonce.bien.photos[0].href}
+              src={annonce.bien.photos[0].href || "https://placehold.co/600x400"}
+              alt="Bien image"
+              className="absolute inset-0 -z-10 h-full w-full object-cover"
+            /> :
+            <img
+              src={"https://placehold.co/600x400"}
               alt="Bien image"
               className="absolute inset-0 -z-10 h-full w-full object-cover"
             />
-          </article>
-        )}
+          }
+        </article>
       </Card.Eyebrow>
     </Link>
   );
@@ -530,40 +546,61 @@ export function AnnonceLines({ annonce }: { annonce: Annonce }) {
       {
         annonce.transaction == TypeTransaction.location &&
         <>
-          {currency(annonce.loyer)} - {annonce.loyer_periodicite}
-          <p className='text-sm italic'
-            style={{ color: colors.attributes.hint }}
-          >
-            {
-              annonce.charges_incluses &&
-              <> dont Charges: {currency(annonce.montant_charges)} <br /> </>
-            }
 
-            {
-              annonce.meuble ? <>Meublé <br /></>
-                : <> Non meublé <br /> </>
-            }
-          </p>
+          <div className='w-full flex items-center justify-between text-base font-bold'>
+            <div>Loyer</div>
+            <div className='text-right'>{currency(annonce.loyer)} {annonce.charges_incluses ? "cc" : ""} / {getAnnoncePeriodicite(annonce.loyer_periodicite)}</div>
+          </div>
+
+          {annonce.montant_charges != null &&
+            <>
+              <div className='w-full flex items-center justify-between'>
+                <div>Charges</div>
+                <div className='text-right'>{currency(annonce.montant_charges)} / an</div>
+              </div>
+            </>}
+
+
+          {annonce.montant_etat_lieux != null &&
+            <>
+              <div className='w-full flex items-center justify-between'>
+                <div>État des lieux</div>
+                <div className='text-right'>{currency(annonce.montant_etat_lieux)}</div>
+              </div>
+            </>}
+
+          {annonce.montant_depot_garantie != null &&
+            <>
+              <div className='w-full flex items-center justify-between'>
+                <div >Dépot de garantie</div>
+                <div className='text-right'>{currency(annonce.montant_depot_garantie)}</div>
+              </div>
+            </>}
+
+
         </>
       }
 
 
       {(annonce.transaction == TypeTransaction.vente_traditionnelle || annonce.transaction == TypeTransaction.vente_immo_interactif) &&
         <>
-          {currency(annonce.prix_hni)}
-          <p className='text-sm italic'
-            style={{ color: colors.attributes.hint }}
-          >
-            {
-              annonce.type_honoraires == TypeHonoraires.charge_acquereur &&
-              <> dont prix de vente: {currency(annonce.prix_nv)} <br /></>
-            }
+          <div className='w-full flex items-center justify-between text-base font-bold'>
+            <div>Prix</div>
+            <div className='text-right'>{currency(annonce.prix_hni)}</div>
+          </div>
 
-            {
-              annonce.type_honoraires == TypeHonoraires.charge_acquereur ?
-                <> dont HN*: {currency(annonce.honoraires)} ({annonce.honoraires_pourcentage}%)&nbsp;charge acqéreur</>
-                : <>Honoraires Compris</>}
-          </p>
+          {annonce.type_honoraires == TypeHonoraires.charge_acquereur &&
+            <>
+              <div className='w-full flex items-center justify-between  opacity-80'>
+                <div className='pl-2 border-l'>Dont Prix de Vente</div>
+                <div className='text-right'>{currency(annonce.prix_nv)}</div>
+              </div>
+
+              <div className='w-full flex items-center justify-between  opacity-80'>
+                <div className='pl-2 border-l'>Dont HN*</div>
+                <div className='text-right'>{currency(annonce.honoraires)} ({annonce.honoraires_pourcentage}%) </div>
+              </div>
+            </>}
         </>
       }
 
@@ -571,24 +608,44 @@ export function AnnonceLines({ annonce }: { annonce: Annonce }) {
       {
         annonce.transaction == TypeTransaction.vente_viager &&
         <>
-          {currency(annonce.rente.montant)} - {annonce.rente.periodicite}
-          <p className='text-sm italic'
-            style={{ color: colors.attributes.hint }}
-          >
-            {
-              annonce.bouquet &&
-              <>
-                Bouquet: {currency(annonce.bouquet_hni)}
-                ,&nbsp;
-                {annonce.type_honoraires == TypeHonoraires.charge_acquereur ?
-                  <> dont HN*: {currency(annonce.honoraires)} ({annonce.honoraires_pourcentage}%)&nbsp;charge acqéreur</>
-                  : <>Honoraires Compris</>}
+          <div className='w-full flex items-center justify-between text-base font-bold'>
+            <div>Rente</div>
+            <div className='text-right'>{currency(annonce.rente.montant)} / {getAnnoncePeriodicite(annonce.rente.periodicite)}</div>
+          </div>
 
-                <br />
-              </>
-            }
+          {
+            annonce.bouquet &&
+            <>
+              <div className='w-full flex items-center justify-between'>
+                <div> Bouquet</div>
+                <div className='text-right'>{currency(annonce.bouquet_hni)} </div>
+              </div>
 
-          </p>
+              {annonce.type_honoraires == TypeHonoraires.charge_acquereur &&
+                <>
+                  <div className='w-full flex items-center justify-between  opacity-80'>
+                    <div className='pl-2 border-l'>Dont Prix Bouqet</div>
+                    <div className='text-right'>{currency(annonce.bouquet_nv)} </div>
+                  </div>
+
+                  <div className='w-full flex items-center justify-between  opacity-80'>
+                    <div className='pl-2 border-l'>Dont HN sur bouquet*</div>
+                    <div className='text-right'>{currency(annonce.honoraires)} ({annonce.honoraires_pourcentage}%) </div>
+                  </div>
+                </>
+              }
+            </>
+          }
+          {
+            annonce.charges_copropriete &&
+            <>
+              <div className='w-full flex items-center justify-between'>
+                <div>Charges de copropriété</div>
+                <div className='text-right'>{currency(annonce.charges_copropriete)} / an</div>
+              </div>
+            </>
+          }
+
         </>
       }
 

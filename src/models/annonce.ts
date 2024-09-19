@@ -11,8 +11,7 @@ export enum TypeHonoraires {
   "charge_acquereur" = "charge_acquereur"
 }
 
-// Interface for the common fields
-export interface AnnonceBase {
+export type Annonce = {
   uuid: string;
   reference: string;
   description: string;
@@ -22,60 +21,83 @@ export interface AnnonceBase {
   office: Office;
   contact: Contact;
   bien: Bien;
-  transaction: TypeTransaction;  // Discriminant field
+} & (
+    | {
+      transaction: TypeTransaction.location,
+      loyer: number;
+      loyer_periodicite: AnnoncePeriodicite;
+      charges_incluses: boolean;
+      montant_charges: number;
+      montant_etat_lieux: number;
+      meuble: boolean;
+      montant_depot_garantie: number;
+    } | {
+      transaction: TypeTransaction.vente_immo_interactif,
+      prix: number;
+      prix_hni: number;
+      prix_nv: number;
+      type_honoraires: string;
+      honoraires: number;
+      honoraires_pourcentage: number;
+      charges_copropriete: number;
+    } | {
+      transaction: TypeTransaction.vente_traditionnelle,
+      prix: number;
+      prix_hni: number;
+      prix_nv: number;
+      type_honoraires: string;
+      honoraires: number;
+      honoraires_pourcentage: number;
+      charges_copropriete: number;
+      frais_acte?: number;
+    } | {
+      transaction: TypeTransaction.vente_viager,
+      prix: number | null;
+      type_honoraires: string;
+      honoraires: number;
+      honoraires_pourcentage: number;
+      charges_copropriete: number;
+      bouquet: number;
+      bouquet_hni: number;
+      bouquet_nv: number;
+      rente: Rente;
+      frais_acte: number;
+    }
+  );
+
+
+export function getAnnoncePeriodicite(periodicite: AnnoncePeriodicite) {
+  let periodiciteText = "";
+
+  switch (periodicite) {
+    case AnnoncePeriodicite.Annuelle:
+      periodiciteText = "an";
+      break;
+    case AnnoncePeriodicite.Semestrielle:
+      periodiciteText = "semestre";
+      break;
+    case AnnoncePeriodicite.Trimestrielle:
+      periodiciteText = "trimestre";
+      break;
+    case AnnoncePeriodicite.Mensuelle:
+      periodiciteText = "mois";
+      break;
+    case AnnoncePeriodicite.Bimensuelle:
+      periodiciteText = "quinzaine";
+      break;
+  }
+
+  return periodiciteText
 }
 
-// Specific types based on transaction type
-export interface VenteTraditionnelle extends AnnonceBase {
-  transaction: TypeTransaction.vente_traditionnelle;
-  prix: number;
-  prix_hni: number;
-  prix_nv: number;
-  type_honoraires: string;
-  honoraires: number;
-  honoraires_pourcentage: number;
-  charges_copropriete: number;
-  frais_acte?: number;
+
+export function getAnnonceEtat(annonce: Annonce) {
+  return `${annonce.bien.etat == BienEtat.A_Rafraichir ? "À rafraichir" :
+    annonce.bien.etat == BienEtat.A_Renover ? "À rénover" :
+      annonce.bien.etat == BienEtat.Bon ? "Bon état" :
+        annonce.bien.etat == BienEtat.Neuf ? "Neuf" : ""}`
 }
 
-export interface VenteImmoInteractif extends AnnonceBase {
-  transaction: TypeTransaction.vente_immo_interactif;
-  prix: number;
-  prix_hni: number;
-  prix_nv: number;
-  type_honoraires: string;
-  honoraires: number;
-  honoraires_pourcentage: number;
-  charges_copropriete: number;
-}
-
-export interface VenteViager extends AnnonceBase {
-  transaction: TypeTransaction.vente_viager;
-  prix: number | null;
-  type_honoraires: string;
-  honoraires: number;
-  honoraires_pourcentage: number;
-  charges_copropriete: number;
-  bouquet: number;
-  bouquet_hni: number;
-  bouquet_nv: number;
-  rente: Rente;
-  frais_acte: number;
-}
-
-export interface Location extends AnnonceBase {
-  transaction: TypeTransaction.location;
-  loyer: number;
-  loyer_periodicite: string;
-  charges_incluses: boolean;
-  montant_charges: number;
-  montant_etat_lieux: number;
-  meuble: boolean;
-  montant_depot_garantie: number;
-}
-
-// Union of all possible types of Annonce
-export type Annonce = VenteTraditionnelle | VenteImmoInteractif | VenteViager | Location;
 
 export function getAnnonceSurface(annonce: Annonce) {
   return `${annonce.bien.nature == BienNature.Appartement ? annonce.bien.surface_plancher :
@@ -89,10 +111,11 @@ export function getAnnonceSurface(annonce: Annonce) {
 
 export function getAnnonceType(annonce: Annonce) {
   return `${annonce.transaction == TypeTransaction.location ? "Location"
-    : annonce.transaction == TypeTransaction.vente_traditionnelle ? "Vente Traditionnelle"
-      : annonce.transaction == TypeTransaction.vente_viager ? "Vente Viager"
+    : annonce.transaction == TypeTransaction.vente_traditionnelle ? "Vente"
+      : annonce.transaction == TypeTransaction.vente_viager ? "Viager"
         : annonce.transaction == TypeTransaction.vente_immo_interactif ? "Vente Immo Interactif"
-          : ""}`
+          : ""
+    } `
 }
 
 
@@ -109,6 +132,8 @@ export interface Office {
 
 export interface Contact {
   nom: string;
+  telephone: string;
+  email: string;
 }
 
 export enum BienNature {
@@ -119,23 +144,52 @@ export enum BienNature {
   Terrain = "terrain",
   Autre = "autre"
 }
+export enum Classes {
+  A = "A",
+  B = "B",
+  C = "C",
+  D = "D",
+  E = "E",
+  F = "F",
+  G = "G"
+}
 
 interface EstimationCouts {
   cout_min: number;
   cout_max: number;
   annee_reference: string;
 }
+export enum BienEtat {
+  Neuf = "neuf",
+  Bon = "bon",
+  A_Rafraichir = "a_rafraichir",
+  A_Renover = "a_renover"
+}
 export type Bien = {
   commune: Commune;
   photos: { href: string }[];
+  etat?: BienEtat | null;
   performance_energetique: {
     date_diagnostic: string;  // "2021-07-06 00:00:00" (ISO date string)
     dpe_value: number;
-    dpe_classe: string;
+    dpe_classe: Classes;
     ges_value: number;
-    ges_classe: string;
+    ges_classe: Classes;
     estimation_couts: EstimationCouts;
   },
+  nb_pieces?: number | null; // >= 1
+  nb_chambres?: number | null; // >= 0
+  nb_sdb?: number | null; // >= 0
+  nb_salles_eau?: number | null; // >= 0
+  nb_niveaux?: number | null; // >= 1
+  balcon?: boolean | null;
+  terrasse?: boolean | null;
+  cave?: boolean | null;
+  cuisine?: boolean | null;
+  piscine?: boolean | null;
+  surface_habitable: number; // required
+  surface_carrez?: number | null;
+  ascenseur?: boolean | null;
 
 } & (
     | { nature: BienNature.Appartement; surface_plancher: number }
@@ -149,7 +203,6 @@ export type Bien = {
 
 
 
-
 export interface Commune {
   code_insee: string;
   code_postal: string;
@@ -158,5 +211,13 @@ export interface Commune {
 
 export interface Rente {
   montant: number;
-  periodicite: string;
+  periodicite: AnnoncePeriodicite;
+}
+
+export enum AnnoncePeriodicite {
+  Annuelle = "annuelle",
+  Semestrielle = "semestrielle",
+  Trimestrielle = "trimestrielle",
+  Mensuelle = "mensuelle",
+  Bimensuelle = "bimensuelle"
 }

@@ -6,6 +6,7 @@ import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '@/app/providers'
 import { Method, call } from '@/scripts/api'
+import { Notification, NotificationType } from '@/components/Notification'
 
 
 export default function ContactContent() {
@@ -31,11 +32,15 @@ export default function ContactContent() {
     } catch (error) {
       setResponse("Erreur lors de l'envoi")
 
+
     } finally {
       setLoader(false)
     }
     setResponse("Message envoyé avec succès ! Nous reviendrons vers vous dans les plus brefs délais.")
-
+    setName("")
+    setLastName("")
+    setMessage("")
+    setEmail("")
   }
 
 
@@ -151,7 +156,7 @@ export default function ContactContent() {
               >
                 Envoyer le message
               </Button>
-              {response ? <div style={{ color: colors.attributes.indicator }} className='mt-2'>{response}</div> : ""}
+              {response && <Notification title={"Message envoyé"} message={response} type={NotificationType.Success}></Notification>}
             </div>
             <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
               style={{ color: colors.attributes.hint }}
@@ -181,8 +186,8 @@ export default function ContactContent() {
                 <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600"
                   style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}
                 >
-                  <p className='flex items-center'> <EnvelopeIcon className='h-4 w-4 mr-2'></EnvelopeIcon>{etude.attributes.email}</p>
-                  <p className='flex items-center'> <PhoneIcon className='h-4 w-4 mr-2'></PhoneIcon>{etude.attributes.phone}</p>
+                  <a className='flex items-center' href={`mailto: ${etude.attributes.email}`}> <EnvelopeIcon className='h-4 w-4 mr-2'></EnvelopeIcon>{etude.attributes.email}</a>
+                  <a className='flex items-center' href={`tel: ${etude.attributes.phone}`}><PhoneIcon className='h-4 w-4 mr-2'></PhoneIcon>{etude.attributes.phone}</a>
                 </address>
               </div>
             )}

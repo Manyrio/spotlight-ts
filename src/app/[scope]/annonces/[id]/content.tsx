@@ -6,45 +6,95 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { Article } from '@/models/articles';
 import { Color } from '@/models/colors';
 import { BookOpenIcon } from '@heroicons/react/24/outline';
-import { RiMarkdownFill } from '@remixicon/react';
-import { useContext } from 'react';
+import { RiHomeGearLine, RiShape2Line, RiShakeHandsLine, RiLayoutMasonryLine, RiBuilding2Line, RiBallPenLine, RiArrowUpLine, RiBuildingLine, RiWaterFlashLine, RiStackFill, RiShowersLine, RiHome2Line } from '@remixicon/react';
+import React, { useContext } from 'react';
 import Markdown from 'react-markdown'
 import { Carousel } from 'react-responsive-carousel';
 import { AnnonceLines, ElementAnnonce } from '../content';
-import { Annonce, BienNature, getAnnonceSurface, getAnnonceType, TypeTransaction } from '@/models/annonce';
+import { Annonce, BienNature, Classes, currency, getAnnonceEtat, getAnnonceSurface, getAnnonceType, TypeTransaction } from '@/models/annonce';
+import { Column, useTable } from 'react-table';
 
 
-function DpeImage({ classe, value }: { classe: string, value: number }) {
-    return <div>
-        <img src={`/diag/DPE__etiquette_energie${classe}.png`}></img>
-        {value} Kwh/m².an
-    </div>
+function DpeImage({ classe, value, gesValue }: { classe: Classes, value: number, gesValue: number }) {
+
+    let dpeClasses: { [key: string]: string } = {
+        [Classes.A]: "#00a774",
+        [Classes.B]: "#00bb54",
+        [Classes.C]: "#4ac57b",
+        [Classes.D]: "#fdeb00",
+        [Classes.E]: "#ffbc00",
+        [Classes.F]: "#ff882f",
+        [Classes.G]: "#ec0118"
+    }
+
+    let defaultClasses = [Classes.G, Classes.F, Classes.E, Classes.D, Classes.C, Classes.B, Classes.A]
+
+    return (
+        <div className='w-full '>
+            <p className='text-base'>Diagnostic de performance énergétique (DPE)</p>
+
+            <div className='relative w-full flex items-center gap-1'>
+
+                {Object.keys(dpeClasses).map((dpeClasse, index) => {
+                    return <div className={`h-3 flex items-center justify-center w-full rounded-sm ${classe == dpeClasse && "h-8"} ${index == 0 ? "rounded-l-lg" : ""} ${index == defaultClasses.length - 1 ? "rounded-r-lg" : ""}`} style={{ background: dpeClasses[dpeClasse] }} >
+
+                        {classe == dpeClasse &&
+                            <span className='text-xl font-bold'>{classe}</span>
+                        }
+
+                    </div>
+                })
+                }
+            </div>
+            <p className='text-sm'>Consommation:  {value} Kwh/m².an</p>
+        </div>
+    )
+
+
 
 }
 
-function GesImage({ classe, value }: { classe: string, value: number }) {
-    return <div className='relative'>
-        <img src={`/diag/DPE__etiquetteGES_${classe}.png`}></img>
-        <span className='absolute text-xl z-10 top-0 right-14'
-            style={{
-                top: classe == "A" ? "160px" :
-                    classe == "B" ? "198px" :
-                        classe == "C" ? "236px" :
-                            classe == "D" ? "274px" :
-                                classe == "E" ? "312px" :
-                                    classe == "F" ? "350px" :
-                                        classe == "G" ? "388px" : ""
 
 
+function GesImage({ classe, value }: { classe: Classes, value: number }) {
 
-            }}
+    let GesClasses: { [key: string]: string } = {
+        [Classes.A]: "#a3dbfc",
+        [Classes.B]: "#8ab5d2",
+        [Classes.C]: "#5e708d",
+        [Classes.D]: "#5e708d",
+        [Classes.E]: "#4d5272",
+        [Classes.F]: "#393550",
+        [Classes.G]: "#291b35"
+    }
 
-        >{value} CO2/m².an</span>
+    let defaultClasses = [Classes.G, Classes.F, Classes.E, Classes.D, Classes.C, Classes.B, Classes.A]
 
+    return (<div className='w-full'>
+        <p className='text-base'>Indice d'émission de gaz à effet de serre (GES)</p>
 
+        <div className='relative w-full flex items-center gap-1'>
+            {Object.keys(GesClasses).map((dpeClasse, index) => {
+                return <div className={`h-3 flex items-center justify-center w-full rounded-sm ${classe == dpeClasse && "h-8"} ${index == 0 ? "rounded-l-lg" : ""} ${index == defaultClasses.length - 1 ? "rounded-r-lg" : ""}`} style={{ background: GesClasses[dpeClasse] }} >
+
+                    {classe == dpeClasse &&
+                        <span className='text-xl font-bold'>{classe}</span>
+                    }
+
+                </div>
+            })
+            }
+        </div>
+
+        <p className='text-sm'>Émissions: {value} kg CO2/m².an </p>
     </div>
+    )
+
+
+
 
 }
+
 
 export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
 
@@ -52,73 +102,187 @@ export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
 
 
 
+    if (!annonce.bien.photos || annonce.bien.photos.length == 0) {
+        annonce.bien.photos = [{ href: "https://via.placeholder.com/150" }]
+    }
+
     return (
         <>
-            <Container className='relative z-30 mt-32 md:mt-80' >
+            <Container className='relative z-30 mt-32 md:mt-60 ' >
+                <div className='w-full flex flex-col lg:flex-row'>
+                    <div className='w-full'>
+                        <Carousel className='w-full'
+                            showStatus={false}>
+                            {annonce.bien.photos.map((image) => (
+                                <img src={`${image.href}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
+                            ))}
+                        </Carousel>
 
-                <Carousel className='mb-4 max-w-2xl '
-                    showThumbs={false}
-                    showStatus={false}>
-                    {annonce.bien.photos.map((image) => (
-                        <img src={`${image.href}`} className="h-full w-full object-cover object-center rounded-md" />
-                    ))}
-                </Carousel>
-
-                <h1 className='text-2xl font-bold'
-                    style={{ color: colors.attributes.accent }}>
-
-                    {getAnnonceType(annonce)}- {annonce.bien.nature} - {getAnnonceSurface(annonce)}
-                </h1>
-
-
-                <div className=' rounded-md w-fit my-4'>
-                    <h2 className='text-base font-bold mb-2'
-                        style={{ color: colors.attributes.accent, }}>
-                        Conditions de vente
-                    </h2>
-
-                    <p style={{ color: colors.attributes.accent }}>
-                        <AnnonceLines annonce={annonce}></AnnonceLines>
-                    </p>
-                </div>
+                        <h1 className='text-3xl font-bold'
+                            style={{ color: colors.attributes.accent }}>
+                            {annonce.bien.nature == BienNature.Autre ? "Bien" : annonce.bien.nature}  {annonce.transaction == TypeTransaction.location ? annonce.meuble ? " meublé " : "" + " à louer" : " à vendre"}
+                            <p className='text-sm'>à {annonce.bien.commune.libelle} ({annonce.bien.commune.code_postal})</p>
+                        </h1>
 
 
+                        <div className=' rounded-md w-full  my-10'
+                            style={{ color: colors.attributes.accent, }}
+                        >
+                            <h2 className='text-2xl font-bold mb-2'>
+                                Détails du prix
+                            </h2>
 
-                <div className=' rounded-md w-fit my-4'>
-                    <h2 className='text-base font-bold mb-2'
-                        style={{ color: colors.attributes.accent, }}>
-                        Description
-                    </h2>
-
-                    <p style={{ color: colors.attributes.accent }}>
-                        {annonce.description}
-                    </p>
-
-
-                </div>
-
-
-                <div className=' rounded-md w-fit my-4'>
-                    <h2 className='text-base font-bold mb-2'
-                        style={{ color: colors.attributes.accent, }}>
-                        Diagnostic de performance énergétique
-                    </h2>
-
-                    <p style={{ color: colors.attributes.accent }}>
-                        Date du diagnostic: {annonce.bien.performance_energetique.date_diagnostic} <br /><br />
-                        <div className='grid grid-cols-1 md:grid-cols-2 align-start'>
-                            <DpeImage classe={annonce.bien.performance_energetique.dpe_classe} value={annonce.bien.performance_energetique.dpe_value}></DpeImage>
-
-                            <GesImage classe={annonce.bien.performance_energetique.ges_classe} value={annonce.bien.performance_energetique.ges_value}></GesImage>
+                            <p style={{ color: colors.attributes.indicator }}
+                                className='mt-4 w-full'>
+                                <AnnonceLines annonce={annonce}></AnnonceLines>
+                            </p>
                         </div>
 
-                    </p>
+
+
+                        <div className=' rounded-md w-fit my-10 w-full'
+                            style={{ color: colors.attributes.accent }}>
+
+                            <h2 className='text-2xl font-bold '>
+                                Description du bien
+                            </h2>
+                            <p style={{ color: colors.attributes.indicator }}
+                                className='mt-4'>
+                                {annonce.description}
+                            </p>
+
+                        </div>
+
+
+
+                        <div className=' rounded-md w-fit my-10 w-full'
+                            style={{ color: colors.attributes.accent }}>
+
+                            <h2 className='text-2xl font-bold'>
+                                Caractéristiques
+                            </h2>
+                            <p style={{ color: colors.attributes.indicator }}
+                                className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 w-full gap-2 mt-4'>
+
+                                <CaracteristiqueElement value={getAnnonceType(annonce)} Icon={RiShakeHandsLine} />
+                                {annonce.bien.etat && (
+                                    <CaracteristiqueElement value={getAnnonceEtat(annonce)} Icon={RiBuildingLine} />
+                                )}
+                                <CaracteristiqueElement value={getAnnonceSurface(annonce)} Icon={RiShape2Line} />
+                                {annonce.transaction === TypeTransaction.location && annonce.meuble && (
+                                    <CaracteristiqueElement value={"Meublé"} Icon={RiHomeGearLine} />
+                                )}
+                                <CaracteristiqueElement value={annonce.bien.nature} Icon={RiHome2Line} />
+                                {annonce.bien.nb_pieces && (
+                                    <CaracteristiqueElement value={annonce.bien.nb_pieces + " pièces"} Icon={RiLayoutMasonryLine} />
+                                )}
+                                {annonce.bien.nb_chambres && (
+                                    <CaracteristiqueElement value={annonce.bien.nb_chambres + " chambres"} Icon={RiHomeGearLine} />
+                                )}
+                                {annonce.bien.nb_sdb && (
+                                    <CaracteristiqueElement value={annonce.bien.nb_sdb + " salles de bain"} Icon={RiShowersLine} />
+                                )}
+                                {annonce.bien.nb_salles_eau && (
+                                    <CaracteristiqueElement value={annonce.bien.nb_salles_eau + " salles d'eau"} Icon={RiWaterFlashLine} />
+                                )}
+                                {annonce.bien.nb_niveaux && (
+                                    <CaracteristiqueElement value={annonce.bien.nb_niveaux + " étages"} Icon={RiStackFill} />
+                                )}
+                                {annonce.bien.balcon && (
+                                    <CaracteristiqueElement value={"Balcon"} Icon={RiArrowUpLine} />
+                                )}
+                                {annonce.bien.terrasse && (
+                                    <CaracteristiqueElement value={"Terrasse"} Icon={RiArrowUpLine} />
+                                )}
+                                {annonce.bien.cave && (
+                                    <CaracteristiqueElement value={"Cave"} Icon={RiBuildingLine} />
+                                )}
+                                {annonce.bien.cuisine && (
+                                    <CaracteristiqueElement value={"Cuisine équipée"} Icon={RiHomeGearLine} />
+                                )}
+                                {annonce.bien.piscine && (
+                                    <CaracteristiqueElement value={"Piscine"} Icon={RiWaterFlashLine} />
+                                )}
+                                {annonce.bien.surface_carrez && (
+                                    <CaracteristiqueElement value={annonce.bien.surface_carrez + " m² carrez"} Icon={RiShape2Line} />
+                                )}
+                                {annonce.bien.ascenseur && (
+                                    <CaracteristiqueElement value={"Ascenseur"} Icon={RiArrowUpLine} />
+                                )}
+
+
+                            </p>
+
+
+
+                        </div>
+
+
+                        <div className=' rounded-md w-fit my-10 w-full'
+                            style={{ color: colors.attributes.accent }}>
+                            <h2 className='text-2xl font-bold '>
+                                Diagnostics
+                            </h2>
+                            {(annonce.bien.performance_energetique && (Object.keys(annonce.bien.performance_energetique)).length > 0) ?
+                                <div>
+                                    <div className='flex items-center mt-4 mb-4'
+                                        style={{ color: colors.attributes.indicator, }}
+                                    >
+                                        <RiHomeGearLine className='h-5 w-5 mr-2'></RiHomeGearLine>
+                                        Effectué le :  {new Date(annonce.bien.performance_energetique.date_diagnostic).toLocaleDateString()}
+                                    </div>
+                                    <div className='flex sm:items-center gap-8 flex-col sm:flex-row'
+                                        style={{ color: colors.attributes.indicator, }}
+                                    >
+                                        <DpeImage classe={annonce.bien.performance_energetique.dpe_classe} value={annonce.bien.performance_energetique.dpe_value} gesValue={annonce.bien.performance_energetique.ges_value}></DpeImage>
+                                        <GesImage classe={annonce.bien.performance_energetique.ges_classe} value={annonce.bien.performance_energetique.ges_value}></GesImage>
+                                    </div>
+
+                                </div> : <div className='mt-4'>DPE non disponible</div>
+                            }
+
+                        </div>
+
+
+                        <span className='text-sm mt-8'
+                            style={{ color: colors.attributes.hint }}
+                        >
+                            *HN : Honoraire de négociation, hors frais de rédaction d'acte.<br />
+                            Pour les ventes, les prix sont affichés hors droits d'enregistrement et de publicité foncière.
+                        </span>
+                    </div>
+
+                    <div className='w-full lg:w-[40%] shrink-0 h-fit sticky top-24 mt-8 lg:mt-6 ml-0 lg:ml-4'>
+                        {annonce.contact.nom && (
+                            <div className='rounded-md p-4'
+                                style={{ background: colors.attributes.tintedBackground }}>
+                                <h2 className='text-xl font-bold'
+                                    style={{ color: colors.attributes.accent }}
+                                >Contact</h2>
+                                <p style={{ color: colors.attributes.indicator }}>{annonce.contact.nom}</p>
+                                <a href={`tel: ${annonce.contact.telephone}`} style={{ color: colors.attributes.indicator }}>{annonce.contact.telephone}</a>
+                                <a href={`mailto: ${annonce.contact.email}`} style={{ color: colors.attributes.indicator }}>{annonce.contact.email}</a>
+                            </div>)
+                        }
+
+                    </div>
 
 
                 </div>
 
-            </Container>
+            </Container >
 
         </>
+    )
+}
+
+
+
+function CaracteristiqueElement({ value, Icon }: { value: string | number, Icon: any }) {
+    return (
+        <div className='flex items-center gap-2'>
+            <Icon className='h-5 w-5'></Icon>
+            <span>{value}</span>
+        </div>
     )
 }

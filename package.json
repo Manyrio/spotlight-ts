@@ -40,6 +40,7 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
     "react-responsive-carousel": "^3.2.23",
+    "react-table": "^7.8.0",
     "remark-gfm": "^4.0.0",
     "remixicon": "^4.3.0",
     "showdown": "^2.1.0",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.16",
+    "@types/react-table": "^7.7.20",
     "@types/showdown": "^2.0.6",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4",

@@ -39,6 +39,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
   return (<>
     <NavItem href={`/${scope}`}>Accueil</NavItem>
+    <NavItem href={`/${scope}/rendezvous`}>Rendez-vous</NavItem>
     <NavItem>
       <DropDown name="L'office" resources={[
         {

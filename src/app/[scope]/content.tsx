@@ -13,11 +13,14 @@ import { Member } from '@/models/members'
 import { Scope } from '@/models/other'
 import { EtudePosition } from '@/models/etudes'
 import { capitalizeFirstLetter } from '@/scripts/capitalize'
+import { Carousel } from 'react-responsive-carousel'
+import { CarouselComponent } from '@/models/carousel'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 
 
 
-export default function HomeContent({ members }: { members: Member[] }) {
+export default function HomeContent({ members, carousel }: { members: Member[], carousel: CarouselComponent }) {
 
     const { etude, colors, scope } = useContext(AppContext)
 
@@ -111,6 +114,10 @@ export default function HomeContent({ members }: { members: Member[] }) {
 
             <Container>
 
+
+
+
+
                 <div className="absolute -top-px right-16 h-8 overflow-hidden w-full">
                     <div className="flex -mt-px h-[2px] leftw-[20vw] -scale-x-100">
                         <div className="w-full flex-none blur-sm [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
@@ -119,7 +126,52 @@ export default function HomeContent({ members }: { members: Member[] }) {
                         </div>
                     </div>
                 </div>
+
+
+                <div className=' full pt-24  w-full px-4'>
+                    <div className='flex gap-8 w-full  flex-col lg:flex-row   max-w-7xl justify-between'>
+                        <div>
+                            <h2 className=" text-3xl font-bold tracking-tight   text-4xl"
+                                style={{ color: colors.attributes.accent }}
+                            >
+                                L'office
+                            </h2>
+                            <p className="mt-6 dark:text-gray-200 text-base"
+                                style={{ color: colors.attributes.indicator }}
+                            >
+                                Découvrez {etude.attributes.name}
+                            </p>
+
+
+
+                            <div className='text-base mt-6'
+                                style={{ color: colors.attributes.indicator }}>
+                                {etude.attributes.description}
+                            </div>
+
+                            <Button className='mt-4' href={scope + "/office"}
+                                style={{ background: colors.attributes.primary }}
+                            >Découvrir l'office</Button>
+
+
+                        </div>
+                        <Carousel className='mb-16 max-w-2xl block static'
+                            showThumbs={false}
+                            showStatus={false}>
+                            {carousel.attributes.images.data.map((image) => (
+                                <img src={`https://admin.laube-lhomme-caulnes.notaires.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
+                            ))}
+                        </Carousel>
+                    </div>
+                </div>
+
+
+
+
                 <div className="isolate w-full">
+
+
+
 
                     {/* Content section */}
                     <div className="mx-auto max-w-7xl  sm:mt-0 pt-20">

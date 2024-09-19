@@ -53,7 +53,6 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
     useEffect(() => {
         let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
         setEtude(etude)
-        console.log(etude)
         if (etude.attributes.slug == Scope.Unknown) {
             etude.attributes.colors.data = new Color()
             etude.attributes.image.data = new Image()

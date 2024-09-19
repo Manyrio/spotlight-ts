@@ -11,7 +11,7 @@ export function MainStyle({ etude, important }: { etude: Etude, important?: bool
 
 
     return (
-        <style global>{`
+        <style>{`
             @import url('${font}');
             @import url('${titleFont}');
                 html, body, main {

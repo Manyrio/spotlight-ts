@@ -34,6 +34,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
   let [openedCase, setOpenedCase] = useState<boolean>(false)
   let [subject, setSubject] = useState<string>("")
+  let [slot, setSlot] = useState<{ date: string, slot: Slot }>()
   let [hasContact, setHasContact] = useState<boolean>(false)
   let [contact, setContact] = useState<Member>()
   let [loader, setLoader] = useState(false)
@@ -60,11 +61,13 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   const maxSteps = steps.attributes.steps.length + 4 //one final and three initial step
 
   useEffect(() => {
-    if (currentStep == maxSteps - 2 && !hasContact) setCurrentStep(currentStep - 1)
+    if ((currentStep == maxSteps - 2) && !hasContact) setCurrentStep(currentStep - 1)
   }, [currentStep])
 
-
-
+  useEffect(() => {
+    if (slot) setCurrentStep(currentStep + 1)
+  }, [slot])
+  console.log(slot)
 
   async function submit(e: any) {
     e.preventDefault()
@@ -75,6 +78,8 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
         message: `Nouvelle demande de rendez-vous concernant avec ${contact ? contact.attributes.name : "n'importe quel membre de l'équipe."} 
         <br/>
         <br/>
+        Date de rendez-vous: <br/><br/>
+        
         Réponses aux questions:<br/><br/>
         ${Object.keys(stepResponses).map((key) => {
           return `${key}:<br/>${stepResponses[key]}`
@@ -261,12 +266,12 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
                 <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
 
                   {/* Calendar slots */}
-                  <Calendar reservationMap={currentMonthSlots}></Calendar>
+                  <Calendar reservationMap={currentMonthSlots} setSlot={setSlot}></Calendar>
                 </div>
                 <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
 
                   {/* Calendar slots */}
-                  <Calendar reservationMap={nextMonthSlots}></Calendar>
+                  <Calendar reservationMap={nextMonthSlots} setSlot={setSlot}></Calendar>
                 </div>
               </>
             )
@@ -735,7 +740,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
 
 
-function Calendar({ reservationMap }: { reservationMap: ReservationMap }) {
+function Calendar({ reservationMap, setSlot }: { reservationMap: ReservationMap, setSlot: (value: { date: string, slot: Slot }) => void }) {
 
 
   return <>
@@ -756,8 +761,12 @@ function Calendar({ reservationMap }: { reservationMap: ReservationMap }) {
             <div className="mt-2 grid grid-cols-3 gap-2">
               {slots.map((slot, index) => (
                 <div
+                  onClick={() => setSlot({
+                    date: date,
+                    slot: slot
+                  })}
                   key={index}
-                  className={`p-1 py-2  font-semibold text-sm rounded-lg cursor-pointer hover:brightness-80 ${slot.available ? 'bg-green-400 text-green-800' : 'bg-red-100 text-red-600'
+                  className={`p-1 py-2  font-semibold text-sm rounded-lg cursor-pointer hover:brightness-[90%] ${slot.available ? 'bg-green-400 text-green-800' : 'bg-red-100 text-red-600'
                     }`}
                 >
                   {slot.time}

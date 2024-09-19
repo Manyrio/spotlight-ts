@@ -9,9 +9,10 @@ export async function GET(req: NextRequest) {
 
     let notyApiKey = process.env.NOTY_API_KEY
     let baseApiPath = "https://api.broadcast.test.noty.fr"
+    let fullPath = `${baseApiPath}/${path}?limit=${limit}&page=${page}`
 
     try {
-        let response = await call(`${baseApiPath}/${path}?limit=${limit}&page=${page}`, Method.get, null, "application/json", {
+        let response = await call(`${fullPath}`, Method.get, null, "application/json", {
             "AUTH-TOKEN": notyApiKey
         })
         console.log(response)

@@ -1,240 +1,149 @@
-// Enum pour le type de transaction
+// Enum for transaction types
 export enum TypeTransaction {
-  VenteTraditionnelle = "vente_traditionnelle",
-  VenteImmoInteractif = "vente_immo_interactif",
-  VenteViager = "vente_viager",
-  Location = "location"
+  vente_traditionnelle = "vente_traditionnelle",
+  vente_immo_interactif = "vente_immo_interactif",
+  vente_viager = "vente_viager",
+  location = "location"
 }
 
-// Classe de base pour les transactions communes
-export class AnnonceBase {
+export enum TypeHonoraires {
+  "charge_vendeur" = "charge_vendeur",
+  "charge_acquereur" = "charge_acquereur"
+}
+
+// Interface for the common fields
+export interface AnnonceBase {
   uuid: string;
   reference: string;
   description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
   diffused: boolean;
   office: Office;
   contact: Contact;
   bien: Bien;
-  transaction: TypeTransaction;  // Utilisation de l'énumération pour le type de transaction
-
-  constructor(
-    uuid: string,
-    reference: string,
-    description: string,
-    createdAt: string,
-    updatedAt: string,
-    diffused: boolean,
-    office: Office,
-    contact: Contact,
-    bien: Bien,
-    transaction: TypeTransaction
-  ) {
-    this.uuid = uuid;
-    this.reference = reference;
-    this.description = description;
-    this.createdAt = new Date(createdAt);
-    this.updatedAt = new Date(updatedAt);
-    this.diffused = diffused;
-    this.office = office;
-    this.contact = contact;
-    this.bien = bien;
-    this.transaction = transaction;
-  }
+  transaction: TypeTransaction;  // Discriminant field
 }
 
-// Classe pour "vente_viager"
-export class VenteViager extends AnnonceBase {
-  prix: number | null;
-  typeHonoraires: string;
-  honoraires: number;
-  honorairesPourcentage: number;
-  chargesCopropriete: number;
-  bouquet: number;
-  bouquetHni: number;
-  bouquetNv: number;
-  rente: Rente;
-  fraisActe: number;
-
-  constructor(
-    uuid: string,
-    reference: string,
-    description: string,
-    createdAt: string,
-    updatedAt: string,
-    diffused: boolean,
-    office: Office,
-    contact: Contact,
-    bien: Bien,
-    transaction: TypeTransaction,
-    prix: number | null,
-    typeHonoraires: string,
-    honoraires: number,
-    honorairesPourcentage: number,
-    chargesCopropriete: number,
-    bouquet: number,
-    bouquetHni: number,
-    bouquetNv: number,
-    rente: Rente,
-    fraisActe: number
-  ) {
-    super(uuid, reference, description, createdAt, updatedAt, diffused, office, contact, bien, transaction);
-    this.prix = prix;
-    this.typeHonoraires = typeHonoraires;
-    this.honoraires = honoraires;
-    this.honorairesPourcentage = honorairesPourcentage;
-    this.chargesCopropriete = chargesCopropriete;
-    this.bouquet = bouquet;
-    this.bouquetHni = bouquetHni;
-    this.bouquetNv = bouquetNv;
-    this.rente = rente;
-    this.fraisActe = fraisActe;
-  }
-}
-
-// Classe pour "location"
-export class Location extends AnnonceBase {
-  loyer: number;
-  loyerPeriodicite: string;
-  chargesIncluses: boolean;
-  montantCharges: number;
-  montantEtatLieux: number;
-  meuble: boolean;
-  montantDepotGarantie: number;
-
-  constructor(
-    uuid: string,
-    reference: string,
-    description: string,
-    createdAt: string,
-    updatedAt: string,
-    diffused: boolean,
-    office: Office,
-    contact: Contact,
-    bien: Bien,
-    transaction: TypeTransaction,
-    loyer: number,
-    loyerPeriodicite: string,
-    chargesIncluses: boolean,
-    montantCharges: number,
-    montantEtatLieux: number,
-    meuble: boolean,
-    montantDepotGarantie: number
-  ) {
-    super(uuid, reference, description, createdAt, updatedAt, diffused, office, contact, bien, transaction);
-    this.loyer = loyer;
-    this.loyerPeriodicite = loyerPeriodicite;
-    this.chargesIncluses = chargesIncluses;
-    this.montantCharges = montantCharges;
-    this.montantEtatLieux = montantEtatLieux;
-    this.meuble = meuble;
-    this.montantDepotGarantie = montantDepotGarantie;
-  }
-}
-
-// Classe pour "vente_traditionnelle"
-export class VenteTraditionnelle extends AnnonceBase {
+// Specific types based on transaction type
+export interface VenteTraditionnelle extends AnnonceBase {
+  transaction: TypeTransaction.vente_traditionnelle;
   prix: number;
-  prixHni: number;
-  prixNv: number;
-  typeHonoraires: string;
+  prix_hni: number;
+  prix_nv: number;
+  type_honoraires: string;
   honoraires: number;
-  honorairesPourcentage: number;
-  chargesCopropriete: number;
-  fraisActe?: number;  // Optionnel si non présent dans l'objet
-
-  constructor(
-    uuid: string,
-    reference: string,
-    description: string,
-    createdAt: string,
-    updatedAt: string,
-    diffused: boolean,
-    office: Office,
-    contact: Contact,
-    bien: Bien,
-    transaction: TypeTransaction,
-    prix: number,
-    prixHni: number,
-    prixNv: number,
-    typeHonoraires: string,
-    honoraires: number,
-    honorairesPourcentage: number,
-    chargesCopropriete: number,
-    fraisActe?: number
-  ) {
-    super(uuid, reference, description, createdAt, updatedAt, diffused, office, contact, bien, transaction);
-    this.prix = prix;
-    this.prixHni = prixHni;
-    this.prixNv = prixNv;
-    this.typeHonoraires = typeHonoraires;
-    this.honoraires = honoraires;
-    this.honorairesPourcentage = honorairesPourcentage;
-    this.chargesCopropriete = chargesCopropriete;
-    this.fraisActe = fraisActe;
-  }
+  honoraires_pourcentage: number;
+  charges_copropriete: number;
+  frais_acte?: number;
 }
 
-// Sous-classes pour les objets imbriqués
+export interface VenteImmoInteractif extends AnnonceBase {
+  transaction: TypeTransaction.vente_immo_interactif;
+  prix: number;
+  prix_hni: number;
+  prix_nv: number;
+  type_honoraires: string;
+  honoraires: number;
+  honoraires_pourcentage: number;
+  charges_copropriete: number;
+}
 
-// Classe pour l'office notarial
-export class Office {
+export interface VenteViager extends AnnonceBase {
+  transaction: TypeTransaction.vente_viager;
+  prix: number | null;
+  type_honoraires: string;
+  honoraires: number;
+  honoraires_pourcentage: number;
+  charges_copropriete: number;
+  bouquet: number;
+  bouquet_hni: number;
+  bouquet_nv: number;
+  rente: Rente;
+  frais_acte: number;
+}
+
+export interface Location extends AnnonceBase {
+  transaction: TypeTransaction.location;
+  loyer: number;
+  loyer_periodicite: string;
+  charges_incluses: boolean;
+  montant_charges: number;
+  montant_etat_lieux: number;
+  meuble: boolean;
+  montant_depot_garantie: number;
+}
+
+// Union of all possible types of Annonce
+export type Annonce = VenteTraditionnelle | VenteImmoInteractif | VenteViager | Location;
+
+export function getAnnonceSurface(annonce: Annonce) {
+  return `${annonce.bien.nature == BienNature.Appartement ? annonce.bien.surface_plancher :
+    annonce.bien.nature == BienNature.Maison ? annonce.bien.surface_habitable :
+      annonce.bien.nature == BienNature.Terrain ? annonce.bien.surface :
+        annonce.bien.nature == BienNature.Immeuble ? annonce.bien.surface_plancher :
+          annonce.bien.nature == BienNature.Garage ? annonce.bien.surface :
+            annonce.bien.nature == BienNature.Autre ? annonce.bien.surface : ""
+    } m²`
+}
+
+export function getAnnonceType(annonce: Annonce) {
+  return `${annonce.transaction == TypeTransaction.location ? "Location"
+    : annonce.transaction == TypeTransaction.vente_traditionnelle ? "Vente Traditionnelle"
+      : annonce.transaction == TypeTransaction.vente_viager ? "Vente Viager"
+        : annonce.transaction == TypeTransaction.vente_immo_interactif ? "Vente Immo Interactif"
+          : ""}`
+}
+
+
+export function currency(number: Number) {
+  return number.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })
+}
+
+// Definitions for other types used
+export interface Office {
   uuid: string;
   crpcen: string;
-  raisonSociale: string;
-
-  constructor(uuid: string, crpcen: string, raisonSociale: string) {
-    this.uuid = uuid;
-    this.crpcen = crpcen;
-    this.raisonSociale = raisonSociale;
-  }
+  raison_sociale: string;
 }
 
-// Classe pour le contact
-export class Contact {
+export interface Contact {
   nom: string;
-
-  constructor(nom: string) {
-    this.nom = nom;
-  }
 }
 
-// Classe pour les informations du bien
-export class Bien {
+export enum BienNature {
+  Appartement = "appartement",
+  Maison = "maison",
+  Immeuble = "immeuble",
+  Garage = "garage",
+  Terrain = "terrain",
+  Autre = "autre"
+}
+
+
+export type Bien = {
   commune: Commune;
-  nature: string;
   photos: { href: string }[];
-  surface: number;
+} & (
+    | { nature: BienNature.Appartement; surface_plancher: number }
+    | { nature: BienNature.Maison; surface_habitable: number }
+    | { nature: BienNature.Immeuble; surface_plancher: number }
+    | { nature: BienNature.Garage; surface: number }
+    | { nature: BienNature.Terrain; surface: number }
+    | { nature: BienNature.Autre; surface: number }
+  );
 
-  constructor(commune: Commune, nature: string, photos: { href: string }[], surface: number) {
-    this.commune = commune;
-    this.nature = nature;
-    this.photos = photos;
-    this.surface = surface;
-  }
-}
 
-// Classe pour la commune du bien
-export class Commune {
-  codeInsee: string;
-  codePostal: string;
+
+
+
+export interface Commune {
+  code_insee: string;
+  code_postal: string;
   libelle: string;
-
-  constructor(codeInsee: string, codePostal: string, libelle: string) {
-    this.codeInsee = codeInsee;
-    this.codePostal = codePostal;
-    this.libelle = libelle;
-  }
 }
 
-// Classe pour les informations de la rente (dans le cas du viager)
-export class Rente {
+export interface Rente {
   montant: number;
   periodicite: string;
-
-  constructor(montant: number, periodicite: string) {
-    this.montant = montant;
-    this.periodicite = periodicite;
-  }
 }

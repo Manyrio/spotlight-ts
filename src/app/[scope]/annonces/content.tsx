@@ -3,7 +3,7 @@
 import { Component, use, useContext, useEffect, useState } from 'react'
 import { Card } from '@/components/Card'
 import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLayout'
-import { AnnonceBase, Location, TypeTransaction, VenteTraditionnelle, VenteViager } from '@/models/annonce'
+import { Annonce, AnnonceBase, BienNature, getAnnonceSurface, getAnnonceType, Location, TypeHonoraires, TypeTransaction, VenteImmoInteractif, VenteTraditionnelle, VenteViager } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
 import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Method, call } from '@/scripts/api';
 import { NotyResponse } from '@/models/other';
+import { currency } from '../../../models/annonce';
 
 
 
@@ -79,27 +80,12 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
 }
 
 
-function ElementAnnonce({ annonce }: { annonce: AnnonceBase }) {
-  const { colors } = useContext(AppContext);
+export function ElementAnnonce({ annonce }: { annonce: Annonce }) {
+  const { colors, scope } = useContext(AppContext);
 
-  // Directly create a variable for newAnnonce based on the type
-  let newAnnonce: Location | VenteTraditionnelle | VenteViager;
-
-  if (annonce.transaction === TypeTransaction.Location) {
-    newAnnonce = annonce as Location;
-  } else if (
-    annonce.transaction === TypeTransaction.VenteImmoInteractif ||
-    annonce.transaction === TypeTransaction.VenteTraditionnelle
-  ) {
-    newAnnonce = annonce as VenteTraditionnelle;
-  } else if (annonce.transaction === TypeTransaction.VenteViager) {
-    newAnnonce = annonce as VenteViager;
-  } else {
-    return null; // Return null if no matching type is found
-  }
 
   return (
-    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/annonces/${newAnnonce.uuid}`}>
+    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/${scope}/annonces/${annonce.uuid}`}>
       <Card className="md:col-span-2">
         <span
           className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10"
@@ -108,63 +94,58 @@ function ElementAnnonce({ annonce }: { annonce: AnnonceBase }) {
             background: colors.attributes.tintedBackground,
           }}
         >
-          {newAnnonce.transaction}
+
+          {getAnnonceType(annonce)}
+
+
         </span>
 
         <p />
+        <p
+          className="relative z-20 md:block dark:text-gray-200 text-sm text-zinc-600 "
+          style={{ color: colors.attributes.hint }}
+        >
+          {annonce.bien.nature}- {getAnnonceSurface(annonce)}
+        </p>
+
         <Card.Title style={{ color: colors.attributes.accent }}>
-          {newAnnonce.bien.nature}
+          <AnnonceLines annonce={annonce}></AnnonceLines>
         </Card.Title>
 
-        <p
-          className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg text-zinc-600"
-          style={{ color: colors.attributes.hint }}
-        >
-          {newAnnonce instanceof Location && newAnnonce.loyer.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-          {newAnnonce instanceof VenteTraditionnelle && newAnnonce.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-          {newAnnonce instanceof VenteViager && newAnnonce.rente.montant.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-        </p>
 
-        <p
-          className="relative z-20 md:block dark:text-gray-200 text-sm text-zinc-600"
-          style={{ color: colors.attributes.hint }}
-        >
-          Honoraires de négociation:{" "}
-          {newAnnonce instanceof Location && newAnnonce.montantDepotGarantie.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-          {newAnnonce instanceof VenteTraditionnelle && newAnnonce.honoraires.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-          {newAnnonce instanceof VenteViager && newAnnonce.honoraires.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-        </p>
+
+
+
 
         <Card.Eyebrow as="p" className="md:hidden" decorate>
-          {newAnnonce.bien.photos.length > 0 && (
+          {annonce.bien.photos.length > 0 && (
             <img
-              src={newAnnonce.bien.photos[0].href}
+              src={annonce.bien.photos[0].href}
               alt="Bien image"
               className="rounded-lg w-full shrink-0"
             />
           )}
         </Card.Eyebrow>
 
-        <Card.Description>{newAnnonce.description}</Card.Description>
 
         <p
-          className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg text-zinc-600"
+          className="relative z-20 font-semibold md:block dark:text-gray-200 text-lg text-zinc-600 mt-5"
           style={{ color: colors.attributes.hint }}
         >
-          {newAnnonce.bien.commune.libelle}
+          {annonce.bien.commune.libelle} ({annonce.bien.commune.code_postal})
         </p>
 
         <Card.Cta>En savoir plus</Card.Cta>
       </Card>
 
       <Card.Eyebrow as="p" className="mt-1 hidden md:block md:col-span-2">
-        {newAnnonce.bien.photos.length > 0 && (
+        {annonce.bien.photos.length > 0 && (
           <article
-            key={newAnnonce.uuid}
+            key={annonce.uuid}
             className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
           >
             <img
-              src={newAnnonce.bien.photos[0].href}
+              src={annonce.bien.photos[0].href}
               alt="Bien image"
               className="absolute inset-0 -z-10 h-full w-full object-cover"
             />
@@ -510,11 +491,11 @@ function FiltresAnnonces() {
 
 export default function AnnoncesContent() {
   const { colors } = useContext(AppContext)
-  let [annonces, setAnnonces] = useState<AnnonceBase[]>()
+  let [annonces, setAnnonces] = useState<Annonce[]>()
 
   useEffect(() => {
     async function fetchData() {
-      let response: NotyResponse<AnnonceBase> = await call("/api/noty?path=annonces", Method.get)
+      let response: NotyResponse<Annonce> = await call("/api/noty?path=annonces", Method.get)
       setAnnonces(response.results)
     }
 
@@ -538,5 +519,79 @@ export default function AnnoncesContent() {
         </div>
       </div>
     </SimpleLayoutWithTitleFooter>
+  )
+}
+
+
+export function AnnonceLines({ annonce }: { annonce: Annonce }) {
+  const { colors } = useContext(AppContext)
+  return (
+    <>
+      {
+        annonce.transaction == TypeTransaction.location &&
+        <>
+          {currency(annonce.loyer)} - {annonce.loyer_periodicite}
+          <p className='text-sm italic'
+            style={{ color: colors.attributes.hint }}
+          >
+            {
+              annonce.charges_incluses &&
+              <> dont Charges: {currency(annonce.montant_charges)} <br /> </>
+            }
+
+            {
+              annonce.meuble ? <>Meublé <br /></>
+                : <> Non meublé <br /> </>
+            }
+          </p>
+        </>
+      }
+
+
+      {(annonce.transaction == TypeTransaction.vente_traditionnelle || annonce.transaction == TypeTransaction.vente_immo_interactif) &&
+        <>
+          {currency(annonce.prix_hni)}
+          <p className='text-sm italic'
+            style={{ color: colors.attributes.hint }}
+          >
+            {
+              annonce.type_honoraires == TypeHonoraires.charge_acquereur &&
+              <> dont prix de vente: {currency(annonce.prix_nv)} <br /></>
+            }
+
+            {
+              annonce.type_honoraires == TypeHonoraires.charge_acquereur ?
+                <> dont HN*: {currency(annonce.honoraires)} ({annonce.honoraires_pourcentage}%)&nbsp;charge acqéreur</>
+                : <>Honoraires Compris</>}
+          </p>
+        </>
+      }
+
+
+      {
+        annonce.transaction == TypeTransaction.vente_viager &&
+        <>
+          {currency(annonce.rente.montant)} - {annonce.rente.periodicite}
+          <p className='text-sm italic'
+            style={{ color: colors.attributes.hint }}
+          >
+            {
+              annonce.bouquet &&
+              <>
+                Bouquet: {currency(annonce.bouquet_hni)}
+                ,&nbsp;
+                {annonce.type_honoraires == TypeHonoraires.charge_acquereur ?
+                  <> dont HN*: {currency(annonce.honoraires)} ({annonce.honoraires_pourcentage}%)&nbsp;charge acqéreur</>
+                  : <>Honoraires Compris</>}
+
+                <br />
+              </>
+            }
+
+          </p>
+        </>
+      }
+
+    </>
   )
 }

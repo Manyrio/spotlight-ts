@@ -2,17 +2,12 @@
 
 import { AppContext } from '@/app/providers';
 import { Container } from '@/components/Container';
-import { SimpleLayout } from '@/components/SimpleLayout'
-import { Article } from '@/models/articles';
-import { Color } from '@/models/colors';
-import { BookOpenIcon } from '@heroicons/react/24/outline';
 import { RiHomeGearLine, RiShape2Line, RiShakeHandsLine, RiLayoutMasonryLine, RiBuilding2Line, RiBallPenLine, RiArrowUpLine, RiBuildingLine, RiWaterFlashLine, RiStackFill, RiShowersLine, RiHome2Line } from '@remixicon/react';
 import React, { useContext } from 'react';
 import Markdown from 'react-markdown'
 import { Carousel } from 'react-responsive-carousel';
 import { AnnonceLines, ElementAnnonce } from '../content';
 import { Annonce, BienNature, Classes, currency, getAnnonceEtat, getAnnonceSurface, getAnnonceType, TypeTransaction } from '@/models/annonce';
-import { Column, useTable } from 'react-table';
 
 
 function DpeImage({ classe, value, gesValue }: { classe: Classes, value: number, gesValue: number }) {

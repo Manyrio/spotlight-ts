@@ -37,7 +37,7 @@ export async function call(url: string, method: Method, data: any = null, type: 
             next: { revalidate: 0 },
             method: method,
             headers: headers,
-            body: data ? JSON.stringify(data) : null,
+            body: data ? type == "application/json" ? JSON.stringify(data) : data : null,
         });
 
         // Try to parse as JSON first

@@ -108,8 +108,8 @@ export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
                     <div className='w-full'>
                         <Carousel className='w-full'
                             showStatus={false}>
-                            {annonce.bien.photos.map((image) => (
-                                <img src={`${image.href}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
+                            {annonce.bien.photos.map((image, index) => (
+                                <img key={index} src={`${image.href}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
                             ))}
                         </Carousel>
 

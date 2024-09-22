@@ -56,8 +56,8 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
           <Carousel className='mb-16 max-w-2xl '
             showThumbs={false}
             showStatus={false}>
-            {carousel.attributes.images.data.map((image) => (
-              <img src={`https://admin.laube-lhomme-caulnes.notaires.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
+            {carousel.attributes.images.data.map((image, index) => (
+              <img key={index} src={`https://admin.laube-lhomme-caulnes.notaires.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
             ))}
           </Carousel>
         </div>

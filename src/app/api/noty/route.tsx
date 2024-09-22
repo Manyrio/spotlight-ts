@@ -1,33 +1,21 @@
 
-import { call, Method } from '@/scripts/api'
+import { syncAnnonces } from '@/scripts/sync_annonces'
+import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 export async function GET(req: NextRequest) {
+    let binary: string = await syncAnnonces()
 
-    let path = new URL(req.url).searchParams.get("path")
-    let limit = new URL(req.url).searchParams.get("limit") || 10
-    let page = new URL(req.url).searchParams.get("page") || 1
+    console.log(binary)
 
-    let notyApiKey = process.env.NOTY_API_KEY
-    let baseApiPath = "https://api.broadcast.test.noty.fr"
-    let fullPath = `${baseApiPath}/${path}?limit=${limit}&page=${page}`
+    const requestHeaders = new Headers(req.headers)
+    requestHeaders.set('Content-Type', 'image/jpeg')
 
-    try {
-        let response = await call(`${fullPath}`, Method.get, null, "application/json", {
-            "AUTH-TOKEN": notyApiKey
-        })
-        console.log(response)
+    NextResponse.next({ headers: requestHeaders })
+    return NextResponse.json(Buffer.from(binary), {
+        status: 403,
+        headers: {
+            'Content-Type': 'image/jpeg',
+        },
 
-        return NextResponse.json(response, {
-            status: 200,
-        })
-
-    } catch (error) {
-        console.log(error)
-        return NextResponse.json(error, {
-            status: 403,
-        })
-    }
-
-
-
+    })
 }

@@ -3,7 +3,7 @@
 import { Component, use, useContext, useEffect, useState } from 'react'
 import { Card } from '@/components/Card'
 import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLayout'
-import { Annonce, BienNature, getAnnoncePeriodicite, getAnnonceSurface, getAnnonceType, TypeHonoraires, TypeTransaction } from '@/models/annonce'
+import { Annonce, AnnonceObject, BienNature, getAnnoncePeriodicite, getAnnonceSurface, getAnnonceType, TypeHonoraires, TypeTransaction } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
 import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
@@ -12,7 +12,7 @@ import { AppContext } from '@/app/providers';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Method, call } from '@/scripts/api';
-import { NotyResponse } from '@/models/other';
+import { ApiListResponse, NotyResponse } from '@/models/other';
 import { currency } from '../../../models/annonce';
 import { RiBuilding3Line, RiHome3Line, RiShakeHandsLine } from '@remixicon/react';
 
@@ -81,8 +81,10 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
 }
 
 
-export function ElementAnnonce({ annonce }: { annonce: Annonce }) {
+export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject }) {
   const { colors, scope } = useContext(AppContext);
+
+  let annonce = annonceObject.attributes.object
 
 
   return (
@@ -505,20 +507,9 @@ function FiltresAnnonces() {
   )
 }
 
-export default function AnnoncesContent() {
+export default function AnnoncesContent({ annonces }: { annonces: AnnonceObject[] }) {
   const { colors } = useContext(AppContext)
-  let [annonces, setAnnonces] = useState<Annonce[]>()
-
-  useEffect(() => {
-    async function fetchData() {
-      let response: NotyResponse<Annonce> = await call("/api/noty?path=annonces", Method.get)
-      setAnnonces(response.results)
-    }
-
-    fetchData()
-
-  }, [])
-
+  console.log(annonces)
 
 
   return (
@@ -529,9 +520,14 @@ export default function AnnoncesContent() {
     >
       <div className="md:border-l md:pl-6 " style={{ borderColor: colors.attributes.border }}>
         <div className="flex w-full flex-col space-y-16">
-          {annonces && annonces.map((annonce) => (
-            <ElementAnnonce key={annonce.uuid} annonce={annonce} />
-          ))}
+          {
+            annonces && annonces.map((annonce) => {
+              console.log(annonce)
+              return (
+                <ElementAnnonce key={annonce.id} annonceObject={annonce} />
+              )
+            })
+          }
         </div>
       </div>
     </SimpleLayoutWithTitleFooter>

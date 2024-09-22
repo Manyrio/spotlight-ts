@@ -48,7 +48,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
   let parameters = await getDefaultParameters()
 
-
   return {
     title: {
       template: '%s - ' + parameters.defaultEtude.attributes.name,
@@ -57,11 +56,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: parameters.defaultEtude.attributes.seo?.metaDescription,
     keywords: parameters.defaultEtude.attributes.seo?.keywords?.join(","),
-    alternates: {
-      types: {
-        'application/rss+xml': `${process.env.NEXT_PUBLIC_SITE_URL}/feed.xml`,
-      },
-    },
     icons: {
       icon: [
         {

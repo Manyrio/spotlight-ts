@@ -285,8 +285,6 @@ export default function HomeContent({ members, carousel }: { members: Member[], 
                             {members.map((member, index: number) => {
                                 let allowed = false
                                 member.attributes.etudes.data.forEach(element => {
-                                    console.log(element.attributes.slug)
-
                                     if (element.attributes.slug == etude.attributes.slug) allowed = true
                                 });
 

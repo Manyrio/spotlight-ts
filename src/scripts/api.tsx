@@ -6,19 +6,25 @@ export enum Method {
     delete = "DELETE"
 }
 
-export async function call(url: string, method: Method, data: any = null, type = 'application/json', headers: any = {}) {
+export async function call(url: string, method: Method, data: any = null, type: string | null = 'application/json', headers: any = {}) {
+    if (type == "auto") {
+        type = null
+    }
 
+    console.log("type", type)
     try {
         headers = {
             ...headers,
-            'Content-Type': type,
             "Cache-Control": "no-cache, no-store, must-revalidate", // These directives prevent caching
             "Pragma": "no-cache",  // This is specifically for older HTTP 1.0 caches
             "Expires": "0",  // Indicates the resource is already expired
             "cache": 'no-store'
         };
 
-        headers.authorization = `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`
+        if (type) headers['Content-Type'] = type
+
+
+        headers.authorization = `Bearer ${process.env.STRAPI_API_TOKEN}`
 
 
         if (!url.startsWith("http") && !url.startsWith("/")) {

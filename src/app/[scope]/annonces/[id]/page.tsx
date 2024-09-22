@@ -1,15 +1,10 @@
 
 import { Method, call } from '@/scripts/api';
-import InformationsContent from './content';
-import { ApiListResponse, ApiRetrieveResponse, NotyResponse } from '@/models/other';
-import { Article } from '@/models/articles';
-import next, { Metadata } from 'next';
+import { ApiListResponse, NotyResponse } from '@/models/other';
+import { Metadata } from 'next';
 import { Annonce } from '@/models/annonce';
 import { NextRequest } from 'next/server';
 import { headers } from 'next/headers';
-import { ElementAnnonce } from '../content';
-import { Container } from '@/components/Container';
-import { Carousel } from 'react-responsive-carousel';
 import AnnoncePageContent from './content';
 
 
@@ -56,7 +51,7 @@ export default async function ArticlePage({ params }: { params: { id: string } }
 
     let annonces: NotyResponse<Annonce> = await call(origin + "/api/noty?path=annonces&page=" + page, Method.get)
     let annonce = annonces.results.find(a => a.uuid == id) as Annonce
-    console.log(annonce)
+
     return (
         <AnnoncePageContent annonce={annonce}></AnnoncePageContent>
     )

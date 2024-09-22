@@ -1,3 +1,6 @@
+import { Image } from "./image";
+import { ApiListResponse } from "./other";
+
 // Enum for transaction types
 export enum TypeTransaction {
   vente_traditionnelle = "vente_traditionnelle",
@@ -9,6 +12,14 @@ export enum TypeTransaction {
 export enum TypeHonoraires {
   "charge_vendeur" = "charge_vendeur",
   "charge_acquereur" = "charge_acquereur"
+}
+
+export type AnnonceObject = {
+  id: string,
+  attributes: {
+    object: Annonce,
+    photos: ApiListResponse<Image>
+  }
 }
 
 export type Annonce = {
@@ -165,9 +176,16 @@ export enum BienEtat {
   A_Rafraichir = "a_rafraichir",
   A_Renover = "a_renover"
 }
+export interface Photo {
+  href: string;
+  uuid: string;
+  rank: number;
+
+}
+
 export type Bien = {
   commune: Commune;
-  photos: { href: string }[];
+  photos: Photo[];
   etat?: BienEtat | null;
   performance_energetique: {
     date_diagnostic: string;  // "2021-07-06 00:00:00" (ISO date string)

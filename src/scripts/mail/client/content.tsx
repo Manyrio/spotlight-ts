@@ -6,14 +6,15 @@ import { ApiRetrieveResponse } from '@/models/other'
 import { MailReservation } from '@/models/mailReservation'
 import showdown from 'showdown'
 import { getFooter } from './footer'
-import { getApiDefaultParameters } from '../utils'
+import { getApiDefaultParameters } from '../../../app/api/[scope]/utils'
+import { Reservation } from '@/models/reservation'
 
 export enum ReservationType {
-    Demande = "Demande",
-    Confirmée = "Confirmée",
-    Annulée = "Annulée",
-    Refusée = "Refusée",
-    Déplacée = "Déplacée"
+    Demande = "demande",
+    Confirmation = "confirmation",
+    Annulation = "annulation",
+    Refus = "refus",
+    Déplacement = "deplacement"
 }
 
 export async function getMailAttributes(type: ReservationType) {
@@ -26,18 +27,18 @@ export async function getMailAttributes(type: ReservationType) {
     if (type === ReservationType.Demande) {
         mailContent = mailReservation.attributes.send;
         mailTitle = mailReservation.attributes.sendObject;
-    } else if (type === ReservationType.Confirmée) {
+    } else if (type === ReservationType.Confirmation) {
         mailContent = mailReservation.attributes.confirmation;
         mailTitle = mailReservation.attributes.confirmationObject;
     }
-    else if (type === ReservationType.Annulée) {
+    else if (type === ReservationType.Annulation) {
         mailContent = mailReservation.attributes.canceled;
         mailTitle = mailReservation.attributes.cancelObject;
     }
-    else if (type === ReservationType.Refusée) {
+    else if (type === ReservationType.Refus) {
         mailContent = mailReservation.attributes.denied;
         mailTitle = mailReservation.attributes.deniedObject
-    } else if (type === ReservationType.Déplacée) {
+    } else if (type === ReservationType.Déplacement) {
         mailContent = mailReservation.attributes.move;
         mailTitle = mailReservation.attributes.moveObject;
     }
@@ -62,7 +63,7 @@ function replacePlaceholders(
         'NOM CLIENT': clientName,
         'DATE RDV': dateRdv,
         'HEURE RDV': heureRdv,
-        'ADRESSE ETUDE': etude.attributes.addressDescription,
+        'ADRESSE ETUDE': etude.attributes.address,
         'TELEPHONE ETUDE': etude.attributes.phone,
         'EMAIL ETUDE': etude.attributes.email,
         'NOM ETUDE': etude.attributes.name,
@@ -71,20 +72,22 @@ function replacePlaceholders(
     return content.replace(/\[(.*?)\]/g, (_, key: keyof typeof variables) => variables[key] || '');
 }
 
-export async function formattedMailAttributes(
+export async function getFormattedMailAttributes(
     type: ReservationType,
-    clientName: string,
-    startDate: Date,
+    reservation: Reservation,
 ): Promise<any> {
     let mailAttributes = await getMailAttributes(type);
     let parameters = await getApiDefaultParameters();
 
-    let markdownToHtmlTitle = new showdown.Converter().makeHtml(replacePlaceholders(
+    let clientName: string = reservation.clientFirstName + ' ' + reservation.clientLastName;
+    let startDate: Date = reservation.date;
+
+    let markdownToHtmlTitle = replacePlaceholders(
         mailAttributes.title,
         clientName,
         startDate,
         parameters.defaultEtude
-    ));
+    );
 
     let markdownToHtmlContent = new showdown.Converter().makeHtml(replacePlaceholders(
         mailAttributes.content,
@@ -96,11 +99,11 @@ export async function formattedMailAttributes(
     return {
         title: markdownToHtmlTitle,
         content: `
-                        <table class="es-content" cellspacing="0" cellpadding="0" align="center">
+                        <table class="es-content" cellspacing="0" cellpadding="20" align="center">
                             <tbody>
                                 <tr>
                                     <td class="esd-stripe" align="center">
-                                        <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#DCE8F3" align="center" background="https://tlr.stripocdn.email/content/guids/CABINET_09e9fe3469e9e38cee45638bc890f8fb7fa30bea0ae9e8d1c37288fc5f1f0d62/images/frame_3.png" style="background-image: url(https://tlr.stripocdn.email/content/guids/CABINET_09e9fe3469e9e38cee45638bc890f8fb7fa30bea0ae9e8d1c37288fc5f1f0d62/images/frame_3.png); background-repeat: no-repeat; background-position: center top;">
+                                        <table class="es-content-body" width="600" cellspacing="20" cellpadding="20" bgcolor="#DCE8F3" align="center" background="https://tlr.stripocdn.email/content/guids/CABINET_09e9fe3469e9e38cee45638bc890f8fb7fa30bea0ae9e8d1c37288fc5f1f0d62/images/frame_3.png" style="background-image: url(https://tlr.stripocdn.email/content/guids/CABINET_09e9fe3469e9e38cee45638bc890f8fb7fa30bea0ae9e8d1c37288fc5f1f0d62/images/frame_3.png); background-repeat: no-repeat; background-position: center top;">
                                             <tbody>
                                                 <tr>
                                                     <td class="esd-structure es-p40 es-m-p20r es-m-p20l" align="left">

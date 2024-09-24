@@ -1,5 +1,10 @@
 import { ObjectInterface } from "./other";
 
+export enum ReservationStatus {
+  Confirmed = "confirmed",
+  Draft = "draft",
+}
+
 export class Reservation {
   constructor(
     public id: string = "",
@@ -9,6 +14,7 @@ export class Reservation {
     public message: string = "",
     public clientEmail: string = "",
     public clientPhone: number = 0,
+    public status: ReservationStatus = ReservationStatus.Draft
   ) {
     this.id = id;
     this.date = date;
@@ -17,6 +23,7 @@ export class Reservation {
     this.message = message;
     this.clientEmail = clientEmail;
     this.clientPhone = clientPhone;
+    this.status = status;
   }
 
   public get name(): string {

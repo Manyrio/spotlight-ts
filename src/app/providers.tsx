@@ -4,11 +4,12 @@ import { createContext, useEffect, useRef, useState } from 'react'
 import { redirect, usePathname } from 'next/navigation'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { Etude } from '@/models/etudes'
-import { Scope } from '@/models/other'
+import { ApiListResponse, Scope } from '@/models/other'
 import { Color } from '@/models/colors'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { MainStyle } from '@/components/MainStyle'
 import { Image } from '@/models/image'
+import { DocumentFile } from '@/models/documents'
 
 
 
@@ -32,23 +33,25 @@ export const AppContext = createContext<{
     etude: Etude,
     etudes: Etude[],
     colors: Color,
-    lienEtSocial: LienEtSocial
+    lienEtSocial: LienEtSocial,
+    documents?: DocumentFile[]
 }>({
     scope: Scope.Caulnes,
     setScope: () => { },
     etude: new Etude(),
     etudes: [new Etude()],
     colors: new Color(),
-    lienEtSocial: new LienEtSocial()
+    lienEtSocial: new LienEtSocial(),
 })
 
-export function Providers({ children, etudes, defaultScope, defaultEtude, defaultLienEtSocial }: { children: React.ReactNode, etudes: Etude[], defaultScope: Scope, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial }) {
+export function Providers({ children, documents, etudes, defaultScope, defaultEtude, defaultLienEtSocial }: { children: React.ReactNode, documents: DocumentFile[], etudes: Etude[], defaultScope: Scope, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial }) {
     let pathname = usePathname()
     let previousPathname = usePrevious(pathname)
     let [scope, setScope] = useState(defaultScope)
     let [lienEtSocial, setLienEtSocial] = useState<LienEtSocial>(defaultLienEtSocial)
     let [etude, setEtude] = useState<Etude>(defaultEtude)
     let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
+
 
     useEffect(() => {
         let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
@@ -81,7 +84,7 @@ export function Providers({ children, etudes, defaultScope, defaultEtude, defaul
 
     return (
         <AppContext.Provider value={{
-            previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes
+            previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes, documents
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <MainStyle etude={etude} important />

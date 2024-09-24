@@ -1,19 +1,8 @@
 'use client'
-
-import Link from 'next/link'
-import {
-  type MotionValue,
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-} from 'framer-motion'
-
-import { GridPattern } from '@/components/GridPattern'
 import { Container, ContainerInner } from '@/components/Container'
 import { use, useContext } from 'react'
 import { AppContext } from '@/app/providers'
 
-import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLayout'
 import { BookOpenIcon, CheckBadgeIcon } from '@heroicons/react/24/outline'
 import { Label } from '@/models/labels'
 import { CarouselComponent } from '@/models/carousel'
@@ -57,7 +46,7 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
             showThumbs={false}
             showStatus={false}>
             {carousel.attributes.images.data.map((image, index) => (
-              <img key={index} src={`https://admin.laube-lhomme-caulnes.notaires.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
+              <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
             ))}
           </Carousel>
         </div>
@@ -103,7 +92,7 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
               <div className="flex min-w-0 gap-x-4">
 
                 {label.attributes.image.data ?
-                  <img className='h-20 w-20 rounded-full shrink-0' src={"https://admin.laube-lhomme-caulnes.notaires.fr" + label.attributes.image.data.attributes.url}></img>
+                  <img className='h-20 w-20 rounded-full shrink-0' src={process.env.NEXT_PUBLIC_BACKEND_URL + label.attributes.image.data.attributes.url}></img>
                   :
                   <div className='rounded-full flex h-20 w-20 items-center justify-center shrink-0' style={{ background: colors.attributes.tintedBackground }} >
 

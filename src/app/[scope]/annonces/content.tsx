@@ -3,7 +3,7 @@
 import { Component, use, useContext, useEffect, useState } from 'react'
 import { Card } from '@/components/Card'
 import { SimpleLayout, SimpleLayoutWithTitleFooter } from '@/components/SimpleLayout'
-import { Annonce, AnnonceObject, BienNature, getAnnoncePeriodicite, getAnnonceSurface, getAnnonceType, TypeHonoraires, TypeTransaction } from '@/models/annonce'
+import { Annonce, AnnonceObject, BienNature, getAnnoncePeriodicite, getAnnonceSurface, getAnnonceType, translateAnnonceType, TypeHonoraires, TypeTransaction } from '@/models/annonce'
 import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
 import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
@@ -23,20 +23,26 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function DropDown({ title, enumObject, selected, setSelected }: { title: string, enumObject: any, selected: string, setSelected: (value: string) => void }) {
+function DropDown({ title, enumObject, setSelected, translate }: { title: string, enumObject: any, setSelected: (value: string) => void, translate?: (value: any) => void }) {
   const { colors } = useContext(AppContext)
 
+  let [selection, setSelection] = useState<string>()
 
+  useEffect(() => {
+    if (selection) setSelected(selection)
+
+
+  }, [selection])
 
   return (
 
-    <Menu as="div" className="relative inline-block dark:text-gray-200 text-left">
+    <Menu as="div" className="relative inline-block dark:text-gray-200 text-left rounded-md ">
       <div>
         <MenuButton className="group inline-flex justify-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-700 text-gray-900"
 
           style={{ color: colors.attributes.indicator }}
         >
-          {title}
+          {selection ? selection : title}
           <ChevronDownIcon
             className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 dark:text-gray-200 text-gray-400  text-gray-500"
             style={{ color: colors.attributes.indicator }}
@@ -53,26 +59,33 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems className="absolute left-0 z-30 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
-            {
+        <MenuItems className="absolute left-0 z-30 mt-2 w-fit origin-top-left rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+        >
+          <div className="rounded-md overflow-hidden"
+            style={{ background: colors.attributes.tintedBackground }}
+          >
+            {enumObject &&
               Object.keys(enumObject).map((key) => (
                 <MenuItem key={key}>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <div
+                      onClick={() => setSelection(enumObject[key])}
                       style={{ color: colors.attributes.indicator }}
                       className={classNames(
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-900 ',
+                        'block px-4 py-2 dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-900 cursor-pointer',
                       )}
                     >
-                      {enumObject[key]}
-                    </a>
+                      {translate ?
+                        translate(enumObject[key])
+                        :
+                        enumObject[key]}
+                    </div>
                   )}
                 </MenuItem>
               ))
             }
+
 
           </div>
         </MenuItems>
@@ -83,9 +96,9 @@ function DropDown({ title, enumObject, selected, setSelected }: { title: string,
 
 export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject }) {
   const { colors, scope } = useContext(AppContext);
-
   let annonce = annonceObject.attributes.object
-
+  console.log(annonceObject)
+  let photos = annonceObject.attributes.photos || { data: null }
 
   return (
     <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/${scope}/annonces/${annonce.uuid}`}>
@@ -118,17 +131,18 @@ export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject
         </Card.Title>
 
 
-        <Card.Eyebrow as="p" className="md:hidden" decorate>
-          {annonce.bien.photos.length > 0 ?
+
+        <Card.Eyebrow as="p" className="md:hidden w-full" decorate>
+          {photos.data && photos.data.length > 0 ?
             <img
-              src={annonce.bien.photos[0].href || "https://placehold.co/600x400"}
+              src={process.env.NEXT_PUBLIC_BACKEND_URL + photos.data[0].attributes.url}
               alt="Bien image"
-              className="rounded-lg w-full shrink-0"
+              className="rounded-lg w-full  aspect-video object-cover shrink-0"
             />
             : <img
-              src={"https://placehold.co/600x400"}
+              src={""}
               alt="Bien image"
-              className="rounded-lg w-full shrink-0"
+              className="rounded-lg w-full aspect-video  shrink-0 bg-gray-200"
             />
           }
         </Card.Eyebrow>
@@ -156,16 +170,16 @@ export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject
           key={annonce.uuid}
           className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
         >
-          {annonce.bien.photos.length > 0 ?
+          {photos.data && photos.data.length > 0 ?
             <img
-              src={annonce.bien.photos[0].href || "https://placehold.co/600x400"}
+              src={process.env.NEXT_PUBLIC_BACKEND_URL + photos.data[0].attributes.url}
               alt="Bien image"
               className="absolute inset-0 -z-10 h-full w-full object-cover"
             /> :
             <img
-              src={"https://placehold.co/600x400"}
+              src={""}
               alt="Bien image"
-              className="absolute inset-0 -z-10 h-full w-full object-cover"
+              className="absolute inset-0 -z-10 h-full w-full object-cover bg-gray-200"
             />
           }
         </article>
@@ -446,7 +460,8 @@ enum Prix {
   moreThanTwoHundreds = "+ de 200 000€",
 }
 
-function FiltresAnnonces() {
+function FiltresAnnonces({ filtres, setFiltres }: { filtres: { [key: string]: { value: string | number, operator: string } }, setFiltres: (value: { [key: string]: { value: string | number, operator: string } }) => void }) {
+
   const [open, setOpen] = useState(false)
   const { colors } = useContext(AppContext)
 
@@ -458,50 +473,197 @@ function FiltresAnnonces() {
         Filtres
       </h2>
 
-      <div className="flex items-center gap-8 flex-wrap">
+      <div className="flex items-start gap-8 flex-wrap">
 
 
-        <div>
+        {DropDown({ translate: translateAnnonceType, title: "Transaction", enumObject: TypeTransaction, setSelected: (value) => setFiltres({ ...filtres, transaction: { value: value, operator: "$eq" } }) })}
 
-          <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
-            style={{ color: colors.attributes.indicator }}
-          >
-            Surface habitable minimum (m²)
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="number"
-              min={9}
-              max={1000}
-              className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-              style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+        {DropDown({ title: "Type de Bien", enumObject: BienNature, setSelected: (value) => setFiltres({ ...filtres, natureBien: { value: value, operator: "$eq" } }) })}
 
-            />
-          </div>
-        </div>
-        <div>
 
-          <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
-            style={{ color: colors.attributes.indicator }}
-          >
-            Localisation (ville)
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              name="first-name"
-              id="first-name"
-              autoComplete="given-name"
-              className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
-              style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
-
-            />
-          </div>
-        </div>
-        {/* {wn({ tiDropDotle: "Catégorie", enumObject: TypeTransaction, selected: TypeTransaction.Vente, setSelected: (value) => { console.log(value) } })} */}
         {/* {DropDown({ title: "Prix", enumObject: Prix, selected: Prix.zeroToHundred, setSelected: (value) => { console.log(value) } })} */}
 
         {/* {DropDown({ title: "Localisation", enumObject: Localisation, selected: Localisation.Paris, setSelected: (value) => { console.log(value) } })} */}
+
+        <div className='cursor-pointer ml-auto font-semibold flex items-center' onClick={() => setOpen(!open)}
+          style={{ color: colors.attributes.accent }}
+        >Voir plus de critères
+          <ChevronDownIcon className='h-5 w-5'></ChevronDownIcon>
+        </div>
+
+      </div>
+
+      <div className='mt-8'>
+
+        {open && <div className="flex items-start justify-end gap-8 flex-wrap">
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Localisation (code postal / ville)
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, localisation: { value: e.target.value, operator: "$eq" } })}
+                type="text"
+                name="first-name"
+                id="first-name"
+                autoComplete="given-name"
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Surface min (m²)
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, surface: { value: e.target.value, operator: "$gte" } })}
+                type="number"
+                placeholder='0'
+                min={9}
+                max={1000}
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Surface max (m²)
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, surface: { value: e.target.value, operator: "$lte" } })}
+                type="number"
+                placeholder='0'
+                min={9}
+                max={1000}
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+
+
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Prix min (€)
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, prix: { value: e.target.value, operator: "$gte" } })}
+                type="number"
+                placeholder='0'
+                min={9}
+                max={1000}
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Prix max (€)
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, prix: { value: e.target.value, operator: "$lte" } })}
+                type="number"
+                placeholder='0'
+                min={9}
+                max={1000}
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Nombre de pièces min
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, nombrePieces: { value: e.target.value, operator: "$gte" } })}
+                type="number"
+                placeholder='0'
+                min={9}
+                max={1000}
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+
+          <div>
+
+            <label htmlFor="first-name" className="block dark:text-gray-200 text-sm font-semibold leading-6 dark:text-gray-200 text-gray-900"
+              style={{ color: colors.attributes.indicator }}
+            >
+              Nombre de pièces max
+            </label>
+            <div className="mt-2.5">
+              <input
+                onChange={(e) => setFiltres({ ...filtres, nombrePieces: { value: e.target.value, operator: "$lte" } })}
+                type="number"
+                placeholder='0'
+                min={9}
+                max={1000}
+                className="bg-gray-600/40  border-[1px] block w-full rounded-md border-0 px-3.5 py-2 dark:text-gray-200 text-gray-900 shadow-sm ring-inset ring-gray-300 placeholder:dark:text-gray-200 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:dark:text-gray-200 text-sm sm:leading-6"
+                style={{ background: colors.attributes.tintedBackground, color: colors.attributes.indicator, borderColor: colors.attributes.border }}
+
+              />
+            </div>
+          </div>
+
+
+
+        </div>
+        }
       </div>
     </section>
   )
@@ -509,19 +671,37 @@ function FiltresAnnonces() {
 
 export default function AnnoncesContent({ annonces }: { annonces: AnnonceObject[] }) {
   const { colors } = useContext(AppContext)
+
   console.log(annonces)
+  let [filteredAnnonces, setFilteredAnnonces] = useState<AnnonceObject[]>(annonces)
+
+  let [filtres, setFiltres] = useState<{ [key: string]: { value: string | number, operator: string } }>({})
+  console.log(filtres)
+
+  useEffect(() => {
+
+    async function fetchAnnonces() {
+      console.log(filtres)
+      let filterString = Object.keys(filtres).map((key) => filtres[key].value ? `filters[${key}][${filtres[key].operator}]=${filtres[key].value}` : "").join("&")
+      console.log(filterString)
+      let filteredAnnonces: ApiListResponse<AnnonceObject> = await call("/api/annonces?" + filterString, Method.get)
+      setFilteredAnnonces(filteredAnnonces.data)
+    }
+    fetchAnnonces()
+  }, [filtres])
+
 
 
   return (
     <SimpleLayoutWithTitleFooter
       title="Annonces Immobilières"
       footer={
-        <FiltresAnnonces />}
+        <FiltresAnnonces filtres={filtres} setFiltres={setFiltres} />}
     >
       <div className="md:border-l md:pl-6 " style={{ borderColor: colors.attributes.border }}>
         <div className="flex w-full flex-col space-y-16">
           {
-            annonces && annonces.map((annonce) => {
+            filteredAnnonces && filteredAnnonces.map((annonce) => {
               console.log(annonce)
               return (
                 <ElementAnnonce key={annonce.id} annonceObject={annonce} />

@@ -13,11 +13,13 @@ import { Favicon } from '@/models/favicon'
 import { MainStyle } from '@/components/MainStyle'
 import { Color } from '@/models/colors'
 import { Image } from '@/models/image'
+import { DocumentFile } from '@/models/documents'
 
 
 
 async function getDefaultParameters() {
   let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+
   let scope = Scope.Unknown
   let path: any = headers().get('path')
   if (path.startsWith("/" + Scope.Caulnes)) {
@@ -32,11 +34,14 @@ async function getDefaultParameters() {
   }
   let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
 
+  let defaultDocuments: ApiListResponse<DocumentFile> = await call('documents?populate=*', Method.get)
+
   return {
     defaultEtude: JSON.parse(JSON.stringify(defaultEtude)),
     defaultScope: scope,
     etudes: etudes,
-    defaultLienEtSocial: responseLES.data || new LienEtSocial()
+    defaultLienEtSocial: responseLES.data || new LienEtSocial(),
+    defaultDocuments: defaultDocuments.data,
   }
 }
 
@@ -59,8 +64,8 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: [
         {
-          url: 'https://admin.laube-lhomme-caulnes.notaires.fr' + favicon.data.attributes.icon.data.attributes.url,
-          href: 'https://admin.laube-lhomme-caulnes.notaires.fr' + favicon.data.attributes.icon.data.attributes.url,
+          url: process.env.NEXT_PUBLIC_BACKEND_URL + favicon.data.attributes.icon.data.attributes.url,
+          href: process.env.NEXT_PUBLIC_BACKEND_URL + favicon.data.attributes.icon.data.attributes.url,
         },
       ],
     },
@@ -93,7 +98,7 @@ export default async function RootLayout({
       <body className={`flex h-full`}>
         <MainStyle etude={parameters.defaultEtude} />
 
-        <Providers etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
+        <Providers documents={parameters.defaultDocuments} etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
           <div className="flex w-full">
             <Layout colors={parameters.defaultEtude.attributes.colors.data}>{children}</Layout>
           </div>

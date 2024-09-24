@@ -3,6 +3,7 @@ export enum Method {
     post = "POST",
     get = "GET",
     patch = "PATCH",
+    put = "PUT",
     delete = "DELETE"
 }
 
@@ -10,8 +11,6 @@ export async function call(url: string, method: Method, data: any = null, type: 
     if (type == "auto") {
         type = null
     }
-
-    console.log("type", type)
     try {
         headers = {
             ...headers,
@@ -28,10 +27,9 @@ export async function call(url: string, method: Method, data: any = null, type: 
 
 
         if (!url.startsWith("http") && !url.startsWith("/")) {
-            url = "https://admin.laube-lhomme-caulnes.notaires.fr/api/" + url
-        } else {
-            console.log("url", url)
+            url = process.env.NEXT_PUBLIC_BACKEND_URL + "/api/" + url
         }
+        console.log("url", url)
 
         const response = await fetch(url, {
             next: { revalidate: 0 },
@@ -56,7 +54,6 @@ export async function call(url: string, method: Method, data: any = null, type: 
         return result;
 
     } catch (error) {
-        console.log("url", url)
         throw error;
     }
 }

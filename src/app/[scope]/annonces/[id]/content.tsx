@@ -7,7 +7,8 @@ import React, { useContext } from 'react';
 import Markdown from 'react-markdown'
 import { Carousel } from 'react-responsive-carousel';
 import { AnnonceLines, ElementAnnonce } from '../content';
-import { Annonce, BienNature, Classes, currency, getAnnonceEtat, getAnnonceSurface, getAnnonceType, TypeTransaction } from '@/models/annonce';
+import { Annonce, AnnonceObject, BienNature, Classes, currency, getAnnonceEtat, getAnnonceSurface, getAnnonceType, TypeTransaction } from '@/models/annonce';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 
 function DpeImage({ classe, value, gesValue }: { classe: Classes, value: number, gesValue: number }) {
@@ -31,7 +32,7 @@ function DpeImage({ classe, value, gesValue }: { classe: Classes, value: number,
             <div className='relative w-full flex items-center gap-1'>
 
                 {Object.keys(dpeClasses).map((dpeClasse, index) => {
-                    return <div className={`h-3 flex items-center justify-center w-full rounded-sm ${classe == dpeClasse && "h-8"} ${index == 0 ? "rounded-l-lg" : ""} ${index == defaultClasses.length - 1 ? "rounded-r-lg" : ""}`} style={{ background: dpeClasses[dpeClasse] }} >
+                    return <div key={index} className={`h-3 flex items-center justify-center w-full rounded-sm ${classe == dpeClasse && "h-8"} ${index == 0 ? "rounded-l-lg" : ""} ${index == defaultClasses.length - 1 ? "rounded-r-lg" : ""}`} style={{ background: dpeClasses[dpeClasse] }} >
 
                         {classe == dpeClasse &&
                             <span className='text-xl font-bold'>{classe}</span>
@@ -91,28 +92,29 @@ function GesImage({ classe, value }: { classe: Classes, value: number }) {
 }
 
 
-export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
+export default function AnnoncePageContent({ annonceObject }: { annonceObject: AnnonceObject }) {
 
     let { colors } = useContext(AppContext)
 
+    let annonce = annonceObject.attributes.object
+    let photos = annonceObject.attributes.photos || { data: null }
 
-
-    if (!annonce.bien.photos || annonce.bien.photos.length == 0) {
-        annonce.bien.photos = [{ href: "https://via.placeholder.com/150" }]
-    }
 
     return (
         <>
             <Container className='relative z-30 mt-32 md:mt-60 ' >
                 <div className='w-full flex flex-col lg:flex-row'>
-                    <div className='w-full'>
-                        <Carousel className='w-full'
-                            showStatus={false}>
-                            {annonce.bien.photos.map((image, index) => (
-                                <img key={index} src={`${image.href}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
-                            ))}
-                        </Carousel>
+                    <div className='w-full lg:w-[60%] shrink-0'>
+                        {
+                            (photos.data && photos.data.length > 0) &&
+                            <Carousel className='w-full max-w-4xl'
+                                showStatus={false}>
+                                {photos.data.map((image, index) => (
+                                    <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
+                                ))}
+                            </Carousel>
 
+                        }
                         <h1 className='text-3xl font-bold'
                             style={{ color: colors.attributes.accent }}>
                             {annonce.bien.nature == BienNature.Autre ? "Bien" : annonce.bien.nature}  {annonce.transaction == TypeTransaction.location ? annonce.meuble ? " meublé " : "" + " à louer" : " à vendre"}
@@ -138,11 +140,11 @@ export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
                         <div className=' rounded-md w-fit my-10 w-full'
                             style={{ color: colors.attributes.accent }}>
 
-                            <h2 className='text-2xl font-bold '>
+                            <h2 className='text-2xl font-bold white'>
                                 Description du bien
                             </h2>
                             <p style={{ color: colors.attributes.indicator }}
-                                className='mt-4'>
+                                className=' whitespace-pre-line'>
                                 {annonce.description}
                             </p>
 
@@ -163,7 +165,7 @@ export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
                                 {annonce.bien.etat && (
                                     <CaracteristiqueElement value={getAnnonceEtat(annonce)} Icon={RiBuildingLine} />
                                 )}
-                                <CaracteristiqueElement value={getAnnonceSurface(annonce)} Icon={RiShape2Line} />
+                                <CaracteristiqueElement value={getAnnonceSurface(annonce) + "m²"} Icon={RiShape2Line} />
                                 {annonce.transaction === TypeTransaction.location && annonce.meuble && (
                                     <CaracteristiqueElement value={"Meublé"} Icon={RiHomeGearLine} />
                                 )}
@@ -247,7 +249,7 @@ export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
                         </span>
                     </div>
 
-                    <div className='w-full lg:w-[40%] shrink-0 h-fit sticky top-24 mt-8 lg:mt-6 ml-0 lg:ml-4'>
+                    <div className='w-full lg:w-[40%]  h-fit sticky top-24 mt-8 lg:mt-6 ml-0 lg:ml-8'>
                         {annonce.contact.nom && (
                             <div className='rounded-md p-4'
                                 style={{ background: colors.attributes.tintedBackground }}>
@@ -255,7 +257,7 @@ export default function AnnoncePageContent({ annonce }: { annonce: Annonce }) {
                                     style={{ color: colors.attributes.accent }}
                                 >Contact</h2>
                                 <p style={{ color: colors.attributes.indicator }}>{annonce.contact.nom}</p>
-                                <a href={`tel: ${annonce.contact.telephone}`} style={{ color: colors.attributes.indicator }}>{annonce.contact.telephone}</a>
+                                <a href={`tel: ${annonce.contact.telephone}`} style={{ color: colors.attributes.indicator }}>{annonce.contact.telephone}</a><br />
                                 <a href={`mailto: ${annonce.contact.email}`} style={{ color: colors.attributes.indicator }}>{annonce.contact.email}</a>
                             </div>)
                         }

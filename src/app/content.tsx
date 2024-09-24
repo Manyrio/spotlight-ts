@@ -26,7 +26,7 @@ export default function HomePageContent() {
                         return (<div className={`h-full  z-10 lg:[&_img]:hover:scale-[1.7] w-full lg:min-h-screen  relative flex flex-col justify-center ${position == EtudePosition.right ? "lg:text-right  p-6 py-12 lg:pr-32 lg:pt-32" : "lg:text-left p-6 pt-32 pb-12 lg:pl-32 lg:pt-32"}`}>
 
                             <div className={`absolute left-0 top-0 w-full lg:w-[135%] h-full pointer-events-none  ${position == EtudePosition.right ? " z-0 lg:-left-[26%] lg:[mask-image:linear-gradient(110deg,transparent_25%,black_25%)]" : ""}`}>
-                                <img className=" transition-all scale-[1.05] lg:scale-[1.5] absolute left-0 top-0 h-full w-full brightness-50 blur-sm object-cover" src={`https://admin.laube-lhomme-caulnes.notaires.fr${etude.attributes.image.data.attributes.url}`}></img>
+                                <img className=" transition-all scale-[1.05] lg:scale-[1.5] absolute left-0 top-0 h-full w-full brightness-50 blur-sm object-cover" src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${etude.attributes.image.data.attributes.url}`}></img>
                             </div>
                             <h1 style={{ color: "white" }} className={`z-20  titleFont text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                 {etude.attributes.name}

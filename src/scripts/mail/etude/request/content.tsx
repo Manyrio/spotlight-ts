@@ -1,3 +1,4 @@
+import { getApiDefaultParameters } from '@/app/api/[scope]/utils';
 import { Reservation } from '@/models/reservation';
 import '@/styles/tailwind.css';
 
@@ -7,6 +8,8 @@ export async function getRequestMailAttributes(
     let dateRdv = reservation.date.toLocaleDateString('fr-FR',
         { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     let heureRdv = reservation.date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    let publicUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+    let parameters = await getApiDefaultParameters();
 
     return {
         title: "Demande de rendez-vous - " + dateRdv + " à " + heureRdv,
@@ -64,13 +67,13 @@ export async function getRequestMailAttributes(
                                                                                         <table cellspacing="0" cellpadding="0">
                                                                                             <tr>
                                                                                                 <td style="border-radius: 6px;" bgcolor="#026fe5">
-                                                                                                    <a href="https://www.copernica.com" target="_blank" style="padding: 8px 12px; font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">
+                                                                                                    <a href="${publicUrl}/${parameters.defaultScope}/reservations/${reservation.id}?action=confirm" target="_blank" style="padding: 8px 12px; font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">
                                                                                                         Confirmer
                                                                                                     </a>
                                                                                                 </td>
                                                                                                 <td style="padding-left: 12px;">
                                                                                                 <td style="border-radius: 6px;" bgcolor="#026fe5">
-                                                                                                    <a href="https://www.copernica.com" target="_blank" style="padding: 8px 12px; font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">
+                                                                                                    <a href="${publicUrl}/${parameters.defaultScope}/reservations/${reservation.id}?action=reject" target="_blank" style="padding: 8px 12px; font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">
                                                                                                         Refuser
                                                                                                     </a>
                                                                                                 </td>

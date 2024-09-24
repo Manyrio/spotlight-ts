@@ -18,7 +18,14 @@ export type AnnonceObject = {
   id: string,
   attributes: {
     object: Annonce,
-    photos: ApiListResponse<Image>
+    photos: ApiListResponse<Image>,
+    natureBien: BienNature,
+    nombrePieces: number,
+    transaction: TypeTransaction,
+    tierCreatedAt: Date,
+    prix: number,
+    uuid: string,
+    surface: number,
   }
 }
 
@@ -111,24 +118,26 @@ export function getAnnonceEtat(annonce: Annonce) {
 
 
 export function getAnnonceSurface(annonce: Annonce) {
-  return `${annonce.bien.nature == BienNature.Appartement ? annonce.bien.surface_plancher :
+  return annonce.bien.nature == BienNature.Appartement ? annonce.bien.surface_plancher || annonce.bien.surface_habitable :
     annonce.bien.nature == BienNature.Maison ? annonce.bien.surface_habitable :
       annonce.bien.nature == BienNature.Terrain ? annonce.bien.surface :
         annonce.bien.nature == BienNature.Immeuble ? annonce.bien.surface_plancher :
           annonce.bien.nature == BienNature.Garage ? annonce.bien.surface :
-            annonce.bien.nature == BienNature.Autre ? annonce.bien.surface : ""
-    } m²`
+            annonce.bien.nature == BienNature.Autre ? annonce.bien.surface : 0
 }
 
 export function getAnnonceType(annonce: Annonce) {
-  return `${annonce.transaction == TypeTransaction.location ? "Location"
-    : annonce.transaction == TypeTransaction.vente_traditionnelle ? "Vente"
-      : annonce.transaction == TypeTransaction.vente_viager ? "Viager"
-        : annonce.transaction == TypeTransaction.vente_immo_interactif ? "Vente Immo Interactif"
+  return translateAnnonceType(annonce.transaction)
+}
+
+export function translateAnnonceType(type: TypeTransaction) {
+  return `${type == TypeTransaction.location ? "Location"
+    : type == TypeTransaction.vente_traditionnelle ? "Vente"
+      : type == TypeTransaction.vente_viager ? "Viager"
+        : type == TypeTransaction.vente_immo_interactif ? "Vente enchères"
           : ""
     } `
 }
-
 
 export function currency(number: Number) {
   return number.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })

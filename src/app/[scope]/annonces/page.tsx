@@ -4,6 +4,8 @@ import AnnoncesContent from './content';
 import { ApiListResponse } from '@/models/other';
 import { Annonce, AnnonceObject } from '@/models/annonce';
 import { call, Method } from '@/scripts/api';
+import { headers } from 'next/headers';
+import { NextRequest } from 'next/server';
 
 
 // either Static metadata
@@ -13,8 +15,9 @@ export const metadata: Metadata = {
 
 export default async function Annonces() {
 
-  let response: ApiListResponse<AnnonceObject> = await call("annonces", Method.get)
+  let origin = process.env.NEXT_PUBLIC_URL
 
+  let response: ApiListResponse<AnnonceObject> = await call(origin + "/api/annonces", Method.get)
   return (
     <AnnoncesContent annonces={response.data}></AnnoncesContent>
   )

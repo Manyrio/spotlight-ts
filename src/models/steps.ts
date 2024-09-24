@@ -8,7 +8,7 @@ export class Steps implements ObjectInterface {
     constructor(
         public id: string = "",
         public attributes = {
-            steps: [{ question: "", responses: [{ response: "" }] }],
+            steps: [{ id: "", question: "", responses: [{ response: "" }] }],
             contact: { "description": "", "title": "" },
         },
     ) {

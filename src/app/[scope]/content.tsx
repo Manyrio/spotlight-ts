@@ -85,13 +85,13 @@ export default function HomeContent({ members, carousel }: { members: Member[], 
                             <img
                                 alt=""
                                 key={EtudePosition.right}
-                                src={"https://admin.laube-lhomme-caulnes.notaires.fr" + etude.attributes.image.data.attributes.url}
+                                src={process.env.NEXT_PUBLIC_BACKEND_URL + etude.attributes.image.data.attributes.url}
                                 className="  aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             /> :
                             <img
                                 alt=""
                                 key={EtudePosition.left}
-                                src={"https://admin.laube-lhomme-caulnes.notaires.fr" + etude.attributes.image.data.attributes.url}
+                                src={process.env.NEXT_PUBLIC_BACKEND_URL + etude.attributes.image.data.attributes.url}
                                 className=" aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
                             />
                     }
@@ -159,7 +159,7 @@ export default function HomeContent({ members, carousel }: { members: Member[], 
                             showThumbs={false}
                             showStatus={false}>
                             {carousel.attributes.images.data.map((image, index) => (
-                                <img key={index} src={`https://admin.laube-lhomme-caulnes.notaires.fr${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
+                                <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
                             ))}
                         </Carousel>
                     </div>
@@ -293,7 +293,7 @@ export default function HomeContent({ members, carousel }: { members: Member[], 
                                 memberIndex++
                                 return (
                                     <li key={member.attributes.name}>
-                                        <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={"https://admin.laube-lhomme-caulnes.notaires.fr" + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                                        <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={process.env.NEXT_PUBLIC_BACKEND_URL + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
                                         <h3 className="mt-6  text-base font-semibold leading-7 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
                                         <p className=" text-sm leading-6  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
                                     </li>

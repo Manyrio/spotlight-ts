@@ -1,59 +1,30 @@
 
 import { Method, call } from '@/scripts/api';
-import { ApiListResponse, NotyResponse } from '@/models/other';
+import { ApiListResponse, ApiRetrieveResponse, NotyResponse } from '@/models/other';
 import { Metadata } from 'next';
-import { Annonce } from '@/models/annonce';
+import { Annonce, AnnonceObject } from '@/models/annonce';
 import { NextRequest } from 'next/server';
 import { headers } from 'next/headers';
 import AnnoncePageContent from './content';
 
 
-
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
     const id = params.id
-
-
-    let origin = ""
-    let page = 1
-
-    const referer = headers().get("referer")
-    if (referer) {
-        let nextUrl = new NextRequest(referer).nextUrl
-        page = Number(nextUrl.searchParams.get("page")) || 1
-        origin = nextUrl.origin
-    }
-
-    let annonces: NotyResponse<Annonce> = await call(origin + "/api/noty?path=annonces&page=" + page, Method.get)
-    let annonce = annonces.results.find(a => a.uuid == id) as Annonce
-    console.log(annonce)
+    let origin = process.env.NEXT_PUBLIC_URL
+    let annonce: AnnonceObject = await call(origin + `/api/annonces/${id}`, Method.get)
     return {
-        title: annonce.bien.nature,
-        description: annonce.description
+        title: annonce.attributes.object.bien.nature,
+        description: annonce.attributes.object.description,
     }
-
 }
 
-
-
 export default async function ArticlePage({ params }: { params: { id: string } }) {
-
     const id = params.id
-
-    let origin = ""
-    let page = 1
-
-    const referer = headers().get("referer")
-    if (referer) {
-        let nextUrl = new NextRequest(referer).nextUrl
-        page = Number(nextUrl.searchParams.get("page")) || 1
-        origin = nextUrl.origin
-    }
-
-    let annonces: NotyResponse<Annonce> = await call(origin + "/api/noty?path=annonces&page=" + page, Method.get)
-    let annonce = annonces.results.find(a => a.uuid == id) as Annonce
-
+    let origin = process.env.NEXT_PUBLIC_URL
+    let annonce: AnnonceObject = await call(origin + `/api/annonces/${id}`, Method.get)
+    console.log(annonce)
     return (
-        <AnnoncePageContent annonce={annonce}></AnnoncePageContent>
+        <AnnoncePageContent annonceObject={annonce}></AnnoncePageContent>
     )
 }
 

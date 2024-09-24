@@ -33,7 +33,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
   let documentsAsResource = documents?.map((document) => ({
     name: document.attributes.name,
-    href: `https://admin.laube-lhomme-caulnes.notaires.fr${document.attributes.file.data.attributes.url}`,
+    href: `${process.env.NEXT_PUBLIC_BACKEND_URL}${document.attributes.file.data.attributes.url}`,
     description: document.attributes.description,
   }))
 
@@ -61,7 +61,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           [
             {
               name: "Nos Tarifs",
-              href: `https://admin.laube-lhomme-caulnes.notaires.fr${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
+              href: `${process.env.NEXT_PUBLIC_BACKEND_URL}${etude.attributes.pricing?.data?.attributes?.file?.data?.attributes?.url}`,
               description: `Consultez nos tarifs (${etude.attributes.name})`,
             },
             ...documentsAsResource as any
@@ -169,7 +169,7 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 
 
 function MobileNavigation(
-  { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents: DocumentFile[], isScrolled: boolean }
+  { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents?: DocumentFile[], isScrolled: boolean }
 ) {
   let { colors } = useContext(AppContext)
 
@@ -275,7 +275,7 @@ function NavItem({
   )
 }
 
-function DesktopNavigation({ props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<'nav'>, documents: DocumentFile[], isScrolled: boolean }) {
+function DesktopNavigation({ props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<'nav'>, documents?: DocumentFile[], isScrolled: boolean }) {
   let { colors, scope, etude } = useContext(AppContext)
 
   return (
@@ -343,20 +343,8 @@ export function Header() {
   let { colors, etude } = useContext(AppContext)
   let position = etude.attributes.position
 
-  let [documents, setDocuments] = useState<DocumentFile[]>([])
+  let documents = useContext(AppContext).documents
 
-  useEffect(() => {
-
-    async function fetchDocuments() {
-      let documentsCall: ApiListResponse<DocumentFile> = await call('documents?populate=*', Method.get)
-      setDocuments(documentsCall.data)
-    }
-
-    fetchDocuments()
-
-
-
-  }, [])
 
   const [isScrolled, setIsScrolled] = useState(false);
   let pathname = usePathname()

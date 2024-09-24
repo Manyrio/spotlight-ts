@@ -15,7 +15,6 @@ export default async function RendezVous() {
 
     const { currentMonth, nextMonth } = getCurrentAndNextMonth();
 
-
     let members: ApiListResponse<Member> = new ApiListResponse<Member>()
     let steps: ApiRetrieveResponse<Steps> = new ApiRetrieveResponse<Steps>()
     let currentMonthSlots: ReservationMap = {}
@@ -25,11 +24,7 @@ export default async function RendezVous() {
         steps = await call("step?populate[contact]=*&populate[steps][populate]=*", Method.get)
         currentMonthSlots = await call("strapi-reservations/time-slots/month/" + currentMonth + "?populate[slots]=*", Method.get)
         nextMonthSlots = await call("strapi-reservations/time-slots/month/" + nextMonth + "?populate[slots]=*", Method.get)
-
-
-
     } catch (error) {
-
     }
 
 

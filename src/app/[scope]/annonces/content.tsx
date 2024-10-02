@@ -8,13 +8,13 @@ import { formatDate } from '@/models/formatDate'
 import { formatLocalisation } from '@/models/localisation'
 import { Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { AppContext } from '@/app/providers';
+import { AppContext, NotificationColor } from '@/app/providers';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Method, call } from '@/scripts/api';
 import { ApiListResponse, NotyResponse } from '@/models/other';
 import { currency } from '../../../models/annonce';
-import { RiBuilding3Line, RiHome3Line, RiShakeHandsLine } from '@remixicon/react';
+import { RiBuilding3Line, RiErrorWarningLine, RiHome3Line, RiShakeHandsLine } from '@remixicon/react';
 
 
 
@@ -94,15 +94,14 @@ function DropDown({ title, enumObject, setSelected, translate }: { title: string
 }
 
 
-export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject }) {
+export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObject: AnnonceObject, shrinked?: boolean }) {
   const { colors, scope } = useContext(AppContext);
   let annonce = annonceObject.attributes.object
-  console.log(annonceObject)
   let photos = annonceObject.attributes.photos || { data: null }
 
   return (
-    <Link className="md:grid w-full md:grid-cols-4 md:items-center gap-8" href={`/${scope}/annonces/${annonce.uuid}`}>
-      <Card className="md:col-span-2">
+    <Link className={`md:grid w-full md:grid-cols-4 md:items-center gap-8 ${shrinked ? "sm:!flex sm:!flex-col sm:!gap-2" : ""}`} href={`/${scope}/annonces/${annonce.uuid}`}>
+      <Card className="md:col-span-2 w-full">
         <span
           className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10"
           style={{
@@ -165,7 +164,7 @@ export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject
         <Card.Cta>Voir l'annonce</Card.Cta>
       </Card>
 
-      <Card.Eyebrow as="p" className="mt-1 hidden md:block md:col-span-2">
+      <Card.Eyebrow as="p" className="mt-1 hidden md:block md:col-span-2 w-full">
         <article
           key={annonce.uuid}
           className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
@@ -190,7 +189,7 @@ export function ElementAnnonce({ annonceObject }: { annonceObject: AnnonceObject
 
 
 function Contact() {
-  const { colors } = useContext(AppContext)
+  const { colors, addNotification } = useContext(AppContext)
   let [opened, setOpened] = useState(false)
   let [name, setName] = useState("")
   let [lastName, setLastName] = useState("")
@@ -199,22 +198,23 @@ function Contact() {
   let [type, setType] = useState("Appartement")
   let [budget, setBudget] = useState("")
   let [loader, setLoader] = useState(false)
-  let [message, setMessage] = useState("")
 
   async function submit(e: any) {
     e.preventDefault()
     if (loader) return
-    setMessage("")
     setLoader(true)
     try {
       await call("/api/contact", Method.post, { message: `Budget: ${budget}€<br/>Type de bien recherché: ${type}<br/>Numéro de téléphone: ${tel}<br/>`, email: mail, name: name, lastName: lastName })
 
     } catch (error) {
-      setMessage("Erreur lors de l'envoi")
+      addNotification({ message: "Erreur lors de l'envoi", color: NotificationColor.red, title: "Erreur", Icon: RiErrorWarningLine })
+      setLoader(false)
+      return
     } finally {
       setLoader(false)
     }
-    setMessage("Demande envoyée avec succès ! Nous vous recontacterons dans les plus brefs délais.")
+    setOpened(false)
+    addNotification({ title: "Demande envoyée avec succès ! ", message: "Nous reviendrons vers vous dans les plus brefs délais.", color: NotificationColor.green })
 
   }
 
@@ -223,7 +223,7 @@ function Contact() {
       style={{ borderColor: colors.attributes.border }}>
 
       <div>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>Marie-Sophie LEGASTELOIS</h3>
+        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900" style={{ color: colors.attributes.accent, borderColor: colors.attributes.primary }}>Marie-Sophie LEGASTELOIS</h3>
         <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
           <a href={`tel:+33 2 96 83 96 84`} >+33 2 96 83 96 84</a>
           <br />
@@ -233,7 +233,7 @@ function Contact() {
 
 
       <div onClick={() => setOpened(true)} className='cursor-pointer'>
-        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900 flex items-center" style={{ color: colors.attributes.indicator, borderColor: colors.attributes.primary }}>Envoyer ma demande <ChevronRightIcon className='h-6 w-6'></ChevronRightIcon></h3>
+        <h3 className="border-l border-indigo-600 pl-6 font-semibold dark:text-gray-200 text-gray-900 flex items-center" style={{ color: colors.attributes.accent, borderColor: colors.attributes.primary }}>Envoyer ma demande <ChevronRightIcon className='h-6 w-6'></ChevronRightIcon></h3>
         <address className="border-l border-gray-200 pl-6 pt-2 not-italic dark:text-gray-200 text-gray-600" style={{ color: colors.attributes.hint, borderColor: colors.attributes.border }}>
           <div>Demandez directement ce que vous recherchez</div>
         </address>
@@ -419,7 +419,6 @@ function Contact() {
                     >
                       Envoyer la demande
                     </Button>
-                    {message ? <div style={{ color: colors.attributes.indicator }} className='mt-2'>{message}</div> : ""}
                   </div>
                   <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
                     style={{ color: colors.attributes.hint }}

@@ -23,8 +23,6 @@ export default function TeamContent({ members }: { members: Member[] }) {
                 {members.map((member) => {
                     let allowed = false
                     member.attributes.etudes.data.forEach(element => {
-                        console.log(element.attributes.slug)
-
                         if (element.attributes.slug == etude.attributes.slug) allowed = true
                     });
 

@@ -429,8 +429,8 @@ export function Header() {
 
 
                   <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
-                   transition-all shrink-0 absolute rounded-full w-full  -left-0 lg:!left-0 
-                   overflow-hidden max-w-[calc(50%-48px)] lg:max-w-[calc(50%-24px)]
+                   transition-all shrink-0 absolute rounded-full w-fit  -left-0 lg:!left-0 
+                   overflow-hidden max-w-[calc(50%-48px)] lg:max-w-fit
                    justify-start text-ellipsis
                     `}
                     href={`/${otherEtude ? otherEtude.attributes.slug : ""}/${pathname.split("/").slice(2).join("/")} `}

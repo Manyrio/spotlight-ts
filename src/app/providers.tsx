@@ -13,6 +13,25 @@ import { DocumentFile } from '@/models/documents'
 
 
 
+export interface NotificationContent {
+    message: string,
+    title: string,
+    Icon?: any,
+    duration?: number,
+    color?: NotificationColor,
+    key?: string
+
+}
+
+export enum NotificationColor {
+    red = "#EF4444",
+    green = "#22C55E",
+    blue = "#6366F1",
+    yellow = "#EAB308",
+    purple = "#A855F7",
+    gray = "#6B7280",
+}
+
 function usePrevious<T>(value: T) {
     let ref = useRef<T>()
 
@@ -34,8 +53,13 @@ export const AppContext = createContext<{
     etudes: Etude[],
     colors: Color,
     lienEtSocial: LienEtSocial,
-    documents?: DocumentFile[]
+    documents?: DocumentFile[],
+    notifications?: NotificationContent[],
+    addNotification: (notification: NotificationContent) => void,
 }>({
+    addNotification(notification: NotificationContent | undefined) {
+        throw new Error("Not implemented")
+    },
     scope: "",
     setScope: () => { },
     etude: new Etude(),
@@ -51,6 +75,14 @@ export function Providers({ children, documents, etudes, defaultScope, defaultEt
     let [lienEtSocial, setLienEtSocial] = useState<LienEtSocial>(defaultLienEtSocial)
     let [etude, setEtude] = useState<Etude>(defaultEtude)
     let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
+
+    let [notifications, setNotifications] = useState<NotificationContent[]>([])
+
+
+    function addNotification(notification: NotificationContent) {
+        notification.key = Math.random().toString()
+        setNotifications([...notifications, notification]);
+    }
 
 
     useEffect(() => {
@@ -75,7 +107,7 @@ export function Providers({ children, documents, etudes, defaultScope, defaultEt
 
     return (
         <AppContext.Provider value={{
-            previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes, documents
+            previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes, documents, notifications, addNotification
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <MainStyle etude={etude} important />

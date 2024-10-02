@@ -1,11 +1,10 @@
-import { Scope } from "./other";
 
 export interface PlaceInterface {
     address: string;
     email: string;
     phone: string;
     schedules: string;
-    scope: Scope;
+    scope: string;
     infos: string;
     title: string;
     description: string;
@@ -19,7 +18,7 @@ export class Place {
             email: "",
             phone: "",
             schedules: "",
-            scope: Scope.Caulnes,
+            scope: "",
             infos: "",
             title: "",
             description: "",

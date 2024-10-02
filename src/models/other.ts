@@ -1,9 +1,4 @@
 
-export enum Scope {
-    Cast = "cast",
-    Caulnes = "caulnes",
-    Unknown = "unknown",
-}
 
 export interface NotyResponse<T> {
     page: number,

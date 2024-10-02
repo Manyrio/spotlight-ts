@@ -18,7 +18,7 @@ import { Container } from '@/components/Container'
 import avatarImage from '@/images/avatar.jpg'
 import { AppContext } from '@/app/providers'
 import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ApiListResponse, Scope } from '@/models/other'
+import { ApiListResponse } from '@/models/other'
 import { Method, call } from '@/scripts/api'
 import { DocumentFile } from '@/models/documents'
 import { capitalizeFirstLetter } from '@/scripts/capitalize'
@@ -340,7 +340,9 @@ function Avatar({
 export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let { colors, etude } = useContext(AppContext)
+  let { colors, etude, etudes } = useContext(AppContext)
+  let otherEtude = etudes.find((etudeObj) => etudeObj.attributes.slug != etude.attributes.slug)
+  console.log(otherEtude)
   let position = etude.attributes.position
 
   let documents = useContext(AppContext).documents
@@ -369,7 +371,7 @@ export function Header() {
   return (
     <>
 
-      {etude.attributes.slug != Scope.Unknown ?
+      {etude.attributes.slug != "" ?
         <>
           <header
             className="pointer-events-none  w-full z-[60] flex flex-none flex-col fixed top-0"
@@ -427,11 +429,18 @@ export function Header() {
 
 
                   <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
-                   transition-all shrink-0 absolute rounded-full  -left-0 lg:!left-0 
+                   transition-all shrink-0 absolute rounded-full w-full  -left-0 lg:!left-0 
+                   overflow-hidden max-w-[calc(50%-48px)] lg:max-w-[calc(50%-24px)]
+                   justify-start text-ellipsis
                     `}
-                    href={`/${etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast}/${pathname.split("/").slice(2).join("/")} `}
+                    href={`/${otherEtude ? otherEtude.attributes.slug : ""}/${pathname.split("/").slice(2).join("/")} `}
                     style={{ color: colors.attributes.hint }}
-                  >  <ChevronLeftIcon className='h-4 w-4 mr-2'></ChevronLeftIcon>  {capitalizeFirstLetter(etude.attributes.slug == Scope.Cast ? Scope.Caulnes : Scope.Cast)}
+                  >
+                    <ChevronLeftIcon className='shrink-0 h-4 w-4 mr-2'></ChevronLeftIcon>
+                    <span className='w-full overflow-hidden text-ellipsis'>
+                      {capitalizeFirstLetter(otherEtude ? otherEtude.attributes.slug : "")}
+                    </span>
+
                   </Link>
 
                 </div>

@@ -1,7 +1,7 @@
 
 
 import { Color } from "./colors";
-import { ApiListResponse, ApiRetrieveResponse, ObjectInterface, Scope, SeoObject } from "./other";
+import { ApiListResponse, ApiRetrieveResponse, ObjectInterface, SeoObject } from "./other";
 import { DocumentFile } from "./documents";
 import { Image } from "./image";
 import { WebFont } from "./fonts";
@@ -51,7 +51,7 @@ export class Etude implements ObjectInterface {
             position: EtudePosition.left,
             phone: "",
             address: "",
-            slug: Scope.Unknown,
+            slug: "",
             ouvertures: new EtudeOuvertures(),
             mapUrl: "",
             seo: new SeoObject(),

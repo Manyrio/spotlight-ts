@@ -7,7 +7,7 @@ import '@/styles/tailwind.css'
 import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
 import { headers } from 'next/headers';
-import { ApiListResponse, ApiRetrieveResponse, Scope } from '@/models/other'
+import { ApiListResponse, ApiRetrieveResponse } from '@/models/other'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { Favicon } from '@/models/favicon'
 import { MainStyle } from '@/components/MainStyle'
@@ -20,15 +20,12 @@ import { DocumentFile } from '@/models/documents'
 async function getDefaultParameters() {
   let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
 
-  let scope = Scope.Unknown
+  let scope = ""
   let path: any = headers().get('path')
-  if (path.startsWith("/" + Scope.Caulnes)) {
-    scope = Scope.Caulnes
-  } else if (path.startsWith("/" + Scope.Cast)) {
-    scope = Scope.Cast
-  }
+  scope = path.split("/")[1]
+
   let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
-  if (defaultEtude.attributes.slug == Scope.Unknown) {
+  if (defaultEtude.attributes.slug == "") {
     defaultEtude.attributes.colors.data = new Color()
     defaultEtude.attributes.image.data = new Image()
   }

@@ -4,39 +4,38 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { Button } from '@/components/Button'
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useState } from 'react'
-import { AppContext } from '@/app/providers'
+import { AppContext, NotificationColor } from '@/app/providers'
 import { Method, call } from '@/scripts/api'
-import { Notification, NotificationType } from '@/components/Notification'
+import { Notification } from '@/components/Notification'
+import { RiErrorWarningLine } from '@remixicon/react'
 
 
 export default function ContactContent() {
 
-  let { etude, colors } = useContext(AppContext)
+  let { etude, colors, addNotification } = useContext(AppContext)
 
   let [name, setName] = useState('')
   let [lastName, setLastName] = useState('')
   let [message, setMessage] = useState('')
   let [email, setEmail] = useState('')
   let [loader, setLoader] = useState(false)
-  let [response, setResponse] = useState("")
 
 
   async function submit(e: any) {
     e.preventDefault()
     if (loader) return
-    setResponse("")
     setLoader(true)
     try {
       await call("/api/contact", Method.post, { message: message, email: email, name: name, lastName: lastName })
 
     } catch (error) {
-      setResponse("Erreur lors de l'envoi")
-
-
+      addNotification({ message: "Erreur lors de l'envoi", color: NotificationColor.red, title: "Erreur", Icon: RiErrorWarningLine })
+      setLoader(false)
+      return
     } finally {
       setLoader(false)
     }
-    setResponse("Message envoyé avec succès ! Nous reviendrons vers vous dans les plus brefs délais.")
+    addNotification({ title: "Message envoyé avec succès ! ", message: "Nous reviendrons vers vous dans les plus brefs délais.", color: NotificationColor.green })
     setName("")
     setLastName("")
     setMessage("")
@@ -156,7 +155,6 @@ export default function ContactContent() {
               >
                 Envoyer le message
               </Button>
-              {response && <Notification title={"Message envoyé"} message={response} type={NotificationType.Success}></Notification>}
             </div>
             <p className="mt-4 dark:text-gray-200 text-sm leading-6 dark:text-gray-200 text-gray-500"
               style={{ color: colors.attributes.hint }}

@@ -5,7 +5,7 @@ import { useContext, useState } from 'react'
 import { ArrowRightIcon, Bars3Icon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import { Container } from '@/components/Container'
 import { Button } from '@/components/Button'
-import { Annonce, TypeTransaction } from '@/models/annonce'
+import { Annonce, AnnonceObject, TypeTransaction } from '@/models/annonce'
 import { formatLocalisation } from '@/models/localisation'
 import Link from 'next/link'
 import { AppContext } from '../providers'
@@ -15,22 +15,33 @@ import { capitalizeFirstLetter } from '@/scripts/capitalize'
 import { Carousel } from 'react-responsive-carousel'
 import { CarouselComponent } from '@/models/carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { ElementAnnonce } from './annonces/content'
 
 
 
 
-export default function HomeContent({ members, carousel }: { members: Member[], carousel: CarouselComponent }) {
+export default function HomeContent({ members, carousel, annonces }: { members: Member[], carousel: CarouselComponent, annonces: AnnonceObject[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
 
     let position = etude.attributes.position
 
-    let annonces: any[] = []
 
     let memberIndex = 0
 
     return (
         <>
+
+            <style>{`
+          
+                .mainBeam {
+                display:none;
+                }
+            `}</style>
+
+
+
+
             <div className="relative overflow-hidden ">
 
 
@@ -100,7 +111,7 @@ export default function HomeContent({ members, carousel }: { members: Member[], 
                 <div style={{ background: colors.attributes.background }} className={`hidden lg:block pointer-events-none absolute w-full h-full inset-0 z-50  ${position != EtudePosition.right ? "lg:opacity-0 lg:translate-x-[0]" : "lg:opacity-100 lg:translate-x-[100vw]"}  transition-opacity duration-300 `} />
 
                 <div className="absolute !z-50 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
-                    <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`!z-50 !-scale-x-100 ${position == 'right' ? '!-scale-x-100' : '!scale-x-100'}`} />
+                    <img src="/beams-home@95.jpg" alt="" className={`!z-50 !-scale-x-100 ${position == 'right' ? '!-scale-x-100' : '!scale-x-100'}`} />
                 </div>
 
 
@@ -312,39 +323,14 @@ export default function HomeContent({ members, carousel }: { members: Member[], 
 
                         </div>
                         <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                            {annonces.map((annonce) => (
-                                <article
-                                    key={annonce.id}
-                                    className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
-                                >
-                                    <img src={annonce.images[0]} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
-                                    <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
-                                    <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-
-                                    <div className="flex flex-col items-start gap-y-1 overflow-hidden  text-sm leading-6  text-gray-300">
+                            {annonces.map((annonce, index) => {
+                                if (index > 2) return
 
 
-                                        <span className="relative z-20 mb-[8px] inline-flex items-center rounded-full bg-white-600 px-2 py-1  text-xs font-medium  text-white-600 ring-1 ring-inset ring-white-500/10">
-                                            {annonce.type}
-                                        </span>
-
-
-                                        <div className="flex gap-x-2.5">
-                                            {annonce.prixTotal.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-                                        </div>
-
-                                        <div className="flex gap-x-2.5">
-                                            Honoraires de négociation: {(annonce.prixTotal * annonce.pourcentageFraisAgence).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} ({annonce.pourcentageFraisAgence * 100}%)
-                                        </div>
-                                    </div>
-                                    <h3 className="mt-3  text-lg font-semibold leading-6  text-white">
-                                        <Link href={`/${scope}/${annonce.id}`}>
-                                            <span className="absolute inset-0" />
-                                            {formatLocalisation(annonce.localisation)}
-                                        </Link>
-                                    </h3>
-                                </article>
-                            ))}
+                                return (
+                                    <ElementAnnonce annonceObject={annonce} shrinked={true}></ElementAnnonce>
+                                )
+                            })}
 
                         </div>
                     </div>

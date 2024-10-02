@@ -14,6 +14,8 @@ import { MainStyle } from '@/components/MainStyle'
 import { Color } from '@/models/colors'
 import { Image } from '@/models/image'
 import { DocumentFile } from '@/models/documents'
+import { Notification } from '@/components/Notification'
+import LoadingState from '@/components/LoadingState'
 
 
 
@@ -92,13 +94,18 @@ export default async function RootLayout({
 
 
 
-      <body className={`flex h-full`}>
+      <body className={`flex h-full overflow-x-hidden`}>
         <MainStyle etude={parameters.defaultEtude} />
 
         <Providers documents={parameters.defaultDocuments} etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
-          <div className="flex w-full">
-            <Layout colors={parameters.defaultEtude.attributes.colors.data}>{children}</Layout>
+          <div className="flex w-full relative">
+            <Layout>{children}</Layout>
+
           </div>
+
+          <LoadingState></LoadingState>
+
+          <Notification></Notification>
         </Providers>
       </body>
     </html>

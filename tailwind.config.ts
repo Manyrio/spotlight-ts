@@ -24,24 +24,33 @@ export default {
       '9xl': ['8rem', { lineHeight: '1' }],
     },
     typography: typographyStyles,
-  },
 
-  keyframes: {
+    keyframes: {
 
-    opacity: {
-      "0%": {
-        opacity: "0",
+      opacity: {
+        "0%": {
+          opacity: "0",
+        },
+        "100%": {
+          opacity: "1",
+        }
       },
-      "100%": {
-        opacity: "1",
-      }
+      progress: {
+        "from": {
+          width: "0%",
+        },
+        "to": {
+          width: "100%",
+        }
+      },
+
+
     },
+    animation: {
+      opacity: "opacity 0.100s cubic-bezier(0, 0, 0.5, 1) ",
+      progress: 'progress ease-in-out forwards',
+    }
 
   },
-  animation: {
-    opacity: "opacity 0.100s cubic-bezier(0, 0, 0.5, 1) ",
-  }
-
-
 
 } satisfies Config

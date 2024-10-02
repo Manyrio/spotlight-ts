@@ -19,7 +19,8 @@ export default function HomePageContent() {
 
 
                 {
-                    etudes.map(etude => {
+                    etudes.map((etude, index) => {
+                        if (index > 1) return null
 
                         let etudeColors = etude.attributes.colors.data
                         let position = etude.attributes.position
@@ -79,8 +80,8 @@ export default function HomePageContent() {
 
             </div>
 
-            <div className="absolute !z-50 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
-                <img src="https://tailwindui.com/img/beams-home@95.jpg" alt="" className={`lg:!z-50 lg:!-scale-x-100 `} />
+            <div className="absolute !z-[100] mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
+                <img src="/beams-home@95.jpg" alt="" className={`lg:!z-50 lg:!-scale-x-100 `} />
             </div>
 
 

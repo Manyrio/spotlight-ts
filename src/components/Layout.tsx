@@ -1,22 +1,21 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
-import { Color } from '@/models/colors'
 
-export function Layout({ children, colors }: { children: React.ReactNode, colors: Color }) {
+export function Layout({ children }: { children: React.ReactNode }) {
 
 
   return (
     <>
-      <div className={`fixed inset-0 flex  justify-center sm:px-8`} style={{ background: colors.attributes.background }}>
-        <div className="flex w-full max-w-7xl" style={{ background: colors.attributes.background }}>
-          <div className={`w-full `} />
-        </div>
-      </div>
+
       <div className="relative flex w-full flex-col">
         <Header />
+        <div className="absolute !z-0 mix-blend-multiply opacity-50 pointer-events-none -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem] mainBeam">
+          <img src="/beams-home@95.jpg" alt="" className={`!z-50 !-scale-x-100 `} />
+        </div>
         <main className="flex-auto">{children}</main>
         <Footer />
       </div>
     </>
   )
 }
+

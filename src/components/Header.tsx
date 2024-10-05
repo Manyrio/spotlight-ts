@@ -88,6 +88,17 @@ interface Resource {
 function DropDown({ name, resources, downloads }: { name: string, resources: Resource[], downloads?: Resource[] }) {
   let { colors } = useContext(AppContext)
   const buttonRef: any = useRef();
+  const panelRef: any = useRef();
+  let pathname = usePathname()
+
+
+  useEffect(() => {
+    console.log(panelRef)
+
+    if (panelRef.current) {
+      buttonRef.current?.click();
+    }
+  }, [pathname]);
 
 
   return (
@@ -99,9 +110,10 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
       </PopoverButton>
 
       <PopoverPanel
+        ref={panelRef}
         className="absolute left-1/2 z-10 mt-5 flex w-screen  max-w-max -translate-x-1/2 px-6  md:px-4 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
       >
-        <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5"
+        <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 ring-1 ring-gray-900/5 shadow-2xl "
 
           style={{ background: colors.attributes.background }}
 
@@ -139,13 +151,13 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
               <ul role="list" className=" space-y-6">
                 {downloads.map((resource, index) => (
                   <li key={index} className="relative flex items-center w-full">
-                    <div className='w-9/12'>
-                      <div className="block text-xs leading-6 text-gray-600  w-9/12" style={{ color: colors.attributes.indicator }}>
+                    <div className='w-full'>
+                      <div className="block text-xs leading-6 text-gray-600  w-full truncate" style={{ color: colors.attributes.indicator }}>
                         {resource.description}
                       </div>
                       <Link
                         onClick={() => buttonRef.current?.click()}
-                        href={resource.href} className="block truncate w-9/12 text-sm font-semibold leading-6 text-gray-900"
+                        href={resource.href} className="block  w-full truncate text-sm font-semibold leading-6 text-gray-900"
                         style={{ color: colors.attributes.accent }}
                       >
                         {resource.name}
@@ -172,6 +184,21 @@ function MobileNavigation(
   { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents?: DocumentFile[], isScrolled: boolean }
 ) {
   let { colors } = useContext(AppContext)
+  const buttonRef: any = useRef();
+  const panelRef: any = useRef();
+  let pathname = usePathname()
+
+
+  useEffect(() => {
+    console.log(panelRef)
+
+    if (panelRef.current) {
+      buttonRef.current?.click();
+    }
+  }, [pathname]);
+
+
+
 
   return (
     <Popover {...props}>
@@ -205,6 +232,7 @@ function MobileNavigation(
           leaveTo="opacity-0 scale-95"
         >
           <PopoverPanel
+            ref={panelRef}
             focus
             className="fixed top-8  inset-x-4 z-50 origin-top  "
 
@@ -213,7 +241,7 @@ function MobileNavigation(
               style={{ background: colors.attributes.background }}
             >
               <div className="flex flex-row-reverse items-center justify-between">
-                <PopoverButton aria-label="Close menu" className="-m-1 p-1">
+                <PopoverButton ref={buttonRef} aria-label="Close menu" className="-m-1 p-1">
                   <XMarkIcon className="h-6 w-6 dark:text-gray-200 text-zinc-500 dark:dark:text-gray-200 text-zinc-400"
                     style={{ color: colors.attributes.accent }}
                   />
@@ -248,13 +276,14 @@ function NavItem({
 
   let { colors } = useContext(AppContext)
 
+  let Element = href ? Link : 'div'
 
   return (
     <li
       style={{ borderColor: colors.attributes.border }}
     >
 
-      <Link
+      <Element
         href={href || "#"}
         className={clsx(
           'relative block md:px-3 py-2 transition whitespace-nowrap',
@@ -270,7 +299,7 @@ function NavItem({
             style={{ backgroundImage: `linear-gradient(to right, ${colors.attributes.primary}10, ${colors.attributes.primary}AA, ${colors.attributes.primary}10)` }}
           />
         )}
-      </Link>
+      </Element>
     </li>
   )
 }
@@ -342,8 +371,6 @@ export function Header() {
   let headerRef = useRef<React.ElementRef<'div'>>(null)
   let { colors, etude, etudes } = useContext(AppContext)
   let otherEtude = etudes.find((etudeObj) => etudeObj.attributes.slug != etude.attributes.slug)
-  console.log(otherEtude)
-  let position = etude.attributes.position
 
   let documents = useContext(AppContext).documents
 

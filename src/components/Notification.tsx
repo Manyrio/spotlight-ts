@@ -11,7 +11,6 @@ export function Notification() {
 
     let { notifications } = useContext(AppContext)
 
-
     return (
         <>
             {/* Global notification live region, render this permanently at the end of the document */}

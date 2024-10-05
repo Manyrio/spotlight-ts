@@ -19,7 +19,7 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
 
   return (
     <>
-      <div className='full flex justify-center items-center  w-full pt-32 lg:pt-72 pb:8 lg:pb-12 px-4'>
+      <div className='full flex justify-center items-center  w-full pt-32 lg:pt-72 pb:8 lg:pb-12 px-6'>
         <div className='flex gap-8 w-full  flex-col lg:flex-row   max-w-7xl justify-between'>
           <div>
             <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
@@ -44,6 +44,9 @@ export function OfficeContent({ labels, carousel }: { labels: Label[], carousel:
           </div>
           <Carousel className='mb-16 max-w-2xl '
             showThumbs={false}
+            infiniteLoop={true}
+            interval={2000}
+            autoPlay={true}
             showStatus={false}>
             {carousel.attributes.images.data.map((image, index) => (
               <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />

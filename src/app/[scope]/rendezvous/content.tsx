@@ -131,7 +131,6 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   useEffect(() => {
     if (slot) setCurrentStep(formattedSteps.find(step => step.id == "form")!)
   }, [slot])
-  console.log(slot)
 
   async function submit(e: any) {
     e.preventDefault()

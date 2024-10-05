@@ -24,7 +24,7 @@ export default function HomePageContent() {
 
                         let etudeColors = etude.attributes.colors.data
                         let position = etude.attributes.position
-                        return (<div className={`h-full  z-10 lg:[&_img]:hover:scale-[1.7] w-full lg:min-h-screen  relative flex flex-col justify-center ${position == EtudePosition.right ? "lg:text-right  p-6 py-12 lg:pr-32 lg:pt-32" : "lg:text-left p-6 pt-32 pb-12 lg:pl-32 lg:pt-32"}`}>
+                        return (<div key={index} className={`h-full  z-10 lg:[&_img]:hover:scale-[1.7] w-full lg:min-h-screen  relative flex flex-col justify-center ${position == EtudePosition.right ? "lg:text-right  p-6 py-12 lg:pr-32 lg:pt-32" : "lg:text-left p-6 pt-32 pb-12 lg:pl-32 lg:pt-32"}`}>
 
                             <div className={`absolute left-0 top-0 w-full lg:w-[135%] h-full pointer-events-none  ${position == EtudePosition.right ? " z-0 lg:-left-[26%] lg:[mask-image:linear-gradient(110deg,transparent_25%,black_25%)]" : ""}`}>
                                 <img className=" transition-all scale-[1.05] lg:scale-[1.5] absolute left-0 top-0 h-full w-full brightness-50 blur-sm object-cover" src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${etude.attributes.image.data.attributes.url}`}></img>

@@ -60,7 +60,7 @@ export default function HomeContent({ members, carousel, annonces }: { members: 
                     <div className={`relative z-40 pt-16 lg:pt-40 lg:w-full duration-300 transition-transform lg:max-w-[50%] ${position == EtudePosition.right ? " lg:ml-[50%]" : " lg:ml-0"}  `}>
 
                         <div className="relative py-20   sm:py-30  lg:pr-0">
-                            <div className={`mx-auto max-w-2xl px-6 lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
+                            <div className={`mx-auto max-w-2xl px-6 xl:px-0 lg:mx-0 lg:max-w-xl ${position == EtudePosition.right ? "lg:text-right" : "lg:text-left"}`}>
 
                                 <h1 style={{ color: colors.attributes.accent }} className={`titleFont text-4xl font-bold tracking-tight sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                                     {etude.attributes.name}
@@ -138,7 +138,7 @@ export default function HomeContent({ members, carousel, annonces }: { members: 
                 </div>
 
 
-                <div className=' full pt-24  w-full px-4'>
+                <div className=' full pt-24  w-full'>
                     <div className='flex gap-8 w-full  flex-col lg:flex-row   max-w-7xl justify-between'>
                         <div>
                             <h2 className=" text-3xl font-bold tracking-tight   text-4xl"
@@ -167,6 +167,9 @@ export default function HomeContent({ members, carousel, annonces }: { members: 
                         </div>
                         <Carousel className='mb-16 max-w-2xl block static'
                             showThumbs={false}
+                            autoPlay={true}
+                            interval={2000}
+                            infiniteLoop={true}
                             showStatus={false}>
                             {carousel.attributes.images.data.map((image, index) => (
                                 <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />

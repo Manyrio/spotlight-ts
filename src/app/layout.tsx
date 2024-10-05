@@ -15,8 +15,8 @@ import { Color } from '@/models/colors'
 import { Image } from '@/models/image'
 import { DocumentFile } from '@/models/documents'
 import { Notification } from '@/components/Notification'
-import LoadingState from '@/components/LoadingState'
-
+import NextTopLoader from 'nextjs-toploader';
+import TopLoader from './topLoader'
 
 
 async function getDefaultParameters() {
@@ -83,29 +83,17 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
-
   let parameters = await getDefaultParameters()
-
-
-
   return (
     <html lang="fr" className={"h-full antialiased"} suppressHydrationWarning>
-
-
-
-      <body className={`flex h-full overflow-x-hidden`}>
+      <body className={`flex`}>
         <MainStyle etude={parameters.defaultEtude} />
-
         <Providers documents={parameters.defaultDocuments} etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
           <div className="flex w-full relative">
             <Layout>{children}</Layout>
-
           </div>
-
-          <LoadingState></LoadingState>
-
-          <Notification></Notification>
+          <TopLoader></TopLoader>
+          <Notification />
         </Providers>
       </body>
     </html>

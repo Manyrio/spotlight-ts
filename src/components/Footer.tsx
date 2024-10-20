@@ -52,9 +52,17 @@ export function Footer() {
 
         <div className="absolute right-16 pt-16 h-16 overflow-hidden w-full !-translate-y-16">
           <div className="flex -mt-px h-[2px] leftw-[20vw] -scale-x-100 opacity-50">
-            <div className="w-full flex-none  blur-sm [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
+            <div
+              style={{
+                backgroundImage: `linear-gradient(90deg, rgba(56,189,248,0) 0%, ${colors.attributes.primary} 32.29%, rgba(236,72,153,0.3) 67.19%, rgba(236,72,153,0) 100%)`
+              }}
+              className={`w-full flex-none blur-sm `}>
             </div>
-            <div className="-ml-[100%] w-full flex-none blur-[1px] [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
+            <div
+              style={{
+                backgroundImage: `linear-gradient(90deg, rgba(56,189,248,0) 0%, ${colors.attributes.primary} 32.29%, rgba(236,72,153,0.3) 67.19%, rgba(236,72,153,0) 100%)`
+              }}
+              className={`-ml-[100%] w-full flex-none blur-[1px]`}>
             </div>
           </div>
         </div>

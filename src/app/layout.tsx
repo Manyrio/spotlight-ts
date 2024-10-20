@@ -20,7 +20,7 @@ import TopLoader from './topLoader'
 
 
 async function getDefaultParameters() {
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[sections_textes_accueil][populate]=*&populate[sections_textes_office][populate]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
 
   let scope = ""
   let path: any = headers().get('path')

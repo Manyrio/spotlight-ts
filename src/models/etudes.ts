@@ -25,6 +25,42 @@ export class EtudeOuvertures {
     }
 }
 
+export enum ButtonStyle {
+    Solid = "solid",
+    Outline = "outline",
+    Plain = "plain",
+
+}
+
+export interface EtudeButton {
+    href: string;
+    name: string,
+    style: ButtonStyle
+}
+
+export class SectionsTexte {
+    constructor(
+        public id: string = "",
+        public attributes = {
+            title: "",
+            content: "",
+
+            medias: new ApiListResponse<Image>,
+            button: {
+                href: "",
+                name: "",
+                style: ButtonStyle.Solid
+            },
+        }
+    ) {
+        this.id = id;
+        this.attributes = attributes;
+    }
+}
+
+
+
+
 export enum EtudePosition {
     left = "left",
     right = "right",
@@ -55,6 +91,8 @@ export class Etude implements ObjectInterface {
             ouvertures: new EtudeOuvertures(),
             mapUrl: "",
             seo: new SeoObject(),
+            sections_textes_accueil: new ApiListResponse<SectionsTexte>(),
+            sections_textes_office: new ApiListResponse<SectionsTexte>(),
         },
     ) {
         this.id = id;

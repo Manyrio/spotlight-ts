@@ -13,19 +13,17 @@ import { Member } from '@/models/members'
 import { EtudePosition } from '@/models/etudes'
 import { capitalizeFirstLetter } from '@/scripts/capitalize'
 import { Carousel } from 'react-responsive-carousel'
-import { CarouselComponent } from '@/models/carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { ElementAnnonce } from './annonces/content'
+import TextSection from '@/components/TextSection'
 
 
 
 
-export default function HomeContent({ members, carousel, annonces }: { members: Member[], carousel: CarouselComponent, annonces: AnnonceObject[] }) {
+export default function HomeContent({ members, annonces }: { members: Member[], annonces: AnnonceObject[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
-
     let position = etude.attributes.position
-
 
     let memberIndex = 0
 
@@ -130,53 +128,34 @@ export default function HomeContent({ members, carousel, annonces }: { members: 
 
                 <div className="absolute -top-px right-16 h-8 overflow-hidden w-full">
                     <div className="flex -mt-px h-[2px] leftw-[20vw] -scale-x-100">
-                        <div className="w-full flex-none blur-sm [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
+                        <div
+                            style={{
+                                backgroundImage: `linear-gradient(90deg, rgba(56,189,248,0) 0%, ${colors.attributes.primary} 32.29%, rgba(236,72,153,0.3) 67.19%, rgba(236,72,153,0) 100%)`
+                            }}
+                            className={`w-full flex-none blur-sm `}>
                         </div>
-                        <div className="-ml-[100%] w-full flex-none blur-[1px] [background-image:linear-gradient(90deg,rgba(56,189,248,0)_0%,#0EA5E9_32.29%,rgba(236,72,153,0.3)_67.19%,rgba(236,72,153,0)_100%)]">
+                        <div
+                            style={{
+                                backgroundImage: `linear-gradient(90deg, rgba(56,189,248,0) 0%, ${colors.attributes.primary} 32.29%, rgba(236,72,153,0.3) 67.19%, rgba(236,72,153,0) 100%)`
+                            }}
+                            className={`-ml-[100%] w-full flex-none blur-[1px]`}>
                         </div>
                     </div>
                 </div>
+                <div className='pt-16 md:pt-20'></div>
 
 
-                <div className=' full pt-24  w-full'>
-                    <div className='flex gap-8 w-full  flex-col lg:flex-row   max-w-7xl justify-between'>
-                        <div>
-                            <h2 className=" text-3xl font-bold tracking-tight   text-4xl"
-                                style={{ color: colors.attributes.accent }}
-                            >
-                                L'office
-                            </h2>
-                            <p className="mt-6 dark:text-gray-200 text-base"
-                                style={{ color: colors.attributes.indicator }}
-                            >
-                                Découvrez {etude.attributes.name}
-                            </p>
+                {etude.attributes.sections_textes_accueil.data.map((section, index) => {
 
 
 
-                            <div className='text-base mt-6'
-                                style={{ color: colors.attributes.indicator }}>
-                                {etude.attributes.description}
-                            </div>
+                    return (<>
 
-                            <Button className='mt-4' href={scope + "/office"}
-                                style={{ background: colors.attributes.primary }}
-                            >Découvrir l'office</Button>
+                        <TextSection section={section} etude={etude} />
 
-
-                        </div>
-                        <Carousel className='mb-16 max-w-2xl block static'
-                            showThumbs={false}
-                            autoPlay={true}
-                            interval={2000}
-                            infiniteLoop={true}
-                            showStatus={false}>
-                            {carousel.attributes.images.data.map((image, index) => (
-                                <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
-                            ))}
-                        </Carousel>
-                    </div>
-                </div>
+                    </>)
+                }
+                )}
 
 
 

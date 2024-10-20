@@ -5,83 +5,35 @@ import { AppContext } from '@/app/providers'
 
 import { BookOpenIcon, CheckBadgeIcon } from '@heroicons/react/24/outline'
 import { Label } from '@/models/labels'
-import { CarouselComponent } from '@/models/carousel'
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
+import TextSection from '@/components/TextSection'
 
 
-export function OfficeContent({ labels, carousel }: { labels: Label[], carousel: CarouselComponent }) {
+export function OfficeContent({ labels }: { labels: Label[] }) {
 
   let { colors, etude } = useContext(AppContext)
-  console.log(carousel)
 
 
   return (
     <>
-      <div className='full flex justify-center items-center  w-full pt-32 lg:pt-72 pb:8 lg:pb-12 px-6'>
-        <div className='flex gap-8 w-full  flex-col lg:flex-row   max-w-7xl justify-between'>
-          <div>
-            <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
-              style={{ color: colors.attributes.accent }}
-            >
-              L'office
-            </h1>
-            <p className="mt-6 dark:text-gray-200 text-base"
-              style={{ color: colors.attributes.indicator }}
-            >
-              Découvrez {etude.attributes.name}
-            </p>
+      <div className='full flex justify-center items-center  w-full pt-32 lg:pt-48 pb:8 lg:pb-12 px-6'>
 
-
-
-            <div className='text-base mt-6'
-              style={{ color: colors.attributes.indicator }}>
-              {etude.attributes.description}
-            </div>
-
-
-          </div>
-          <Carousel className='mb-16 max-w-2xl '
-            showThumbs={false}
-            infiniteLoop={true}
-            interval={2000}
-            autoPlay={true}
-            showStatus={false}>
-            {carousel.attributes.images.data.map((image, index) => (
-              <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center rounded-md" />
-            ))}
-          </Carousel>
-        </div>
       </div>
 
       <Container >
-        <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Des valeurs fortes</h2>
 
 
-        <div className='mt-6'
-          style={{ color: colors.attributes.indicator }}>
-          L’office se positionne autour de valeurs fortes :
-        </div>
+        {etude.attributes.sections_textes_office.data.map((section, index) => {
 
-        <ul className='mt-6 list-disc list-inside	'
-          style={{ color: colors.attributes.indicator }}>
-          <li>L’exigence d’une grande sécurité juridique,</li>
-          <li>La créativité pour faire aboutir les projets les plus complexes,</li>
-          <li>L’impartialité dans le respect de la déontologie notariale et de l’ordre public,</li>
-          <li>L’innovation  en suivant de près l’actualité juridique et en intégrant les nouvelles technologies.</li>
+          return (<>
 
-        </ul>
+            <TextSection section={section} etude={etude} />
 
+          </>)
+        }
+        )}
 
-        <div className='mt-6'
-          style={{ color: colors.attributes.indicator }}>
-
-          Les notaires de l'office et leurs collaborateurs accompagnent les particuliers et les professionnels, dans leurs projets immobiliers, familiaux et patrimoniaux.
-
-          Ils conseillent également les entreprises et leurs dirigeants, les collectivités locales et les professionnels de l’immobilier.
-
-        </div>
 
         <h2 className=" text-3xl font-bold tracking-tight mt-16  text-4xl" style={{ color: colors.attributes.accent }}>Labels & certifications</h2>
 

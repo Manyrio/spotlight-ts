@@ -21,7 +21,7 @@ import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, 
 import { ApiListResponse } from '@/models/other'
 import { Method, call } from '@/scripts/api'
 import { DocumentFile } from '@/models/documents'
-import { capitalizeFirstLetter } from '@/scripts/capitalize'
+import { capitalizeFirstLetter, capitalizeSlug } from '@/scripts/capitalize'
 import { EtudePosition } from '@/models/etudes'
 
 
@@ -465,11 +465,9 @@ export function Header() {
                   >
                     <ChevronLeftIcon className='shrink-0 h-4 w-4 mr-2'></ChevronLeftIcon>
                     <span className='w-full overflow-hidden text-ellipsis'>
-                      {capitalizeFirstLetter(otherEtude ? otherEtude.attributes.slug : "")}
+                      {capitalizeSlug(otherEtude ? otherEtude.attributes.slug : "")}
                     </span>
-
                   </Link>
-
                 </div>
               </Container>
             </div >

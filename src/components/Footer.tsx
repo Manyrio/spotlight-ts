@@ -2,24 +2,22 @@
 import { useContext } from 'react'
 import { AppContext } from '@/app/providers'
 
-import { parse, format } from 'date-fns';
-import { RiFacebookBoxLine, RiFacebookCircleFill, RiInstagramFill, RiInstagramLine, RiTwitterXFill, RiTwitterXLine, RiYoutubeFill, RiYoutubeLine } from '@remixicon/react'
+import { RiFacebookCircleFill, RiInstagramFill, RiTwitterXFill, RiYoutubeFill } from '@remixicon/react'
 
 export function Footer() {
-  let { colors, lienEtSocial, etude, scope } = useContext(AppContext)
-
+  let { colors, lienEtSocial, etude } = useContext(AppContext)
   const navigation = {
     links: [
-      { name: "L'équipe", href: `/${scope}/equipe` },
-      { name: "Annonces", href: `/${scope}/annonces` },
-      { name: "Services", href: `/${scope}/services` },
-      { name: "Articles", href: `/${scope}/articles` },
-      { name: "Contact", href: `/${scope}/contact` },
+      { name: "L'équipe", href: `/${etude.attributes.slug}/equipe` },
+      { name: "Annonces", href: `/${etude.attributes.slug}/annonces` },
+      { name: "Services", href: `/${etude.attributes.slug}/services` },
+      { name: "Articles", href: `/${etude.attributes.slug}/articles` },
+      { name: "Contact", href: `/${etude.attributes.slug}/contact` },
     ],
     legals: [
-      { name: "Mentions légales", href: `/${scope}/legals` },
-      { name: "Politique de confidentialité", href: `/${scope}/privacy` },
-      { name: "Conditions générales d'utilisation", href: `/${scope}/usage` },
+      { name: "Mentions légales", href: `/${etude.attributes.slug}/legals` },
+      { name: "Politique de confidentialité", href: `/${etude.attributes.slug}/privacy` },
+      { name: "Conditions générales d'utilisation", href: `/${etude.attributes.slug}/usage` },
     ],
     social: [
       {

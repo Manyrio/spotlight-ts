@@ -150,7 +150,7 @@ export default function ContactContent() {
               <Button
                 disabled={loader}
                 type="submit"
-                className="w-full "
+                className="w-full !text-white"
                 style={{ background: colors.attributes.primary }}
               >
                 Envoyer le message

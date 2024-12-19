@@ -27,7 +27,7 @@ export default function TextSection({ section, etude }: { section: SectionsTexte
     return <>
 
 
-        <div className=' full py-8  w-full'>
+        <div className=' full  w-full'>
             <div className='flex gap-8 w-full  flex-col lg:flex-row   max-w-7xl justify-between'>
                 <div>
                     <h2 className=" text-3xl font-bold tracking-tight   text-4xl"
@@ -52,7 +52,7 @@ export default function TextSection({ section, etude }: { section: SectionsTexte
                         switch (buttonStyle) {
                             case 'solid':
                                 return (
-                                    <Button className="mt-4" href={buttonHref} style={{ background: colors.attributes.primary }}>
+                                    <Button className="mt-4 !text-white" href={buttonHref} style={{ background: colors.attributes.primary }}>
                                         {button.name}
                                     </Button>
                                 );

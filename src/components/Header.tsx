@@ -18,18 +18,15 @@ import { Container } from '@/components/Container'
 import avatarImage from '@/images/avatar.jpg'
 import { AppContext } from '@/app/providers'
 import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ApiListResponse } from '@/models/other'
-import { Method, call } from '@/scripts/api'
 import { DocumentFile } from '@/models/documents'
-import { capitalizeFirstLetter, capitalizeSlug } from '@/scripts/capitalize'
-import { EtudePosition } from '@/models/etudes'
+import { Button } from './Button'
 
 
 
 
 function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
-  let { scope, etude } = useContext(AppContext)
+  let { scope, etude, colors } = useContext(AppContext)
 
   let documentsAsResource = documents?.map((document) => ({
     name: document.attributes.name,
@@ -39,7 +36,6 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
   return (<>
     <NavItem href={`/${scope}`}>Accueil</NavItem>
-    <NavItem href={`/${scope}/rendezvous`}>Rendez-vous</NavItem>
     <NavItem>
       <DropDown name="L'office" resources={[
         {
@@ -68,10 +64,22 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           ]
         }></DropDown>
     </NavItem>
-    <NavItem href={`/${scope}/annonces`}>Annonces Immobilières</NavItem>
+    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
     <NavItem href={`/${scope}/conseils`}>Conseils </NavItem >
     <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
     <NavItem href={`/${scope}/contact`}>Contact</NavItem>
+
+
+    <Button
+      href={`/${scope}/rendezvous`}
+      style={{ background: colors.attributes.primary }}
+      className='max-lg:mt-4 lg:ml-2 !text-white'
+    >
+      Prendre rendez-vous
+      <ChevronRightIcon className='h-4 w-4 ml-auto lg:ml-2'></ChevronRightIcon>
+
+    </Button>
+
   </>)
 
 }
@@ -93,7 +101,6 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 
 
   useEffect(() => {
-    console.log(panelRef)
 
     if (panelRef.current) {
       buttonRef.current?.click();
@@ -190,7 +197,6 @@ function MobileNavigation(
 
 
   useEffect(() => {
-    console.log(panelRef)
 
     if (panelRef.current) {
       buttonRef.current?.click();
@@ -202,7 +208,7 @@ function MobileNavigation(
 
   return (
     <Popover {...props}>
-      <PopoverButton className="group flex items-center rounded-full px-4 py-2 text-sm"
+      <PopoverButton className="group flex items-center rounded-full  py-2 text-sm"
         style={{ color: colors.attributes.accent }}
 
       >
@@ -281,6 +287,7 @@ function NavItem({
   return (
     <li
       style={{ borderColor: colors.attributes.border }}
+
     >
 
       <Element
@@ -289,7 +296,7 @@ function NavItem({
           'relative block md:px-3 py-2 transition whitespace-nowrap',
           isActive
             ? 'dark:text-gray-200  dark:dark:text-gray-200'
-            : 'hover:dark:text-gray-200  dark:hover:dark:text-gray-200',
+            : '',
         )}
         style={{ color: isActive ? colors.attributes.primary : colors.attributes.accent }}
       >
@@ -300,7 +307,7 @@ function NavItem({
           />
         )}
       </Element>
-    </li>
+    </li >
   )
 }
 
@@ -344,23 +351,28 @@ function Avatar({
   let { scope } = useContext(AppContext);
 
   return (
-    <Link
-      href={`/${scope}`}
-      aria-label="Home"
-      className={clsx(className, 'pointer-events-auto')}
-      {...props}
-    >
-      <Image
-        src={avatarImage}
-        alt=""
-        sizes={large ? '4rem' : '2.25rem'}
-        className={clsx(
-          'rounded-md  object-cover',
-          large ? 'h-32 w-32' : 'h-9 w-9',
-        )}
-        priority
-      />
-    </Link>
+    <>
+      <Link
+        href={`/${scope}`}
+        aria-label="Home"
+        className={clsx(className, 'pointer-events-auto')}
+        {...props}
+      >
+        <Image
+          src={avatarImage}
+          alt=""
+          sizes={large ? '4rem' : '2.25rem'}
+          className={clsx(
+            'rounded-md  object-cover',
+            large ? 'h-32 w-32' : 'h-9 w-9',
+          )}
+          priority
+        />
+
+      </Link>
+
+
+    </>
   )
 }
 
@@ -369,8 +381,7 @@ function Avatar({
 export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let { colors, etude, etudes } = useContext(AppContext)
-  let otherEtude = etudes.find((etudeObj) => etudeObj.attributes.slug != etude.attributes.slug)
+  let { colors, etude, etudes, scope } = useContext(AppContext)
 
   let documents = useContext(AppContext).documents
 
@@ -398,7 +409,7 @@ export function Header() {
   return (
     <>
 
-      {etude.attributes.slug != "" ?
+      {scope != "" ?
         <>
           <header
             className="pointer-events-none  w-full z-[60] flex flex-none flex-col fixed top-0"
@@ -428,12 +439,12 @@ export function Header() {
 
 
                   <Link
-                    href={`/${etude.attributes.slug}`}
+                    href={`/`}
                     aria-label="Home"
                     className={`transition-all shrink-0  rounded-full   absolute
-                  ${!isScrolled ? ` top-0 right-[calc(50%-48px)]`
+                  ${!isScrolled ? ` top-0 left-[calc(50%-48px)]`
                         :
-                        `right-[calc(50%-24px)] -top-[4px] lg:right-6 lg:-top-[4px]`} `}
+                        `left-[calc(50%-24px)] -top-[4px] lg:left-0 lg:-top-[4px]`} `}
 
                   >
                     <Image
@@ -454,20 +465,6 @@ export function Header() {
                   </div>
 
 
-
-                  <Link className={` flex items-center text-xs cursor-pointer rounded-full py-2 font-medium whitespace-nowrap
-                   transition-all shrink-0 absolute rounded-full w-fit  -left-0 lg:!left-0 
-                   overflow-hidden max-w-[calc(50%-48px)] lg:max-w-fit
-                   justify-start text-ellipsis
-                    `}
-                    href={`/${otherEtude ? otherEtude.attributes.slug : ""}/${pathname.split("/").slice(2).join("/")} `}
-                    style={{ color: colors.attributes.hint }}
-                  >
-                    <ChevronLeftIcon className='shrink-0 h-4 w-4 mr-2'></ChevronLeftIcon>
-                    <span className='w-full overflow-hidden text-ellipsis'>
-                      {capitalizeSlug(otherEtude ? otherEtude.attributes.slug : "")}
-                    </span>
-                  </Link>
                 </div>
               </Container>
             </div >
@@ -491,6 +488,9 @@ export function Header() {
               priority
             />
           </Link>
+          <h1 className=" text-center mt-4 text-white font-bold text-xl lg:text-4xl w-full flex items-center justify-center titleFont">SELARL LAUBE, LHOMME, DELMAS</h1>
+
+
         </header >
 
       }

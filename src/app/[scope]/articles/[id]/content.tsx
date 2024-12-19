@@ -105,7 +105,6 @@ export function components(colors: Color) {
 
 export default function ArticlePageContent({ article }: { article: Article }) {
 
-    console.log(article)
     let { colors, scope, etude } = useContext(AppContext)
 
     return (

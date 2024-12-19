@@ -4,6 +4,11 @@ import { Etude } from "@/models/etudes"
 import { ApiListResponse, ApiRetrieveResponse } from "@/models/other"
 import { Member } from "@/models/members"
 import { AnnonceObject } from "@/models/annonce"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Accueil",
+}
 
 
 

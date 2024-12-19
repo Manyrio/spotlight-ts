@@ -15,42 +15,67 @@ import { Color } from '@/models/colors'
 import { Image } from '@/models/image'
 import { DocumentFile } from '@/models/documents'
 import { Notification } from '@/components/Notification'
-import NextTopLoader from 'nextjs-toploader';
 import TopLoader from './topLoader'
+import { Suspense } from 'react'
 
 
-async function getDefaultParameters() {
-  let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[sections_textes_accueil][populate]=*&populate[sections_textes_office][populate]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
+async function getDefaultParameters(populate: boolean = true) {
+  const populateParams = populate
+    ? [
+      "colors",
+      "sections_textes_accueil",
+      "carousel",
+      "sections_textes_office",
+      "image",
+      "font",
+      "titleFont",
+      "pricing",
+      "ouvertures",
+    ]
+      .map((param) => `populate[${param}][populate]=*`)
+      .join("&")
+    : "";
 
-  let scope = ""
-  let path: any = headers().get('path')
-  scope = path.split("/")[1]
+  const etudesUrl = `etudes?populate[seo][populate]=*${populateParams ? `&${populateParams}` : ""}`;
+  const etudes: ApiListResponse<Etude> = await call(etudesUrl, Method.get);
 
-  let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
-  if (defaultEtude.attributes.slug == "") {
-    defaultEtude.attributes.colors.data = new Color()
-    defaultEtude.attributes.image.data = new Image()
+  // Extract the scope from headers
+  const path: string | null = headers().get("path");
+  const scope = path ? path.split("/")[1] : "";
+
+  // Find the default Etude
+  let defaultEtude = etudes.data.find((etude) => etude.attributes.slug === scope) || etudes.data[0] || new Etude();
+
+  // Ensure defaultEtude has default values
+  if (!defaultEtude.attributes.slug) {
+    defaultEtude.attributes.colors.data = new Color();
+    defaultEtude.attributes.image.data = new Image();
   }
-  let responseLES: ApiRetrieveResponse<LienEtSocial> = await call("lienetsocial", Method.get)
 
-  let defaultDocuments: ApiListResponse<DocumentFile> = await call('documents?populate=*', Method.get)
+  // Fetch additional data in parallel for better performance
+  const [responseLES, defaultDocuments] = await Promise.all([
+    call("lienetsocial", Method.get) as Promise<ApiRetrieveResponse<LienEtSocial>>,
+    call("documents?populate=*", Method.get) as Promise<ApiListResponse<DocumentFile>>,
+  ]);
 
   return {
-    defaultEtude: JSON.parse(JSON.stringify(defaultEtude)),
+    defaultEtude: defaultEtude,
     defaultScope: scope,
-    etudes: etudes,
+    etudes,
     defaultLienEtSocial: responseLES.data || new LienEtSocial(),
     defaultDocuments: defaultDocuments.data,
-  }
+  };
 }
 
 
 
+
 export async function generateMetadata(): Promise<Metadata> {
+  const startTime = Date.now()
 
   let favicon: ApiRetrieveResponse<Favicon> = await call(`favicon?populate=*`, Method.get)
-
-  let parameters = await getDefaultParameters()
+  let parameters = await getDefaultParameters(false)
+  console.log("got default parameters in", Date.now() - startTime + "ms")
 
   return {
     title: {
@@ -83,12 +108,18 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  let parameters = await getDefaultParameters()
+  const parameters = await getDefaultParameters()
   return (
     <html lang="fr" className={"h-full antialiased"} suppressHydrationWarning>
       <body className={`flex`}>
-        <MainStyle etude={parameters.defaultEtude} />
-        <Providers documents={parameters.defaultDocuments} etudes={parameters.etudes.data} defaultScope={parameters.defaultScope} defaultEtude={parameters.defaultEtude} defaultLienEtSocial={parameters.defaultLienEtSocial}>
+        <MainStyle etude={JSON.parse(JSON.stringify(parameters.defaultEtude))} />
+        <Providers
+          documents={parameters.defaultDocuments.map(doc => JSON.parse(JSON.stringify(doc)))}
+          etudes={parameters.etudes.data.map(doc => JSON.parse(JSON.stringify(doc)))}
+          defaultScope={parameters.defaultScope}
+          defaultEtude={JSON.parse(JSON.stringify(parameters.defaultEtude))}
+          defaultLienEtSocial={JSON.parse(JSON.stringify(parameters.defaultLienEtSocial))}
+        >
           <div className="flex w-full relative">
             <Layout>{children}</Layout>
           </div>

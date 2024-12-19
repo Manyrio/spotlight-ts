@@ -7,11 +7,12 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { Member } from '@/models/members'
 import { Steps } from '@/models/steps'
 import { Method, call } from '@/scripts/api'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, ChevronLeftIcon, UserIcon, EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { RiErrorWarningLine } from '@remixicon/react'
 import { useContext, useEffect, useRef, useState } from 'react'
+import TeamMember from '../equipe/components/member'
+import { useParams, useSearchParams } from 'next/navigation'
 
 function translateDayToFrench(day: string): string {
   const daysInFrench: { [key: string]: string } = {
@@ -51,7 +52,7 @@ function slotToDateTime(slot: { date: string, slot: Slot }): Date {
 
 export default function RendezvousContent({ members, steps, currentMonthSlots, nextMonthSlots }: { members: Member[], steps: Steps, currentMonthSlots: ReservationMap, nextMonthSlots: ReservationMap }) {
 
-
+  let memberId = useSearchParams().get("memberId");
   let [openedCase, setOpenedCase] = useState<boolean>(false)
   let [slot, setSlot] = useState<{ date: string, slot: Slot }>()
   let [hasContact, setHasContact] = useState<boolean>(false)
@@ -65,8 +66,16 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   let [email, setEmail] = useState('')
   let [phone, setPhone] = useState('')
 
-  let { colors, etude, addNotification } = useContext(AppContext)
+  let { colors, etude, addNotification, scope } = useContext(AppContext)
 
+  console.log("memberId")
+  console.log(memberId)
+
+  useEffect(() => {
+    console.log(memberId)
+    const member = members.find((member) => member.id == memberId)
+    if (member) setContact(member)
+  }, [memberId])
 
   function getStepIndex(currentStep: Steps["attributes"]["steps"][0]): number {
     const currentStepIndex = formattedSteps.findIndex(step => step.id === currentStep.id);
@@ -119,7 +128,6 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   let formattedSteps = [...firstSteps, ...standardSteps, ...lastSteps]
 
   let [currentStep, setCurrentStep] = useState<Steps["attributes"]["steps"][0]>(formattedSteps[0])
-
 
   useEffect(() => {
     if (currentStep) {
@@ -190,6 +198,25 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
           Parcourez notre calendrier et prenez rendez-vous pour une consultation ou un entretien.
         </p>
       </header>
+
+
+
+      {/* {!contact ? <ul role="list" className="-mt-12 space-y-12 divide-y divide-gray-300/90 dark: divide-gray-700 xl:col-span-3"
+      >
+        {members.map((member) => {
+          let allowed = false
+          member.attributes.etudes.data.forEach(element => {
+            if (element.attributes.slug == etude.attributes.slug) allowed = true
+          });
+          if (!allowed) return
+          return (
+            <TeamMember key={member.id} member={member} />
+          )
+        })}
+      </ul> :
+        <TeamMember key={contact.id} member={contact} />
+      } */}
+
       <div className="mt-16 sm:mt-20 mx-auto">
 
 
@@ -284,7 +311,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
             {(currentStep.id == "contact") && <>
 
-              <span>Avez-vous déjà un contact au sein de notre office ?</span>
+              <span>Avez-vous déjà un contact au sein de l’office ?</span>
 
               <div className='flex w-full flex-col gap-2 items-center mt-6'>
                 <Button className='w-full' onClick={() => { setHasContact(true); setCurrentStep(formattedSteps[currentIndex + 1]) }} style={{ background: colors.attributes.primary }}>Oui</Button>
@@ -319,9 +346,19 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
                     <li onClick={() => { setContact(member); setCurrentStep(formattedSteps[currentIndex + 1]) }} key={member.attributes.name} className=' hover:brightness-[110%] transition-all border truncate p-4 rounded-md cursor-pointer  flex items-start flex-col  align-top '
                       style={{ borderColor: colors.attributes.border, backgroundColor: colors.attributes.tintedBackground }}
                     >
-                      <img className="h-14 w-14 rounded-full object-cover object-top" src={process.env.NEXT_PUBLIC_BACKEND_URL + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                      {member.attributes.image.data ?
+                        <img className="h-14 w-14 rounded-full object-cover object-top" src={process.env.NEXT_PUBLIC_BACKEND_URL + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                        : <div className='h-14 w-14 rounded-full object-cover object-top' style={{ background: colors.attributes.tintedBackground }}>
+                          <UserIcon className='h-12 w-12' style={{ color: colors.attributes.hint }}></UserIcon>
+                        </div>}
                       <h3 className="mt-4 w-full truncate  text-sm text-left font-semibold leading-4 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
                       <p className=" text-xs w-full truncate leading-6 text-left  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
+                      <div className="mt-1 flex flex-row gap-2 items-center"
+                        style={{ color: colors.attributes.hint }}>
+                        {(member.attributes.languages ?? 'FR').split(',').map((language) => (
+                          <img key={language} src={`/countries/${language}.png`} alt={language} className="h-4 w-6" />
+                        ))}
+                      </div>
                     </li>
                   )
                 })}
@@ -475,7 +512,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
                   style={{ color: colors.attributes.hint }}
                 >
                   En nous contactant, vous acceptez la{' '}
-                  <a href="#" className="font-semibold dark:text-gray-200 text-indigo-600"
+                  <a href={`/${scope}/privacy`} target="_blank" className="font-semibold dark:text-gray-200 text-indigo-600"
                     style={{ color: colors.attributes.primary }}
 
                   >

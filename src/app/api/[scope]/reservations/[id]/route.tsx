@@ -3,20 +3,17 @@ import { call, Method } from "@/scripts/api";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-    console.log("body")
 
     const id = params.id;
     let body = await req.json();
     try {
         let updatedReservation = await call("reservations/" + id, Method.put, body);
 
-        console.log(updatedReservation)
         return NextResponse.json(updatedReservation, {
             status: 200,
         })
 
     } catch (error) {
-        console.log("non ici")
         return NextResponse.json({
             message: error,
         }, {
@@ -29,7 +26,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-    console.log("body")
 
     let id = params.id
 

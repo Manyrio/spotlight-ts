@@ -11,7 +11,8 @@ export function MainStyle({ etude, important }: { etude: Etude, important?: bool
 
 
     return (
-        <style>{`
+        <>
+            <style>{`
             @import url('${font}');
             @import url('${titleFont}');
                 html, body, main {
@@ -22,5 +23,16 @@ export function MainStyle({ etude, important }: { etude: Etude, important?: bool
                 font-family: '${titleFontName}', sans-serif${important ? " !important" : ""};
                 }
             `}</style>
+
+            <style>{`
+                .carousel .thumbs-wrapper {
+                margin: 20px 0px;
+                }
+                .carousel .thumb.selected, .carousel .thumb:hover{
+                    border-radius: 10px;
+                    border: 3px solid ${etude.attributes.colors?.data?.attributes.primary}
+                }
+            `}</style>
+        </>
     )
 }

@@ -16,7 +16,6 @@ export class Member implements ObjectInterface {
             image: new ApiListResponse<Image>(),
             languages: "",
             etudes: new ApiListResponse<Etude>()
-
         },
     ) {
         this.id = id;

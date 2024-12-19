@@ -215,7 +215,7 @@ function Resource({ resource }: { resource: Resource }) {
       className='relative'
     >
       <div
-        key={resource.href}
+        key={resource.href + resource.name}
         onMouseMove={onMouseMove}
         className="group w-full h-full flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 "
         style={{ background: colors.attributes.tintedBackground }}

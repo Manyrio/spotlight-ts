@@ -27,7 +27,8 @@ export default async function RendezVous() {
     } catch (error) {
     }
 
-
+    //filter out members that are not notaires
+    members.data = members.data.filter((member) => member.attributes.role == "Notaire")
 
     return (
         <RendezvousContent members={members.data} steps={steps.data} currentMonthSlots={currentMonthSlots} nextMonthSlots={nextMonthSlots}></RendezvousContent>

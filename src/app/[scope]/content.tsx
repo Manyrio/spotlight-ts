@@ -2,28 +2,27 @@
 
 "use client"
 import { useContext, useState } from 'react'
-import { ArrowRightIcon, Bars3Icon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, EnvelopeIcon, PhoneIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Container } from '@/components/Container'
-import { Button } from '@/components/Button'
-import { Annonce, AnnonceObject, TypeTransaction } from '@/models/annonce'
-import { formatLocalisation } from '@/models/localisation'
+import { AnnonceObject } from '@/models/annonce'
 import Link from 'next/link'
 import { AppContext } from '../providers'
 import { Member } from '@/models/members'
 import { EtudePosition } from '@/models/etudes'
-import { capitalizeFirstLetter } from '@/scripts/capitalize'
+import TextSection from '@/components/TextSection'
+import { ElementAnnonce } from './annonces/content'
 import { Carousel } from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { ElementAnnonce } from './annonces/content'
-import TextSection from '@/components/TextSection'
-
-
-
+import Typed from 'react-typed';
+import TypingEffect from '@/components/Typing_effect'
+import TeamMember from './equipe/components/member'
 
 export default function HomeContent({ members, annonces }: { members: Member[], annonces: AnnonceObject[] }) {
 
     const { etude, colors, scope } = useContext(AppContext)
     let position = etude.attributes.position
+    const [selectedMember, setSelectedMember] = useState<Member>()
+
 
     let memberIndex = 0
 
@@ -38,9 +37,74 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
             `}</style>
 
 
+            <div className='w-full mt-36 lg:mt-52 relative flex items-center justify-center'>
+                <div className='absolute p-6 z-10 w-full max-w-[500px] text-center rounded-lg '>
+                    <h1 className={`titleFont text-4xl font-bold tracking-tight text-white sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                        {etude.attributes.name}
+                    </h1>
+                    <h2 className='font-medium text-gray-200 text-2xl titleFont mt-4'>
+                        &nbsp;
+                        <TypingEffect
+                            phrases={[
+                                'Sous le sceau de l’État.',
+                                'Conseiller avec rigueur et impartialité.',
+                                'Accompagner avec humanité et discrétion.',
+                                'Exprimer l’équilibre des volontés dans le cadre fixé par la loi.',
+                                'Conserver les actes pour toujours.',
+                                'Et agir ainsi pour la paix au cœur de la société.',
+                            ]}
+                        />
+                        &nbsp;
+                    </h2>
+                    <div className='w-full h-[1px] bg-gray-400 my-4' ></div>
+                    <div className=' flex flex-col items-center gap-2'
+                    >
+                        <a className="flex items-center gap-2 z-20 hover:brightness-[80%] cursor-pointer font-medium text-white"
+                            href={`tel:${etude.attributes.phone}`}
+                        >
+                            <PhoneIcon className="h-5 w-5 text-white" aria-hidden="true"
+
+                            />
+                            {etude.attributes.phone}
+                        </a>
+
+                        <a className="flex items-center gap-2 z-20 hover:brightness-[80%] cursor-pointer font-medium text-white"
+                            href={`mailto:${etude.attributes.email}`}
+                        >
+                            <EnvelopeIcon className="h-5 w-5 text-white" aria-hidden="true"
+
+                            />
+                            {etude.attributes.email}
+                        </a>
+                    </div>
 
 
-            <div className="relative overflow-hidden ">
+                </div>
+
+
+
+
+
+
+
+
+
+                <Carousel className=' w-full block static select-none'
+                    showThumbs={false}
+                    autoPlay={true}
+                    interval={4000}
+                    infiniteLoop={true}
+                    swipeable={false}
+                    showStatus={false}>
+                    {etude.attributes.carousel?.data?.map((image, index) => (
+                        <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-[450px] w-full object-cover object-center brightness-50" />
+                    ))}
+                </Carousel>
+
+            </div>
+
+
+            {/* <div className="relative overflow-hidden ">
 
 
 
@@ -113,7 +177,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                 </div>
 
 
-            </div>
+            </div> */}
             <div className="
             border-t
                     "
@@ -123,53 +187,73 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
             <Container>
 
 
-
-
-
-                <div className="absolute -top-px right-16 h-8 overflow-hidden w-full">
-                    <div className="flex -mt-px h-[2px] leftw-[20vw] -scale-x-100">
-                        <div
-                            style={{
-                                backgroundImage: `linear-gradient(90deg, rgba(56,189,248,0) 0%, ${colors.attributes.primary} 32.29%, rgba(236,72,153,0.3) 67.19%, rgba(236,72,153,0) 100%)`
-                            }}
-                            className={`w-full flex-none blur-sm `}>
-                        </div>
-                        <div
-                            style={{
-                                backgroundImage: `linear-gradient(90deg, rgba(56,189,248,0) 0%, ${colors.attributes.primary} 32.29%, rgba(236,72,153,0.3) 67.19%, rgba(236,72,153,0) 100%)`
-                            }}
-                            className={`-ml-[100%] w-full flex-none blur-[1px]`}>
-                        </div>
-                    </div>
-                </div>
                 <div className='pt-16 md:pt-20'></div>
 
 
-                {etude.attributes.sections_textes_accueil.data.map((section, index) => {
+                <div className='flex flex-col gap-16'>
+
+                    {/* Team section */}
+                    <div className="mx-auto max-w-7xl">
+                        <div className="mx-auto max-w-2xl lg:mx-0">
+                            <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Rencontrez l'équipe</h2>
+                            <p className="mt-6  text-lg leading-8 " style={{ color: colors.attributes.indicator }}>
+                                Notre équipe multidisciplinaire est composée de professionnels expérimentés et passionnés.
+                            </p>
+                            <Link href={`/${scope}/equipe`} className='border-b border-indigo-400 w-fit mt-2  text-indigo-400 flex items-center' style={{ color: colors.attributes.primary, borderColor: colors.attributes.primary }}>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
+                        </div>
+                        <ul
+                            role="list"
+                            className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16  text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6"
+                        >
+                            {members.map((member, index: number) => {
+                                let allowed = false
+                                member.attributes.etudes.data.forEach(element => {
+                                    if (element.attributes.slug == etude.attributes.slug) allowed = true
+                                });
 
 
+                                if (!allowed || memberIndex > 4) return
+                                memberIndex++
+                                return (
+                                    <li key={member.attributes.name} className='cursor-pointer' onClick={() => setSelectedMember(member)}>
+                                        {member.attributes.image.data ?
+                                            <img className="mx-auto h-24 w-24 rounded-full object-cover object-top transition-[filter] duration-500 !grayscale-[100%] hover:!grayscale-[0%]" src={process.env.NEXT_PUBLIC_BACKEND_URL + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
+                                            :
+                                            <div className='flex items-center h-24 w-24 rounded-full justify-center bg-gray-100 mx-auto'>
+                                                <UserIcon className='h-10 w-10 text-gray-500'></UserIcon>
+                                            </div>
+                                        }
 
-                    return (<>
+                                        <h3 className="mt-6  text-base font-semibold leading-7 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
+                                        <p className=" text-sm leading-6  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
+                                    </li>
+                                )
+                            })}
+                        </ul>
 
-                        <TextSection section={section} etude={etude} />
+                        {selectedMember && <div className='w-full relative mx-auto max-w-2xl lg:max-w-none'> <TeamMember member={selectedMember} ></TeamMember>
+                            <div className='cursor-pointer hover:brightness-[80%] absolute w-6 h-6 top-12 rounded-full right-0 flex items-center justify-center bg-gray-200' onClick={() => setSelectedMember(undefined)}>
+                                <XMarkIcon className='w-4 h-4 text-gray-600'></XMarkIcon>
+                            </div>
+                        </div>}
+                    </div>
 
-                    </>)
-                }
-                )}
 
+                    {etude.attributes.sections_textes_accueil.data.map((section, index) => {
 
-
-
-                <div className="isolate w-full">
-
+                        return (
+                            <TextSection section={section} etude={etude} key={index} />
+                        )
+                    }
+                    )}
 
 
 
                     {/* Content section */}
-                    <div className="mx-auto max-w-7xl  sm:mt-0 pt-20">
+                    <div className="mx-auto max-w-7xl w-full sm:mt-0">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Nous trouver</h2>
-                            <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
+                            <div className="mt-6 flex flex-col gap-x-8  gap-y-20 max-lg:gap-y-4 lg:flex-row">
                                 <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
 
 
@@ -218,11 +302,11 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                                                         <dt className=" text-sm font-medium leading-6  text-gray-900 " style={{ color: colors.attributes.accent }}>Horaires</dt>
                                                         <table className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 whitespace-pre-line gap-2 flex flex-col" style={{ color: colors.attributes.indicator }}>
                                                             <tbody>
-                                                                {Object.keys(etude.attributes.ouvertures).map((day) => {
+                                                                {Object.keys(etude.attributes.ouvertures).map((day, index) => {
                                                                     if (day === "id") return null;
 
                                                                     return (
-                                                                        <tr key={day}>
+                                                                        <tr key={index}>
                                                                             <td className='pr-4 max-sm:block'>{day} </td>
                                                                             <td className="flex items-center">
                                                                                 {etude.attributes.ouvertures[day].map((ouverture, index) => (
@@ -251,8 +335,8 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
                                 </div>
                                 <div className="lg:flex w-full lg:flex-auto lg:justify-center">
-                                    <dl className="w-full  space-y-8 xl:w-80">
-                                        <iframe src={etude.attributes.mapUrl} width="500" height="450" className={"w-full h-[300px] lg:h-[450px] lg:w-[500px]  rounded-md"} style={{ "border": 0 }} allowFullScreen loading="lazy"></iframe>
+                                    <dl className="w-full  space-y-8 ">
+                                        <iframe src={etude.attributes.mapUrl} width="500" height="450" className={"w-full h-[300px] lg:h-[450px]   rounded-md"} style={{ "border": 0 }} allowFullScreen loading="lazy"></iframe>
                                     </dl>
                                 </div>
                             </div>
@@ -261,41 +345,8 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
 
 
-                    {/* Team section */}
-                    <div className="mx-auto mt-32 max-w-7xl  sm:mt-30 ">
-                        <div className="mx-auto max-w-2xl lg:mx-0">
-                            <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Rencontrez l'équipe</h2>
-                            <p className="mt-6  text-lg leading-8 " style={{ color: colors.attributes.indicator }}>
-                                Notre équipe multidisciplinaire est composée de professionnels expérimentés et passionnés.
-                            </p>
-                            <Link href={`/${scope}/equipe`} className='border-b border-indigo-400 w-fit mt-2  text-indigo-400 flex items-center' style={{ color: colors.attributes.primary, borderColor: colors.attributes.primary }}>Voir toute l'équipe <ChevronRightIcon className='h-4 w-4 ml-2'></ChevronRightIcon></Link>
-                        </div>
-                        <ul
-                            role="list"
-                            className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16  text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6"
-                        >
-                            {members.map((member, index: number) => {
-                                let allowed = false
-                                member.attributes.etudes.data.forEach(element => {
-                                    if (element.attributes.slug == etude.attributes.slug) allowed = true
-                                });
-
-
-                                if (!allowed || memberIndex > 5) return
-                                memberIndex++
-                                return (
-                                    <li key={member.attributes.name}>
-                                        <img className="mx-auto h-24 w-24 rounded-full object-cover object-top" src={process.env.NEXT_PUBLIC_BACKEND_URL + (member.attributes.image.data ? member.attributes.image.data[0].attributes.url : "")} alt="" />
-                                        <h3 className="mt-6  text-base font-semibold leading-7 tracking-tight  text-gray-900" style={{ color: colors.attributes.indicator }}>{member.attributes.name}</h3>
-                                        <p className=" text-sm leading-6  text-gray-600" style={{ color: colors.attributes.hint }}>{member.attributes.role}</p>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-
                     {/* Blog section */}
-                    <div className="mx-auto mt-32 max-w-7xl sm:mt-40 ">
+                    <div className="mx-auto max-w-7xl">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <h2 className=" text-3xl font-bold tracking-tight  text-gray-900  text-4xl" style={{ color: colors.attributes.accent }}>Annonces immobilières</h2>
                             <p className="mt-2  text-lg leading-8  text-gray-600" style={{ color: colors.attributes.indicator }}>
@@ -307,16 +358,16 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                         <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                             {annonces.map((annonce, index) => {
                                 if (index > 2) return
-
-
                                 return (
-                                    <ElementAnnonce annonceObject={annonce} shrinked={true}></ElementAnnonce>
+                                    <ElementAnnonce key={index} annonceObject={annonce} shrinked={true}></ElementAnnonce>
                                 )
                             })}
 
                         </div>
                     </div>
+
                 </div>
+
             </Container >
         </>
     )

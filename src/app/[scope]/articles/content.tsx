@@ -10,7 +10,6 @@ import { useContext } from 'react';
 
 export default function ArticlesContent({ articles }: { articles: Article[] }) {
 
-    console.log(articles)
     let { colors, scope } = useContext(AppContext)
 
     return (

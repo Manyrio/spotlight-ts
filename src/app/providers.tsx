@@ -86,7 +86,7 @@ export function Providers({ children, documents, etudes, defaultScope, defaultEt
 
 
     useEffect(() => {
-        let etude = etudes.find(etude => etude.attributes.slug === scope) || new Etude()
+        let etude = etudes.find(etude => etude.attributes.slug === scope) || etudes[0] || new Etude()
         setEtude(etude)
         if (etude.attributes.slug == "") {
             etude.attributes.colors.data = new Color()

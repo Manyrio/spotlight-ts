@@ -22,7 +22,6 @@ export default function ReservationContent({ reservation }: { reservation: Reser
   let { colors, scope } = useContext(AppContext)
 
   let [action, setAction] = useState<ReservationAction>(useSearchParams().get("action") as ReservationAction)
-  console.log(action)
 
   useEffect(() => {
 

@@ -22,7 +22,6 @@ export default async function ArticlePage({ params }: { params: { id: string } }
     const id = params.id
     let origin = process.env.NEXT_PUBLIC_URL
     let annonce: AnnonceObject = await call(origin + `/api/annonces/${id}`, Method.get)
-    console.log(annonce)
     return (
         <AnnoncePageContent annonceObject={annonce}></AnnoncePageContent>
     )

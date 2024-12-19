@@ -49,7 +49,6 @@ async function sendReservationClientMail(reservationId: string, type: Reservatio
 
         throw 'Erreur lors du traitement de la requête'
     }
-    console.log('type', reservationType);
 
     let reservation: any
         = await call("reservations/" + reservationId, Method.get)

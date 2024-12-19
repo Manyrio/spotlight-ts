@@ -107,8 +107,10 @@ export default function AnnoncePageContent({ annonceObject }: { annonceObject: A
                     <div className='w-full lg:w-[60%] shrink-0'>
                         {
                             (photos.data && photos.data.length > 0) &&
-                            <Carousel className='w-full max-w-4xl'
-                                showStatus={false}>
+                            <Carousel className='w-full max-w-4xl select-none'
+                                showStatus={false}
+                                swipeable={true}
+                                emulateTouch={true}>
                                 {photos.data.map((image, index) => (
                                     <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
                                 ))}
@@ -158,8 +160,8 @@ export default function AnnoncePageContent({ annonceObject }: { annonceObject: A
                             <h2 className='text-2xl font-bold'>
                                 Caractéristiques
                             </h2>
-                            <p style={{ color: colors.attributes.indicator }}
-                                className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 w-full gap-2 mt-4'>
+                            <div style={{ color: colors.attributes.indicator }}
+                                className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 w-full gap-2 mt-4'>
 
                                 <CaracteristiqueElement value={getAnnonceType(annonce)} Icon={RiShakeHandsLine} />
                                 {annonce.bien.etat && (
@@ -208,7 +210,7 @@ export default function AnnoncePageContent({ annonceObject }: { annonceObject: A
                                 )}
 
 
-                            </p>
+                            </div>
 
 
 
@@ -249,7 +251,7 @@ export default function AnnoncePageContent({ annonceObject }: { annonceObject: A
                         </span>
                     </div>
 
-                    <div className='w-full lg:w-[40%]  h-fit sticky top-24 mt-8 lg:mt-6 ml-0 lg:ml-8'>
+                    <div className='w-full lg:w-[40%]  h-fit sticky top-24  ml-0 lg:ml-8'>
                         {annonce.contact.nom && (
                             <div className='rounded-md p-4'
                                 style={{ background: colors.attributes.tintedBackground }}>

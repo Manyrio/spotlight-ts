@@ -21,7 +21,7 @@ export async function call(url: string, method: Method, data: any = null, type: 
         };
 
         if (type) headers['Content-Type'] = type
-
+        console.log("called ", url)
 
         headers.authorization = `Bearer ${process.env.STRAPI_API_TOKEN}`
 
@@ -29,7 +29,6 @@ export async function call(url: string, method: Method, data: any = null, type: 
         if (!url.startsWith("http") && !url.startsWith("/")) {
             url = process.env.NEXT_PUBLIC_BACKEND_URL + "/api/" + url
         }
-        console.log("url", url)
 
         const response = await fetch(url, {
             next: { revalidate: 0 },

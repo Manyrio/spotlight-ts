@@ -1,9 +1,4 @@
-import { type Metadata } from 'next'
-
-import { Providers } from '@/app/providers'
-import { Layout } from '@/components/Layout'
 import nodemailer from 'nodemailer';
-
 import '@/styles/tailwind.css'
 import { Method, call } from '@/scripts/api'
 import { Etude } from '@/models/etudes'
@@ -11,7 +6,6 @@ import { headers } from 'next/headers';
 import { ApiListResponse, ApiRetrieveResponse } from '@/models/other'
 import { LienEtSocial } from '@/models/lienEtSocial'
 import { Favicon } from '@/models/favicon'
-import { MainStyle } from '@/components/MainStyle'
 import { Color } from '@/models/colors'
 import { Image } from '@/models/image'
 

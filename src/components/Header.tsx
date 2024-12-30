@@ -64,22 +64,10 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           ]
         }></DropDown>
     </NavItem>
-    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
     <NavItem href={`/${scope}/conseils`}>Conseils </NavItem >
     <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
     <NavItem href={`/${scope}/contact`}>Contact</NavItem>
-
-
-    <Button
-      href={`/${scope}/rendezvous`}
-      style={{ background: colors.attributes.primary }}
-      className='max-lg:mt-4 lg:ml-2 !text-white'
-    >
-      Prendre rendez-vous
-      <ChevronRightIcon className='h-4 w-4 ml-auto lg:ml-2'></ChevronRightIcon>
-
-    </Button>
-
+    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
   </>)
 
 }
@@ -287,27 +275,25 @@ function NavItem({
   return (
     <li
       style={{ borderColor: colors.attributes.border }}
-
+      className="group" // Ajout de la classe "group" pour gérer les états de survol
     >
-
       <Element
         href={href || "#"}
         className={clsx(
           'relative block md:px-3 py-2 transition whitespace-nowrap',
-          isActive
-            ? 'dark:text-gray-200  dark:dark:text-gray-200'
-            : '',
+          isActive ? 'dark:text-gray-200' : ''
         )}
         style={{ color: isActive ? colors.attributes.primary : colors.attributes.accent }}
       >
         {children}
-        {isActive && (
-          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 "
-            style={{ backgroundImage: `linear-gradient(to right, ${colors.attributes.primary}10, ${colors.attributes.primary}AA, ${colors.attributes.primary}10)` }}
-          />
-        )}
+        <span
+          className="absolute left-1/2 transform -translate-x-1/2 inset-x-1 w-0 group-hover:w-full -bottom-px h-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+          style={{
+            backgroundImage: `linear-gradient(to right, ${isActive ? colors.attributes.primary : colors.attributes.accent}10, ${isActive ? colors.attributes.primary : colors.attributes.accent}AA, ${isActive ? colors.attributes.primary : colors.attributes.accent}10)`,
+          }}
+        />
       </Element>
-    </li >
+    </li>
   )
 }
 
@@ -322,61 +308,6 @@ function DesktopNavigation({ props, documents, isScrolled }: { props: React.Comp
     </nav>
   )
 }
-
-
-
-
-function AvatarContainer({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
-  return (
-    <div
-      className={clsx(
-        className,
-        'h-10 w-10 rounded-md p-0.5',
-      )}
-      {...props}
-    />
-  )
-}
-
-function Avatar({
-  large = false,
-  className,
-  ...props
-}: Omit<React.ComponentPropsWithoutRef<typeof Link>, 'href'> & {
-  large?: boolean
-}) {
-  let { scope } = useContext(AppContext);
-
-  return (
-    <>
-      <Link
-        href={`/${scope}`}
-        aria-label="Home"
-        className={clsx(className, 'pointer-events-auto')}
-        {...props}
-      >
-        <Image
-          src={avatarImage}
-          alt=""
-          sizes={large ? '4rem' : '2.25rem'}
-          className={clsx(
-            'rounded-md  object-cover',
-            large ? 'h-32 w-32' : 'h-9 w-9',
-          )}
-          priority
-        />
-
-      </Link>
-
-
-    </>
-  )
-}
-
-
 
 export function Header() {
 
@@ -447,26 +378,34 @@ export function Header() {
                         `left-[calc(50%-24px)] -top-[4px] lg:left-0 lg:-top-[4px]`} `}
 
                   >
-                    <Image
-                      src={avatarImage}
-                      alt=""
-                      className={clsx(
-                        'object-cover transition-all shrink-0',
-                        !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
-                      )}
-                      priority
-                    />
+                  <Image
+                    src={avatarImage}
+                    alt=""
+                    className={clsx(
+                      'object-cover transition-all shrink-0',
+                      !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
+                    )}
+                    priority
+                  />
+
                   </Link>
-
-
+                  
                   <div className={`flex  lg:ml-0 w-full justify-end md:justify-center transition-all `}>
                     <MobileNavigation props={{ className: `pointer-events-auto lg:hidden ml-auto` }} documents={documents} isScrolled={isScrolled} />
                     <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
                   </div>
 
-
                 </div>
               </Container>
+
+                  <Button
+                    href={`/${scope}/rendezvous`}
+                    style={{ background: colors.attributes.primary }}
+                    className={`hidden lg:flex !text-white lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
+                  >
+                    Prendre rendez-vous
+                    <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
+                  </Button>
             </div >
           </header>
         </>

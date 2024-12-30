@@ -5,14 +5,26 @@ import '@/styles/tailwind.css';
 export async function getRequestMailAttributes(
     reservation: Reservation
 ): Promise<any> {
-    let dateRdv = reservation.date.toLocaleDateString('fr-FR',
-        { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    let heureRdv = reservation.date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+
+    const reservationDate = reservation.date;
+    const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Europe/Paris',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    const formatter = new Intl.DateTimeFormat('fr-FR', options);
+    const parisTime = formatter.format(reservationDate);
+
     let publicUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
     let parameters = await getApiDefaultParameters();
 
     return {
-        title: "Demande de rendez-vous - " + dateRdv + " à " + heureRdv,
+        title: "Demande de rendez-vous - " + parisTime,
         content: `
                         <table class="es-content" cellspacing="0" cellpadding="20" align="center">
                             <tbody>
@@ -49,7 +61,7 @@ export async function getRequestMailAttributes(
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="left" class="esd-block-text">
-                                                                                        <h1 style="color: #026fe5;">Vous avez une nouvelle demande de rendez-vous - ${dateRdv} à ${heureRdv}</h1>
+                                                                                        <h1 style="color: #026fe5;">Vous avez une nouvelle demande de rendez-vous - ${parisTime} </h1>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -58,8 +70,7 @@ export async function getRequestMailAttributes(
                                                                                         <p>Nom: ${reservation.name}</p>
                                                                                         <p>Téléphone: ${reservation.clientPhone}</p>
                                                                                         <p>Motif: ${reservation.message}</p>
-                                                                                        <p>Date: ${dateRdv}</p>
-                                                                                        <p>Heure: ${heureRdv}</p>
+                                                                                        <p>Date & Heure: ${parisTime}</p>
                                                                                         <p>Vous pouvez accepter ou refuser la demande en cliquant sur les boutons ci-dessous :</p>
                                                                                 </tr>
                                                                                 <tr>

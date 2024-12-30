@@ -9,10 +9,11 @@ export async function POST(req: NextRequest, { params }: { params: { scope: stri
 
 
     let body = await req.json();
+    console.log(body)
     try {
 
         let response: Reservation = await call("reservations", Method.post, body);
-
+        console.log(response)
         try {
             await sendReservationEtudeMail(response.id);
         } catch (error) {
@@ -45,6 +46,8 @@ async function sendReservationEtudeMail(reservationId: string) {
 
     let reservation: any
         = await call("reservations/" + reservationId, Method.get)
+
+
 
 
     let newRes = new Reservation(

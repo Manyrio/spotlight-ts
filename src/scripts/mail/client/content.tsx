@@ -55,14 +55,15 @@ function replacePlaceholders(
     startDate: Date,
     etude: Etude
 ): string {
-    let dateRdv = startDate.toLocaleDateString('fr-FR',
-        { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    let heureRdv = startDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+    console.log("filling placeholders with")
+    console.log(startDate)
+
+
 
     let variables = {
         'NOM CLIENT': clientName,
-        'DATE RDV': dateRdv,
-        'HEURE RDV': heureRdv,
+        'DATE RDV': startDate as any,
         'ADRESSE ETUDE': etude.attributes.address,
         'TELEPHONE ETUDE': etude.attributes.phone,
         'EMAIL ETUDE': etude.attributes.email,
@@ -80,19 +81,40 @@ export async function getFormattedMailAttributes(
     let parameters = await getApiDefaultParameters();
 
     let clientName: string = reservation.clientFirstName + ' ' + reservation.clientLastName;
-    let startDate: Date = reservation.date;
+
+    console.log("filling placeholders with")
+    console.log(mailAttributes)
+    console.log(clientName)
+    console.log(reservation.date)
+
+
+    const reservationDate = reservation.date;
+    const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Europe/Paris',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    const formatter = new Intl.DateTimeFormat('fr-FR', options);
+    const parisTime = formatter.format(reservationDate);
+
+    console.log(parisTime)
+
 
     let markdownToHtmlTitle = replacePlaceholders(
         mailAttributes.title,
         clientName,
-        startDate,
+        parisTime as any,
         parameters.defaultEtude
     );
 
     let markdownToHtmlContent = new showdown.Converter().makeHtml(replacePlaceholders(
         mailAttributes.content,
         clientName,
-        startDate,
+        parisTime as any,
         parameters.defaultEtude
     ));
 

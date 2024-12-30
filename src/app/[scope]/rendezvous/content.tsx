@@ -28,37 +28,44 @@ function translateDayToFrench(day: string): string {
   return daysInFrench[day] || day; // Fallback to the original day name if it's not found
 }
 
+function slotToDateTime(slot: { date: string, slot: { time: string } }): Date {
+  const date = slot.date; // Date au format ISO
+  const time = slot.slot.time; // Heure (ex. "14:30")
 
-function slotToDateTime(slot: { date: string, slot: Slot }): Date {
-  const date = slot.date;
-  const time = slot.slot.time;
-
-  // Extract the date part (YYYY-MM-DD) from the date string
+  // Extraire la partie date (YYYY-MM-DD)
   const dateOnly = date.split('T')[0];
 
-  // Combine the date with the provided time
-  const combinedDateTime = `${dateOnly}T${time}:00+02:00`;
+  // Créer une chaîne de datetime avec timezone Europe/Paris
+  const combinedDateTime = `${dateOnly}T${time}:00`;
 
-  // Create the Date object
-  const dateTime = new Date(combinedDateTime);
+  // Déterminer l'offset dynamique pour Europe/Paris
+  const parisOffsetMinutes = new Date(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Europe/Paris',
+    }).format(new Date(combinedDateTime))
+  ).getTimezoneOffset();
 
-  return dateTime
+  const offsetHours = -(parisOffsetMinutes / 60); // Convertir en heures
+  const offsetString = offsetHours >= 0
+    ? `+${String(offsetHours).padStart(2, '0')}:00`
+    : `${String(offsetHours).padStart(3, '0')}:00`;
 
+  // Appliquer le fuseau horaire à la chaîne datetime
+  const finalDateTime = new Date(`${combinedDateTime}${offsetString}`);
+
+  return finalDateTime;
 }
-
-
 
 
 
 export default function RendezvousContent({ members, steps, currentMonthSlots, nextMonthSlots }: { members: Member[], steps: Steps, currentMonthSlots: ReservationMap, nextMonthSlots: ReservationMap }) {
 
   let memberId = useSearchParams().get("memberId");
-  let [openedCase, setOpenedCase] = useState<boolean>(false)
+  let [openedCase, setOpenedCase] = useState<'openedCase' | 'newClient' | 'client'>()
   let [slot, setSlot] = useState<{ date: string, slot: Slot }>()
-  let [hasContact, setHasContact] = useState<boolean>(false)
   let [contact, setContact] = useState<Member>()
   let [loader, setLoader] = useState(false)
-
+  console.log(slot)
   let [stepResponses, setStepReponses] = useState<any>({})
 
   let [name, setName] = useState('')
@@ -68,13 +75,13 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
   let { colors, etude, addNotification, scope } = useContext(AppContext)
 
-  console.log("memberId")
-  console.log(memberId)
 
   useEffect(() => {
-    console.log(memberId)
     const member = members.find((member) => member.id == memberId)
-    if (member) setContact(member)
+    if (member) {
+      setCurrentStep(formattedSteps.find(step => step.id == "openedCase")!)
+      setContact(member)
+    }
   }, [memberId])
 
   function getStepIndex(currentStep: Steps["attributes"]["steps"][0]): number {
@@ -85,11 +92,17 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
   let firstSteps = [
     {
+      id: "contactSelection",
+      question: "",
+      responses: []
+    },
+    {
       id: "openedCase",
-      question: "Avez-vous déjà un dossier ouvert ?",
+      question: "Vous êtes...",
       responses: [
-        { response: "Oui" },
-        { response: "Non" }
+        { response: "Un nouveau client" },
+        { response: "Déjà client" },
+        { response: "Dossier en cours" }
       ]
     },
     {
@@ -102,16 +115,6 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   let standardSteps = steps.attributes.steps
 
   let lastSteps = [
-    {
-      id: "contact",
-      question: "",
-      responses: []
-    },
-    {
-      id: "contactSelection",
-      question: "",
-      responses: []
-    },
     {
       id: "slotSelection",
       question: "",
@@ -131,12 +134,12 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
   useEffect(() => {
     if (currentStep) {
-      if (currentStep.id == "contactSelection" && !hasContact) setCurrentStep(formattedSteps.find(step => step.id == "contact")!)
-      if (currentStep.id == "alreadyOpenedCase" && !openedCase) setCurrentStep(formattedSteps[0])
+      if (currentStep.id == "alreadyOpenedCase" && openedCase != 'openedCase') setCurrentStep((formattedSteps.find(step => step.id == "openedCase")!))
     }
   }, [currentStep])
 
   useEffect(() => {
+    if (slot) console.log(slotToDateTime(slot))
     if (slot) setCurrentStep(formattedSteps.find(step => step.id == "form")!)
   }, [slot])
 
@@ -181,7 +184,22 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   if (!currentStep) return <></>
 
   let currentIndex = getStepIndex(currentStep)
+  let hasCurrentMonthSlots = false;
 
+  // Check if currentMonthSlots exists and is an object
+  if (currentMonthSlots && typeof currentMonthSlots === 'object') {
+    const todayStartTime = new Date().setHours(0, 0, 0, 0);
+
+    for (const key in currentMonthSlots) {
+      const slotDate = new Date(currentMonthSlots[key].date).getTime();
+      const hasSlots = currentMonthSlots[key].slots;
+
+      if (slotDate >= todayStartTime && hasSlots) {
+        hasCurrentMonthSlots = true;
+        break; // Exit loop early if condition is met
+      }
+    }
+  }
 
   return (
 
@@ -235,12 +253,14 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
             {currentStep.id == "openedCase" && <>
 
               <span
+                className='font-semibold'
               >{currentStep.question}</span>
 
               <div className='flex w-full flex-col gap-2 items-center mt-6'>
 
-                <Button className='w-full' onClick={() => { setOpenedCase(true); setCurrentStep(formattedSteps[currentIndex + 1]) }} style={{ background: colors.attributes.primary }}>Oui</Button>
-                <Button className='w-full' onClick={() => { setOpenedCase(false); setCurrentStep(formattedSteps[currentIndex + 2]) }} style={{ background: colors.attributes.primary }}>Non</Button>
+                <Button className='w-full' onClick={() => { setOpenedCase('newClient'); setCurrentStep(formattedSteps[currentIndex + 2]) }} style={{ background: colors.attributes.primary }}>Un nouveau client</Button>
+                <Button className='w-full' onClick={() => { setOpenedCase('client'); setCurrentStep(formattedSteps[currentIndex + 2]) }} style={{ background: colors.attributes.primary }}>Déjà client</Button>
+                <Button className='w-full' onClick={() => { setOpenedCase('openedCase'); setCurrentStep(formattedSteps[currentIndex + 1]) }} style={{ background: colors.attributes.primary }}>Dossier en cours</Button>
 
               </div>
 
@@ -249,12 +269,15 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
             }
 
-            {(currentStep.id == "alreadyOpenedCase" && openedCase) &&
+            {(currentStep.id == "alreadyOpenedCase" && openedCase == 'openedCase') &&
               <>
-                <span>{steps.attributes.contact.title}</span>
+                <span className='font-semibold'>{steps.attributes.contact.title}</span>
                 <span className='text-sm mt-2'
                   style={{ color: colors.attributes.indicator }}
                 >{steps.attributes.contact.description}</span>
+
+                <Button href={`/${scope}/contact`} className='w-fit mt-4' >Nous contacter</Button>
+
 
                 <div className=" mt-9 dark:text-gray-200 text-base leading-7 gap-8 flex flex-col ">
 
@@ -277,6 +300,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
 
 
+
                 </div>
               </>
             }
@@ -286,7 +310,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
               if (currentStep.id != step.id) return <></>
 
               return <>
-                <span>{currentStep.question}</span>
+                <span className='font-semibold'>{currentStep.question}</span>
 
                 <div className='flex w-full flex-col gap-2 items-center mt-6'>
 
@@ -307,25 +331,10 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
 
 
-
-
-            {(currentStep.id == "contact") && <>
-
-              <span>Avez-vous déjà un contact au sein de l’office ?</span>
-
-              <div className='flex w-full flex-col gap-2 items-center mt-6'>
-                <Button className='w-full' onClick={() => { setHasContact(true); setCurrentStep(formattedSteps[currentIndex + 1]) }} style={{ background: colors.attributes.primary }}>Oui</Button>
-                <Button className='w-full' onClick={() => { setHasContact(false); setCurrentStep(formattedSteps[currentIndex + 2]) }} style={{ background: colors.attributes.primary }}>Non</Button>
-
-              </div>
-            </>
-            }
-
-
             {(currentStep.id == "contactSelection") && <>
 
 
-              <span>Sélection du contact</span>
+              <span className='font-semibold'>Choix du notaire</span>
 
               <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6"
               >
@@ -369,15 +378,17 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
             }
 
             {(currentStep.id == "slotSelection") && <>
+              <span className='font-semibold mb-4'>Sélectionnez un créneau horaire.</span>
 
-              <div className="grid w-full grid-cols-1 md:grid-cols-2  gap-4 mt-4">
-
-                {/* Calendar slots */}
-                <Calendar reservationMap={currentMonthSlots} setSlot={setSlot}></Calendar>
-              </div>
-              <div className='h-[1px] w-full my-8 '
-                style={{ background: colors.attributes.divider }}
-              ></div>
+              {hasCurrentMonthSlots && <>
+                <div className="grid w-full grid-cols-1 md:grid-cols-2  gap-4 ">
+                  {/* Calendar slots */}
+                  <Calendar reservationMap={currentMonthSlots} setSlot={setSlot}></Calendar>
+                </div>
+                <div className='h-[1px] w-full my-8 '
+                  style={{ background: colors.attributes.divider }}
+                ></div>
+              </>}
               <div className="grid w-full  grid-cols-1  md:grid-cols-2 gap-4">
 
                 {/* Calendar slots */}
@@ -562,7 +573,7 @@ function Calendar({ reservationMap, setSlot }: { reservationMap: ReservationMap,
             style={{ borderColor: colors.attributes.border }}
           >
             {/* Display the day and date */}
-            <div className="font-semibold">{translateDayToFrench(day)} {reservationDate.toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' })}</div>
+            <div className="font-semibold">{translateDayToFrench(day)} {reservationDate.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris', month: 'short', day: 'numeric' })}</div>
 
             {/* Display time slots */}
             <div className="mt-2 grid grid-cols-3 gap-2">

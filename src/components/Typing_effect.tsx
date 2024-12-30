@@ -20,6 +20,7 @@ export default function TypingEffect({
   const [subIndex, setSubIndex] = useState(0); // Sous-index pour l'effet de frappe
   const [isDeleting, setIsDeleting] = useState(false); // Indique si on est en train de supprimer
   const [isPaused, setIsPaused] = useState(false); // Pause entre les transitions
+  const [showCursor, setShowCursor] = useState(true); // État du curseur clignotant
 
   useEffect(() => {
     if (isPaused) return; // Si en pause, ne pas continuer
@@ -57,9 +58,23 @@ export default function TypingEffect({
     return () => clearTimeout(timeout);
   }, [phrases, subIndex, isDeleting, index, isPaused, typingSpeed, deletingSpeed, pauseTime, loop]);
 
+  useEffect(() => {
+    const cursorBlink = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 400);
+
+    return () => clearInterval(cursorBlink);
+  }, []);
+
   return (
-    <>
+    <span className="whitespace-break-spaces">
       {phrases[index]?.substring(0, subIndex) || ""}
-    </>
+      <span
+        style={{
+          opacity: showCursor ? 1 : 0,
+          transition: "opacity 0.1s",
+        }}
+      >|</span>
+    </span>
   );
 }

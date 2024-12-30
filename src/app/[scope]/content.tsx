@@ -39,24 +39,21 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
             <div className='w-full mt-36 lg:mt-52 relative flex items-center justify-center'>
                 <div className='absolute p-6 z-10 w-full max-w-[500px] text-center rounded-lg '>
-                    <h1 className={`titleFont text-4xl font-bold tracking-tight text-white sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
+                    {/* <h1 className={`titleFont text-4xl font-bold tracking-tight text-white sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                         {etude.attributes.name}
-                    </h1>
-                    <h2 className='font-medium text-gray-200 text-2xl titleFont mt-4'>
+                    </h1> */}
+                    <h1 className='font-medium text-white text-2xl titleFont mt-4'
+                        style={{ textShadow: '0px 2px 16px rgba(0, 0, 0, 0.7)' }}
+                        >
                         &nbsp;
                         <TypingEffect
                             phrases={[
-                                'Sous le sceau de l’État.',
-                                'Conseiller avec rigueur et impartialité.',
-                                'Accompagner avec humanité et discrétion.',
-                                'Exprimer l’équilibre des volontés dans le cadre fixé par la loi.',
-                                'Conserver les actes pour toujours.',
-                                'Et agir ainsi pour la paix au cœur de la société.',
+                                'Sous le sceau de l’État.\nConseiller avec rigueur et impartialité.\nAccompagner avec humanité et discrétion.\nExprimer l’équilibre des volontés dans le cadre fixé par la loi.\nConserver les actes pour toujours.\nEt agir ainsi pour la paix au cœur de la société.',
                             ]}
                         />
                         &nbsp;
-                    </h2>
-                    <div className='w-full h-[1px] bg-gray-400 my-4' ></div>
+                    </h1>
+                    {/* <div className='w-full h-[1px] bg-gray-400 my-4' ></div>
                     <div className=' flex flex-col items-center gap-2'
                     >
                         <a className="flex items-center gap-2 z-20 hover:brightness-[80%] cursor-pointer font-medium text-white"
@@ -76,7 +73,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                             />
                             {etude.attributes.email}
                         </a>
-                    </div>
+                    </div> */}
 
 
                 </div>

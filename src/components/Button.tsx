@@ -23,7 +23,7 @@ export function Button({
   const isButton = props.href === undefined;
 
   className = clsx(
-    'inline-flex items-center bg-gray-200 text-gray-200 gap-2 justify-center rounded-md py-2 px-3  text-sm outline-offset-2 transition active:transition-none hover:brightness-[80%]',
+    'inline-flex items-center bg-gray-200 !text-white gap-2 justify-center rounded-md py-2 px-3  text-sm outline-offset-2 transition active:transition-none hover:brightness-[80%]',
     variantStyles[variant],
     `${isButton && props['disabled'] ? 'opacity-50' : ''}`,
     className,

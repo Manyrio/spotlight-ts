@@ -60,7 +60,7 @@ export default function HomePageContent() {
                                     <Link
                                         href={`/${etude.attributes.slug}/`}
                                         style={{ background: etudeColors.attributes.primary }}
-                                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm drop-shadow-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="rounded-md lg:text-lg bg-indigo-600 px-3.5 py-2.5 text-sm drop-shadow-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Accéder
                                     </Link>
@@ -71,14 +71,14 @@ export default function HomePageContent() {
 
                             `}>
 
-                                    <a className="flex items-center gap-2 z-20 text-white hover:text-gray-300 cursor-pointer"
+                                    <a className="flex items-center lg:text-xl gap-2 z-20 text-white hover:text-gray-300 cursor-pointer"
                                         href={`tel:${etude.attributes.phone}`}
                                     >
                                         <PhoneIcon className="h-5 w-5 text-white" aria-hidden="true" />
                                         {etude.attributes.phone}
                                     </a>
 
-                                    <a className="flex items-center gap-2 z-20 text-white hover:text-gray-300 cursor-pointer "
+                                    <a className="flex items-center lg:text-xl gap-2 z-20 text-white hover:text-gray-300 cursor-pointer "
                                         href={`mailto:${etude.attributes.email}`}
                                     >
                                         <EnvelopeIcon className="h-5 w-5 text-white" aria-hidden="true" />

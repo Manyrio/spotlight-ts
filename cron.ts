@@ -1,4 +1,4 @@
-import { syncAnnonces } from '@/app/api/annonces/[id]/route';
+import { syncAnnonces } from '@/scripts/syncAnnonces';
 import cron from 'node-cron';
 
 cron.schedule('0 0 * * *', async () => {

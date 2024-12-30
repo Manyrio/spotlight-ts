@@ -10,7 +10,7 @@ import { ApiListResponse } from '@/models/other';
 import { Carousel } from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { currency } from '../../../models/annonce';
-import { RiHomeGearLine, RiShape2Line, RiLayoutMasonryLine, RiArrowUpLine, RiBuildingLine, RiWaterFlashLine, RiStackFill, RiShowersLine, RiHome2Line } from '@remixicon/react';
+import { RiHomeGearLine, RiShape2Line, RiLayoutMasonryLine, RiArrowUpLine, RiBuildingLine, RiWaterFlashLine, RiStackFill, RiShowersLine, RiHome2Line, RiImage2Line } from '@remixicon/react';
 import FiltresAnnonces from './components/filtres';
 import { AppContext } from '@/app/providers';
 
@@ -37,11 +37,12 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
       <Card.Eyebrow as="div" className="mt-1 hidden md:block md:col-span-3 w-full">
         <div
           key={annonce.uuid}
-          className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl"
+          className="relative isolate flex flex-col justify-end overflow-hidden"
         >
           {photos.data && photos.data.length > 0 ?
-            <Carousel className='inset-0 h-full w-full object-cover select-none'
-              showStatus={false} swipeable={true}
+            <Carousel className='inset-0 h-full w-full object-cover select-none  -mb-6'
+              showStatus={false}
+              swipeable={true}
               emulateTouch={true}
             >
               {photos.data.map((image, index) => (
@@ -49,8 +50,10 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
               ))}
             </Carousel> :
             <div
-              className="absolute inset-0 -z-10 h-full w-full object-cover bg-gray-200"
-            />
+              className=" inset-0 -z-10 h-full w-full object-cover bg-gray-200 aspect-video rounded-2xl flex items-center justify-center"
+            >
+              <RiHome2Line className='h-12 w-12 text-gray-400'></RiHome2Line>
+            </div>
           }
         </div>
       </Card.Eyebrow>
@@ -81,15 +84,30 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
           </Card.Title>
 
           <Card.Eyebrow as="div" className="md:hidden w-full" decorate>
-            {photos.data && photos.data.length > 0 ?
-              <img src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${photos.data[0].attributes.url}`} className="rounded-lg w-full  aspect-video object-cover shrink-0" />
-              : <img
-                src={""}
-                alt="Bien image"
-                className="rounded-lg w-full aspect-video  shrink-0 bg-gray-200"
-              />
-            }
+            <div
+              key={annonce.uuid}
+              className="relative isolate flex flex-col justify-end overflow-hidden w-full "
+            >
+              {photos.data && photos.data.length > 0 ?
+                <Carousel className='inset-0 h-full w-full object-cover select-none  -mb-6'
+                  showStatus={false}
+                  swipeable={true}
+                  emulateTouch={true}
+                >
+                  {photos.data.map((image, index) => (
+                    <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
+                  ))}
+                </Carousel> :
+                <div
+                  className=" inset-0 -z-10 h-full w-full object-cover bg-gray-200 aspect-video rounded-2xl flex items-center justify-center"
+                >
+                  <RiHome2Line className='h-12 w-12 text-gray-400'></RiHome2Line>
+                </div>
+              }
+            </div>
           </Card.Eyebrow>
+
+
 
           <p
             className="relative z-20 font-semibold md:block dark:text-gray-200 text-base text-zinc-600 "

@@ -34,7 +34,11 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                 .mainBeam {
                 display:none;
                 }
+                .carousel .slider-wrapper {
+                    border-radius: 0px!important;
+                }
             `}</style>
+
 
 
             <div className='w-full mt-36 lg:mt-52 relative flex items-center justify-center'>
@@ -44,7 +48,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                     </h1> */}
                     <h1 className='font-medium text-white text-2xl titleFont mt-4'
                         style={{ textShadow: '0px 2px 16px rgba(0, 0, 0, 0.7)' }}
-                        >
+                    >
                         &nbsp;
                         <TypingEffect
                             phrases={[

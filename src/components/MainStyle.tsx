@@ -28,6 +28,9 @@ export function MainStyle({ etude, important }: { etude: Etude, important?: bool
                 .carousel .thumbs-wrapper {
                 margin: 20px 0px;
                 }
+                .carousel .slider-wrapper {
+                    border-radius: 1rem;
+                }
                 .carousel .thumb.selected, .carousel .thumb:hover{
                     border-radius: 10px;
                     border: 3px solid ${etude.attributes.colors?.data?.attributes.primary}

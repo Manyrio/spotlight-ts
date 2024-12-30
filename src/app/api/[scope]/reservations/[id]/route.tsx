@@ -28,8 +28,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
 
     let id = params.id
-    console.log("voici le lien", id)
-
 
     let response: Reservation = await call("reservations" + id, Method.get)
 

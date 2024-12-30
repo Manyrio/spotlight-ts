@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req: any) {
   const body = await req.json()
-  console.log(body);
 
   const { notaryId, clientName, clientEmail, startDateTime, endDateTime, description } = req.body;
 

@@ -56,8 +56,6 @@ function replacePlaceholders(
     etude: Etude
 ): string {
 
-    console.log("filling placeholders with")
-    console.log(startDate)
 
 
 
@@ -82,10 +80,6 @@ export async function getFormattedMailAttributes(
 
     let clientName: string = reservation.clientFirstName + ' ' + reservation.clientLastName;
 
-    console.log("filling placeholders with")
-    console.log(mailAttributes)
-    console.log(clientName)
-    console.log(reservation.date)
 
 
     const reservationDate = reservation.date;
@@ -100,8 +94,6 @@ export async function getFormattedMailAttributes(
     };
     const formatter = new Intl.DateTimeFormat('fr-FR', options);
     const parisTime = formatter.format(reservationDate);
-
-    console.log(parisTime)
 
 
     let markdownToHtmlTitle = replacePlaceholders(

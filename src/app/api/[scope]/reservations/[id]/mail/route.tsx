@@ -36,7 +36,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 
 async function sendReservationClientMail(reservationId: string, type: ReservationType) {
-    console.log("called sendReservationClientMail")
 
 
     let reservationType: ReservationType;
@@ -62,8 +61,6 @@ async function sendReservationClientMail(reservationId: string, type: Reservatio
         reservation.clientEmail,
         reservation.clientPhone
     );
-    console.log("newRes")
-    console.log(reservation.date)
 
     let formattedMailAttributes: any =
         await getFormattedMailAttributes(

@@ -253,7 +253,7 @@ function MobileNavigation(
               <Button
                 href={`/${scope}/rendezvous`}
                 style={{ background: colors.attributes.primary }}
-                className={`flex !text-white mt-4 lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
+                className={`flex !text-white mt-6 lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
               >
                 Prendre rendez-vous
                 <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>

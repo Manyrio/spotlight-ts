@@ -21,7 +21,6 @@ export async function call(url: string, method: Method, data: any = null, type: 
         };
 
         if (type) headers['Content-Type'] = type
-        console.log("called ", url)
 
         headers.authorization = `Bearer ${process.env.STRAPI_API_TOKEN}`
 

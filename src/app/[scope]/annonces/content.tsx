@@ -34,10 +34,10 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
     <div className={`md:grid w-full md:grid-cols-5 md:items-start gap-8 ${shrinked ? "sm:!flex sm:!flex-col sm:!gap-2" : ""}`} >
 
 
-      <Card.Eyebrow as="div" className="mt-1 hidden md:block md:col-span-3 w-full">
+      <Card.Eyebrow as="div" className="mt-1 md:block md:col-span-3 w-full">
         <div
           key={annonce.uuid}
-          className="relative isolate flex flex-col justify-end overflow-hidden"
+          className="relative isolate flex flex-col justify-end overflow-hidden max-md:w-full"
         >
           {photos.data && photos.data.length > 0 ?
             <Carousel className='inset-0 h-full w-full object-cover select-none  -mb-6'
@@ -58,7 +58,7 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
         </div>
       </Card.Eyebrow>
       <Link href={`/${scope}/annonces/${annonce.uuid}`} className='md:col-span-2 '>
-        <Card className="w-full  pb-8">
+        <Card className="w-full ">
           <span
             className="relative z-20 mb-[12px] inline-flex items-center rounded-full bg-gray-600/40 px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-gray-500/10"
             style={{
@@ -82,32 +82,6 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
                 :
                 <>{currency(annonce.prix_hni)}</>}
           </Card.Title>
-
-          <Card.Eyebrow as="div" className="md:hidden w-full" decorate>
-            <div
-              key={annonce.uuid}
-              className="relative isolate flex flex-col justify-end overflow-hidden w-full "
-            >
-              {photos.data && photos.data.length > 0 ?
-                <Carousel className='inset-0 h-full w-full object-cover select-none  -mb-6'
-                  showStatus={false}
-                  swipeable={true}
-                  emulateTouch={true}
-                >
-                  {photos.data.map((image, index) => (
-                    <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-full w-full object-cover object-center aspect-video rounded-md" />
-                  ))}
-                </Carousel> :
-                <div
-                  className=" inset-0 -z-10 h-full w-full object-cover bg-gray-200 aspect-video rounded-2xl flex items-center justify-center"
-                >
-                  <RiHome2Line className='h-12 w-12 text-gray-400'></RiHome2Line>
-                </div>
-              }
-            </div>
-          </Card.Eyebrow>
-
-
 
           <p
             className="relative z-20 font-semibold md:block dark:text-gray-200 text-base text-zinc-600 "

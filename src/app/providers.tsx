@@ -10,6 +10,7 @@ import { LienEtSocial } from '@/models/lienEtSocial'
 import { MainStyle } from '@/components/MainStyle'
 import { Image } from '@/models/image'
 import { DocumentFile } from '@/models/documents'
+import { Logo } from '@/models/logo'
 
 
 
@@ -52,6 +53,7 @@ export const AppContext = createContext<{
     etude: Etude,
     etudes: Etude[],
     colors: Color,
+    logo: Logo,
     lienEtSocial: LienEtSocial,
     documents?: DocumentFile[],
     notifications?: NotificationContent[],
@@ -61,6 +63,7 @@ export const AppContext = createContext<{
         throw new Error("Not implemented")
     },
     scope: "",
+    logo: new Logo(),
     setScope: () => { },
     etude: new Etude(),
     etudes: [new Etude()],
@@ -68,7 +71,7 @@ export const AppContext = createContext<{
     lienEtSocial: new LienEtSocial(),
 })
 
-export function Providers({ children, documents, etudes, defaultScope, defaultEtude, defaultLienEtSocial }: { children: React.ReactNode, documents: DocumentFile[], etudes: Etude[], defaultScope: string, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial }) {
+export function Providers({ children, logo, documents, etudes, defaultScope, defaultEtude, defaultLienEtSocial }: { children: React.ReactNode, logo: Logo, documents: DocumentFile[], etudes: Etude[], defaultScope: string, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial }) {
     let pathname = usePathname()
     let previousPathname = usePrevious(pathname)
     let [scope, setScope] = useState(defaultScope)
@@ -107,7 +110,7 @@ export function Providers({ children, documents, etudes, defaultScope, defaultEt
 
     return (
         <AppContext.Provider value={{
-            previousPathname, scope, setScope, etude, colors, lienEtSocial, etudes, documents, notifications, addNotification
+            previousPathname, scope, logo, setScope, etude, colors, lienEtSocial, etudes, documents, notifications, addNotification
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <MainStyle etude={etude} important />

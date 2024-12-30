@@ -401,7 +401,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
             {(currentStep.id == "form") && <>
 
 
-              <span>Quelques informations pour terminer...</span>
+              <span className='font-semibold'>Informations supplémentaires</span>
 
 
               <form action="#" method="POST" className="lg:flex-auto mt-6" onSubmit={(e) => submit(e)}

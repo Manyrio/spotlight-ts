@@ -15,7 +15,6 @@ import {
 import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
-import avatarImage from '@/images/avatar.jpg'
 import { AppContext } from '@/app/providers'
 import { ArrowDownTrayIcon, BanknotesIcon, BuildingOfficeIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { DocumentFile } from '@/models/documents'
@@ -178,7 +177,7 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 function MobileNavigation(
   { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents?: DocumentFile[], isScrolled: boolean }
 ) {
-  let { colors } = useContext(AppContext)
+  let { colors, scope } = useContext(AppContext)
   const buttonRef: any = useRef();
   const panelRef: any = useRef();
   let pathname = usePathname()
@@ -251,6 +250,14 @@ function MobileNavigation(
                   <Navigation documents={documents}></Navigation>
                 </ul>
               </nav>
+              <Button
+                href={`/${scope}/rendezvous`}
+                style={{ background: colors.attributes.primary }}
+                className={`flex !text-white mt-4 lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
+              >
+                Prendre rendez-vous
+                <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
+              </Button>
             </div>
           </PopoverPanel>
         </TransitionChild>
@@ -312,7 +319,7 @@ function DesktopNavigation({ props, documents, isScrolled }: { props: React.Comp
 export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let { colors, etude, etudes, scope } = useContext(AppContext)
+  let { colors, etude, etudes, scope, logo } = useContext(AppContext)
 
   let documents = useContext(AppContext).documents
 
@@ -378,18 +385,17 @@ export function Header() {
                         `left-[calc(50%-24px)] -top-[4px] lg:left-0 lg:-top-[4px]`} `}
 
                   >
-                  <Image
-                    src={avatarImage}
-                    alt=""
-                    className={clsx(
-                      'object-cover transition-all shrink-0',
-                      !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
-                    )}
-                    priority
-                  />
+                    <img
+                      src={process.env.NEXT_PUBLIC_BACKEND_URL + logo.attributes.logo.data.attributes.url}
+                      alt=""
+                      className={clsx(
+                        'object-contain transition-all shrink-0',
+                        !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
+                      )}
+                    />
 
                   </Link>
-                  
+
                   <div className={`flex  lg:ml-0 w-full justify-end md:justify-center transition-all `}>
                     <MobileNavigation props={{ className: `pointer-events-auto lg:hidden ml-auto` }} documents={documents} isScrolled={isScrolled} />
                     <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
@@ -398,14 +404,14 @@ export function Header() {
                 </div>
               </Container>
 
-                  <Button
-                    href={`/${scope}/rendezvous`}
-                    style={{ background: colors.attributes.primary }}
-                    className={`hidden lg:flex !text-white lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
-                  >
-                    Prendre rendez-vous
-                    <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
-                  </Button>
+              <Button
+                href={`/${scope}/rendezvous`}
+                style={{ background: colors.attributes.primary }}
+                className={`hidden lg:flex !text-white lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
+              >
+                Prendre rendez-vous
+                <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
+              </Button>
             </div >
           </header>
         </>
@@ -418,13 +424,13 @@ export function Header() {
             className={`transition-all shrink-0  rounded-full `}
 
           >
-            <Image
-              src={avatarImage}
+            <img
+
+              src={process.env.NEXT_PUBLIC_BACKEND_URL + logo.attributes.logo.data.attributes.url}
               alt=""
               className={clsx(
-                'object-cover transition-all mx-auto shrink-0 w-16 h-16 lg:h-32 lg:w-32 '
+                'object-contain transition-all mx-auto shrink-0 w-16 h-16 lg:h-32 lg:w-32 '
               )}
-              priority
             />
           </Link>
           <h1 className=" text-center mt-4 text-white font-bold text-xl lg:text-4xl w-full flex items-center justify-center titleFont">SELARL LAUBE, LHOMME, DELMAS</h1>

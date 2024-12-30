@@ -65,7 +65,6 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   let [slot, setSlot] = useState<{ date: string, slot: Slot }>()
   let [contact, setContact] = useState<Member>()
   let [loader, setLoader] = useState(false)
-  console.log(slot)
   let [stepResponses, setStepReponses] = useState<any>({})
 
   let [name, setName] = useState('')
@@ -139,7 +138,6 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
   }, [currentStep])
 
   useEffect(() => {
-    if (slot) console.log(slotToDateTime(slot))
     if (slot) setCurrentStep(formattedSteps.find(step => step.id == "form")!)
   }, [slot])
 

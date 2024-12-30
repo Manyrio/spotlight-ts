@@ -79,7 +79,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
   let favicon: ApiRetrieveResponse<Favicon> = await call(`favicon?populate=*`, Method.get)
   let parameters = await getDefaultParameters(false)
-  console.log("got default parameters in", Date.now() - startTime + "ms")
 
   return {
     title: {

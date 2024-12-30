@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { AppContext } from '@/app/providers'
 
 import { RiFacebookCircleFill, RiInstagramFill, RiTwitterXFill, RiYoutubeFill } from '@remixicon/react'
+import Link from 'next/link'
 
 export function Footer() {
   let { colors, lienEtSocial, etude } = useContext(AppContext)
@@ -176,10 +177,10 @@ export function Footer() {
                     </tbody>
                   </table>
 
-                  <a href="#" className="block mt-6 text-sm leading-6"
+                  <Link href={`/${etude.attributes.slug}/rendezvous`} className="block mt-6 text-sm leading-6"
                     style={{ color: colors.attributes.accent }}>
                     Prendre rendez-vous →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

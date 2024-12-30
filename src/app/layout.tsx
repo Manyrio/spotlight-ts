@@ -17,6 +17,7 @@ import { DocumentFile } from '@/models/documents'
 import { Notification } from '@/components/Notification'
 import TopLoader from './topLoader'
 import { Suspense } from 'react'
+import { Logo } from '@/models/logo'
 
 
 async function getDefaultParameters(populate: boolean = true) {
@@ -38,6 +39,8 @@ async function getDefaultParameters(populate: boolean = true) {
 
   const etudesUrl = `etudes?populate[seo][populate]=*${populateParams ? `&${populateParams}` : ""}`;
   const etudes: ApiListResponse<Etude> = await call(etudesUrl, Method.get);
+  const logo: ApiRetrieveResponse<Logo> = await call(`logo?populate=*`, Method.get)
+
 
   // Extract the scope from headers
   const path: string | null = headers().get("path");
@@ -61,6 +64,7 @@ async function getDefaultParameters(populate: boolean = true) {
   return {
     defaultEtude: defaultEtude,
     defaultScope: scope,
+    logo,
     etudes,
     defaultLienEtSocial: responseLES.data || new LienEtSocial(),
     defaultDocuments: defaultDocuments.data,
@@ -117,6 +121,7 @@ export default async function RootLayout({
           documents={parameters.defaultDocuments.map(doc => JSON.parse(JSON.stringify(doc)))}
           etudes={parameters.etudes.data.map(doc => JSON.parse(JSON.stringify(doc)))}
           defaultScope={parameters.defaultScope}
+          logo={JSON.parse(JSON.stringify(parameters.logo.data))}
           defaultEtude={JSON.parse(JSON.stringify(parameters.defaultEtude))}
           defaultLienEtSocial={JSON.parse(JSON.stringify(parameters.defaultLienEtSocial))}
         >

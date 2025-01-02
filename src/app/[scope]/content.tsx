@@ -8,18 +8,16 @@ import { AnnonceObject } from '@/models/annonce'
 import Link from 'next/link'
 import { AppContext } from '../providers'
 import { Member } from '@/models/members'
-import { EtudePosition } from '@/models/etudes'
 import TextSection from '@/components/TextSection'
 import { ElementAnnonce } from './annonces/content'
 import { Carousel } from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import Typed from 'react-typed';
 import TypingEffect from '@/components/Typing_effect'
 import TeamMember from './equipe/components/member'
 
 export default function HomeContent({ members, annonces }: { members: Member[], annonces: AnnonceObject[] }) {
 
-    const { etude, colors, scope } = useContext(AppContext)
+    const { etude, colors, scope, contenusAffiches } = useContext(AppContext)
     let position = etude.attributes.position
     const [selectedMember, setSelectedMember] = useState<Member>()
 
@@ -41,7 +39,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
 
 
-            <div className='w-full mt-36 lg:mt-52 relative flex items-center justify-center'>
+            <div className='w-full mt-40 lg:mt-56 relative flex items-center justify-center max-lg:mb-32'>
                 <div className='absolute p-6 z-10 w-full max-w-[500px] text-center rounded-lg '>
                     {/* <h1 className={`titleFont text-4xl font-bold tracking-tight text-white sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                         {etude.attributes.name}
@@ -102,7 +100,32 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                     ))}
                 </Carousel>
 
-            </div>
+
+                <div className='absolute bottom-0 left-0 p-4 rounded-tr-2xl max-lg:w-full max-lg:rounded-none max-lg:top-[100%] max-lg:inline-table'
+                    style={{
+                        background: colors.attributes.primary,
+                    }}
+                >
+                    <dl className="px-4 lg:px-8 py-4  flex flex-col items-start gap-3"
+                        style={{ borderColor: colors.attributes.divider }}
+                    >
+                        <dt className='flex items-center justify-center gap-2'>
+                            <PhoneIcon className='h-5 w-5 text-white' />
+                            <a className="mt-1   text-sm md:text-base  leading-6  text-gray-700  underline  text-white"
+                                href={'mailto:' + etude.attributes.email}
+                            >{etude.attributes.email}</a>
+                        </dt>
+                        <dt className='flex items-center justify-center gap-2'>
+                            <EnvelopeIcon className='h-5 w-5 text-white' />
+                            <a className="mt-1  text-sm md:text-base  leading-6  text-gray-700  underline  text-white"
+                                href={'tel:' + etude.attributes.phone}
+                            >{etude.attributes.phone}</a>
+                        </dt>
+                    </dl>
+
+                </div>
+
+            </div >
 
 
             {/* <div className="relative overflow-hidden ">
@@ -179,13 +202,8 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
 
             </div> */}
-            <div className="
-            border-t
-                    "
-                style={{ borderColor: colors.attributes.divider }}
-            />
 
-            <Container>
+            < Container >
 
 
                 <div className='pt-16 md:pt-20'></div>
@@ -251,7 +269,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
 
                     {/* Content section */}
-                    <div className="mx-auto max-w-7xl w-full sm:mt-0">
+                    {!contenusAffiches.attributes.maskMap && <div className="mx-auto max-w-7xl w-full sm:mt-0">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Nous trouver</h2>
                             <div className="mt-6 flex flex-col gap-x-8  gap-y-20 max-lg:gap-y-4 lg:flex-row">
@@ -342,12 +360,12 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>}
 
 
 
-                    {/* Blog section */}
-                    <div className="mx-auto max-w-7xl">
+                    {/* Annonces section */}
+                    {!contenusAffiches.attributes.maskAnnonces && <div className="mx-auto max-w-7xl">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <h2 className=" text-3xl font-bold tracking-tight  text-gray-900  text-4xl" style={{ color: colors.attributes.accent }}>Annonces immobilières</h2>
                             <p className="mt-2  text-lg leading-8  text-gray-600" style={{ color: colors.attributes.indicator }}>
@@ -365,7 +383,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                             })}
 
                         </div>
-                    </div>
+                    </div>}
 
                 </div>
 

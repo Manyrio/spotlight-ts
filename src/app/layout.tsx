@@ -16,7 +16,7 @@ import { Image } from '@/models/image'
 import { DocumentFile } from '@/models/documents'
 import { Notification } from '@/components/Notification'
 import TopLoader from './topLoader'
-import { Suspense } from 'react'
+import { ContenusAffiches } from '@/models/contenusAffiches'
 import { Logo } from '@/models/logo'
 
 
@@ -39,8 +39,6 @@ async function getDefaultParameters(populate: boolean = true) {
 
   const etudesUrl = `etudes?populate[seo][populate]=*${populateParams ? `&${populateParams}` : ""}`;
   const etudes: ApiListResponse<Etude> = await call(etudesUrl, Method.get);
-  const logo: ApiRetrieveResponse<Logo> = await call(`logo?populate=*`, Method.get)
-
 
   // Extract the scope from headers
   const path: string | null = headers().get("path");
@@ -56,18 +54,21 @@ async function getDefaultParameters(populate: boolean = true) {
   }
 
   // Fetch additional data in parallel for better performance
-  const [responseLES, defaultDocuments] = await Promise.all([
+  const [responsesCA, responseLES, logo, defaultDocuments] = await Promise.all([
+    call("pages-and-contenus-affiche", Method.get) as Promise<ApiRetrieveResponse<ContenusAffiches>>,
     call("lienetsocial", Method.get) as Promise<ApiRetrieveResponse<LienEtSocial>>,
+    call("logo?populate=*", Method.get) as Promise<ApiRetrieveResponse<Logo>>,
     call("documents?populate=*", Method.get) as Promise<ApiListResponse<DocumentFile>>,
   ]);
 
   return {
     defaultEtude: defaultEtude,
     defaultScope: scope,
-    logo,
     etudes,
+    logo,
     defaultLienEtSocial: responseLES.data || new LienEtSocial(),
     defaultDocuments: defaultDocuments.data,
+    defaultContenusAffiches: responsesCA.data || new ContenusAffiches(),
   };
 }
 
@@ -79,6 +80,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   let favicon: ApiRetrieveResponse<Favicon> = await call(`favicon?populate=*`, Method.get)
   let parameters = await getDefaultParameters(false)
+  console.log("got default parameters in", Date.now() - startTime + "ms")
 
   return {
     title: {
@@ -123,6 +125,7 @@ export default async function RootLayout({
           logo={JSON.parse(JSON.stringify(parameters.logo.data))}
           defaultEtude={JSON.parse(JSON.stringify(parameters.defaultEtude))}
           defaultLienEtSocial={JSON.parse(JSON.stringify(parameters.defaultLienEtSocial))}
+          defaultContenusAffiches={JSON.parse(JSON.stringify(parameters.defaultContenusAffiches))}
         >
           <div className="flex w-full relative">
             <Layout>{children}</Layout>

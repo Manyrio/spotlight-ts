@@ -13,6 +13,7 @@ export class Member implements ObjectInterface {
             certifications: "",
             email: "",
             phone: "",
+            estNotaire: false,
             image: new ApiListResponse<Image>(),
             languages: "",
             etudes: new ApiListResponse<Etude>()

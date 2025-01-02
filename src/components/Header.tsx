@@ -63,10 +63,10 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           ]
         }></DropDown>
     </NavItem>
+    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
     <NavItem href={`/${scope}/conseils`}>Conseils </NavItem >
     <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
     <NavItem href={`/${scope}/contact`}>Contact</NavItem>
-    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
   </>)
 
 }
@@ -379,7 +379,7 @@ export function Header() {
                   <Link
                     href={`/`}
                     aria-label="Home"
-                    className={`transition-all shrink-0  rounded-full   absolute flex flex-col items-center justify-center
+                    className={`transition-all shrink-0  rounded-full   absolute flex flex-col items-center justify-center mr-14
                   ${!isScrolled ? `top-0 left-[calc(50%-48px)]` : `left-[calc(50%-24px)] -top-[4px] lg:left-0 lg:-top-[4px]`} `}
 
                   >
@@ -403,9 +403,9 @@ export function Header() {
 
                   </Link>
 
-                  <div className={`flex  lg:ml-0 w-full justify-end md:justify-center transition-all `}>
+                  <div className={`flex lg:ml-0 w-full justify-end md:justify-center transition-all `}>
                     <MobileNavigation props={{ className: `pointer-events-auto lg:hidden ml-auto` }} documents={documents} isScrolled={isScrolled} />
-                    <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block" }} documents={documents} isScrolled={isScrolled} />
+                    <DesktopNavigation props={{ className: "pointer-events-auto hidden lg:block ml-14" }} documents={documents} isScrolled={isScrolled} />
                   </div>
 
                 </div>

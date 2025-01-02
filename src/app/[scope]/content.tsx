@@ -224,7 +224,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                             role="list"
                             className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16  text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6"
                         >
-                            {members.map((member, index: number) => {
+                            {members.filter(member => member.attributes.estNotaire == true).map((member, index: number) => {
                                 let allowed = false
                                 member.attributes.etudes.data.forEach(element => {
                                     if (element.attributes.slug == etude.attributes.slug) allowed = true
@@ -271,7 +271,6 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                     {/* Content section */}
                     {!contenusAffiches.attributes.maskMap && <div className="mx-auto max-w-7xl w-full sm:mt-0">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                            <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Nous trouver</h2>
                             <div className="mt-6 flex flex-col gap-x-8  gap-y-20 max-lg:gap-y-4 lg:flex-row">
                                 <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
 

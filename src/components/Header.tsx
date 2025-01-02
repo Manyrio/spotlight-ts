@@ -372,27 +372,34 @@ export function Header() {
                     'var(--header-inner-position)' as React.CSSProperties['position'],
                 }}
               >
-                <div className={` relative transiton-all w-full flex items-start flex-col items-center gap-4 justify-end relative transition-all ${!isScrolled ? "lg:pt-28" : "pt-0"}`}>
+                <div className={` relative transiton-all w-full flex items-start flex-col items-center gap-4 justify-end relative transition-all ${!isScrolled ? "lg:pt-32" : "pt-0"}`}>
 
 
 
                   <Link
                     href={`/`}
                     aria-label="Home"
-                    className={`transition-all shrink-0  rounded-full   absolute
-                  ${!isScrolled ? ` top-0 left-[calc(50%-48px)]`
-                        :
-                        `left-[calc(50%-24px)] -top-[4px] lg:left-0 lg:-top-[4px]`} `}
+                    className={`transition-all shrink-0  rounded-full   absolute flex flex-col items-center justify-center
+                  ${!isScrolled ? `top-0 left-[calc(50%-48px)]` : `left-[calc(50%-24px)] -top-[4px] lg:left-0 lg:-top-[4px]`} `}
 
                   >
                     <img
-                      src={process.env.NEXT_PUBLIC_BACKEND_URL + logo.attributes.logo.data.attributes.url}
+                      src={process.env.NEXT_PUBLIC_BACKEND_URL! + logo?.attributes.logo.data.attributes.url!}
                       alt=""
                       className={clsx(
                         'object-contain transition-all shrink-0',
                         !isScrolled ? '!h-24 !w-24 p-3 ' : 'h-12 w-12 p-2',
                       )}
                     />
+                    {<span
+                      key={etude.id + isScrolled}
+                      className={` absolute whitespace-nowrap text-base font-medium titleFont 
+                     ${isScrolled ? `max-lg:hidden left-14 text-xs animate-opacity ` : `-bottom-4 animate-opacity`} 
+                    `}
+                      style={{
+                        color: colors.attributes.indicator
+                      }}
+                    >{etude.attributes.name}</span>}
 
                   </Link>
 
@@ -413,7 +420,7 @@ export function Header() {
                 <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
               </Button>
             </div >
-          </header>
+          </header >
         </>
         :
         <header
@@ -426,7 +433,7 @@ export function Header() {
           >
             <img
 
-              src={process.env.NEXT_PUBLIC_BACKEND_URL + logo.attributes.logo.data.attributes.url}
+              src={process.env.NEXT_PUBLIC_BACKEND_URL! + logo?.attributes.logo.data.attributes.url!}
               alt=""
               className={clsx(
                 'object-contain transition-all mx-auto shrink-0 w-16 h-16 lg:h-32 lg:w-32 '

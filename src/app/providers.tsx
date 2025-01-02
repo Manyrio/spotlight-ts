@@ -10,6 +10,7 @@ import { LienEtSocial } from '@/models/lienEtSocial'
 import { MainStyle } from '@/components/MainStyle'
 import { Image } from '@/models/image'
 import { DocumentFile } from '@/models/documents'
+import { ContenusAffiches } from '@/models/contenusAffiches'
 import { Logo } from '@/models/logo'
 
 
@@ -53,9 +54,10 @@ export const AppContext = createContext<{
     etude: Etude,
     etudes: Etude[],
     colors: Color,
-    logo: Logo,
     lienEtSocial: LienEtSocial,
+    contenusAffiches: ContenusAffiches,
     documents?: DocumentFile[],
+    logo?: Logo,
     notifications?: NotificationContent[],
     addNotification: (notification: NotificationContent) => void,
 }>({
@@ -63,19 +65,22 @@ export const AppContext = createContext<{
         throw new Error("Not implemented")
     },
     scope: "",
-    logo: new Logo(),
     setScope: () => { },
     etude: new Etude(),
     etudes: [new Etude()],
     colors: new Color(),
+    logo: new Logo(),
     lienEtSocial: new LienEtSocial(),
+    contenusAffiches: new ContenusAffiches(),
+
 })
 
-export function Providers({ children, logo, documents, etudes, defaultScope, defaultEtude, defaultLienEtSocial }: { children: React.ReactNode, logo: Logo, documents: DocumentFile[], etudes: Etude[], defaultScope: string, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial }) {
+export function Providers({ children, documents, etudes, defaultScope, defaultEtude, defaultLienEtSocial, defaultContenusAffiches, logo }: { children: React.ReactNode, documents: DocumentFile[], etudes: Etude[], defaultScope: string, defaultEtude: Etude, defaultLienEtSocial: LienEtSocial, defaultContenusAffiches: ContenusAffiches, logo: Logo }) {
     let pathname = usePathname()
     let previousPathname = usePrevious(pathname)
     let [scope, setScope] = useState(defaultScope)
     let [lienEtSocial, setLienEtSocial] = useState<LienEtSocial>(defaultLienEtSocial)
+    let [contenusAffiches, setContenusAffiches] = useState<ContenusAffiches>(defaultContenusAffiches)
     let [etude, setEtude] = useState<Etude>(defaultEtude)
     let [colors, setColors] = useState<Color>(defaultEtude.attributes.colors.data)
 
@@ -97,6 +102,7 @@ export function Providers({ children, logo, documents, etudes, defaultScope, def
         }
         setColors(etude.attributes.colors.data)
         setLienEtSocial(lienEtSocial)
+        setContenusAffiches(contenusAffiches)
     }, [scope])
 
     useEffect(() => {
@@ -105,12 +111,12 @@ export function Providers({ children, logo, documents, etudes, defaultScope, def
 
 
 
-
+    console.log(logo)
 
 
     return (
         <AppContext.Provider value={{
-            previousPathname, scope, logo, setScope, etude, colors, lienEtSocial, etudes, documents, notifications, addNotification
+            previousPathname, scope, setScope, etude, logo, colors, lienEtSocial, contenusAffiches, etudes, documents, notifications, addNotification
         }} >
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 <MainStyle etude={etude} important />

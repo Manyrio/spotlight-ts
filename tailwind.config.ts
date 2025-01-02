@@ -47,7 +47,7 @@ export default {
 
     },
     animation: {
-      opacity: "opacity 0.100s cubic-bezier(0, 0, 0.5, 1) ",
+      opacity: "opacity 0.400s cubic-bezier(0, 0, 0.5, 1) ",
       progress: 'progress ease-in-out forwards',
     }
 

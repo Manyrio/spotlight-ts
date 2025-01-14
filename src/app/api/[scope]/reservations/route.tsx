@@ -69,7 +69,7 @@ async function sendReservationEtudeMail(reservationId: string, email: string) {
 
     try {
         sendEmail(
-            "feutryguillaume@gmail.com",
+            email,
             formattedMailAttributes.title,
             formattedMailAttributes.content,
             //icalEvent

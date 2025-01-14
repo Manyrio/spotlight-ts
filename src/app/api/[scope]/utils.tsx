@@ -14,7 +14,7 @@ export async function getApiDefaultParameters() {
     let scope = ""
     let path: any = headers().get('path')
     scope = path.split("/")[1]
-
+    console.log(scope)
     let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
     if (defaultEtude.attributes.slug == "") {
         defaultEtude.attributes.colors.data = new Color()

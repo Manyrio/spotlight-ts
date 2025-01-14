@@ -13,8 +13,7 @@ export async function getApiDefaultParameters() {
     let etudes: ApiListResponse<Etude> = await call("etudes?populate[colors]=*&populate[image]=*&populate[font]=*&populate[titleFont]=*&populate[pricing][populate]=*&populate[ouvertures][populate]=*&populate[seo][populate]=*", Method.get)
     let scope = ""
     let path: any = headers().get('path')
-    scope = path.split("/")[1]
-    console.log(scope)
+    scope = path.split("/")[2]
     let defaultEtude = etudes.data.find((etude) => etude.attributes.slug == scope) || new Etude()
     if (defaultEtude.attributes.slug == "") {
         defaultEtude.attributes.colors.data = new Color()
@@ -24,7 +23,7 @@ export async function getApiDefaultParameters() {
     let responseFavicon: ApiRetrieveResponse<Favicon> = await call("favicon", Method.get)
 
     return {
-        defaultEtude: JSON.parse(JSON.stringify(defaultEtude)),
+        defaultEtude: JSON.parse(JSON.stringify(defaultEtude)) as Etude,
         defaultScope: scope,
         etudes: etudes,
         defaultLienEtSocial: responseLES.data || new LienEtSocial(),

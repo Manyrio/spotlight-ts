@@ -77,7 +77,8 @@ export async function getFormattedMailAttributes(
 ): Promise<any> {
     let mailAttributes = await getMailAttributes(type);
     let parameters = await getApiDefaultParameters();
-
+    console.log(parameters)
+    console.log(JSON.stringify(parameters))
     let clientName: string = reservation.clientFirstName + ' ' + reservation.clientLastName;
 
 

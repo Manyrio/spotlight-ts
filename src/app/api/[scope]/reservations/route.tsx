@@ -3,17 +3,22 @@ import { call, Method } from "@/scripts/api";
 import { NextRequest, NextResponse } from "next/server";
 import { getRequestMailAttributes } from "@/scripts/mail/etude/request/content";
 import { sendEmail } from "../utils";
-
+import { ApiRetrieveResponse } from '@/models/other'
+import { Member } from '@/models/members'
 
 export async function POST(req: NextRequest, { params }: { params: { scope: string } }) {
 
 
     let body = await req.json();
+    const memberId = body.membres_de_l_equipe.connect[0].id;
     try {
 
         let response: Reservation = await call("reservations", Method.post, body);
+        const member: ApiRetrieveResponse<Member> = await call("members/" + memberId + "?populate=*", Method.get)
+
+        const email = member.data.attributes.email
         try {
-            await sendReservationEtudeMail(response.id);
+            await sendReservationEtudeMail(response.id, email);
         } catch (error) {
             return NextResponse.json({
                 message: error,
@@ -40,11 +45,10 @@ export async function POST(req: NextRequest, { params }: { params: { scope: stri
 
 
 
-async function sendReservationEtudeMail(reservationId: string) {
+async function sendReservationEtudeMail(reservationId: string, email: string) {
 
     let reservation: any
         = await call("reservations/" + reservationId, Method.get)
-
 
 
 
@@ -65,7 +69,7 @@ async function sendReservationEtudeMail(reservationId: string) {
 
     try {
         sendEmail(
-            newRes.clientEmail,
+            email,
             formattedMailAttributes.title,
             formattedMailAttributes.content,
             //icalEvent

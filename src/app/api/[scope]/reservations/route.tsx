@@ -2,7 +2,7 @@ import { Reservation } from "@/models/reservation";
 import { call, Method } from "@/scripts/api";
 import { NextRequest, NextResponse } from "next/server";
 import { getRequestMailAttributes } from "@/scripts/mail/etude/request/content";
-import { sendEmail } from "../utils";
+import { getApiDefaultParameters, sendEmail } from "../utils";
 import { ApiRetrieveResponse } from '@/models/other'
 import { Member } from '@/models/members'
 
@@ -10,13 +10,11 @@ export async function POST(req: NextRequest, { params }: { params: { scope: stri
 
 
     let body = await req.json();
-    const memberId = body.membres_de_l_equipe.connect[0].id;
+    const parameters = await getApiDefaultParameters()
     try {
-
         let response: Reservation = await call("reservations", Method.post, body);
-        const member: ApiRetrieveResponse<Member> = await call("members/" + memberId + "?populate=*", Method.get)
+        const email = parameters.defaultEtude.attributes.email
 
-        const email = member.data.attributes.email
         try {
             await sendReservationEtudeMail(response.id, email);
         } catch (error) {
@@ -39,9 +37,6 @@ export async function POST(req: NextRequest, { params }: { params: { scope: stri
     }
 
 }
-
-
-
 
 
 

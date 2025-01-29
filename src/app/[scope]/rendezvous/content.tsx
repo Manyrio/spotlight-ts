@@ -156,6 +156,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
         clientEmail: email,
         clientPhone: phone,
         date: slotToDateTime(slot!),
+        etude: etude.id
       }
 
 

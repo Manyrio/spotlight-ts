@@ -202,7 +202,7 @@ export default function RendezvousContent({ members, steps, currentMonthSlots, n
 
   return (
 
-    <Container className="mt-32 sm:mt-64 min-h-screen">
+    <Container className="mt-48 sm:mt-64 min-h-screen">
       <header className="mx-auto text-left sm:text-center">
         <h1 className="dark:text-gray-200 text-4xl font-bold tracking-tight dark:text-gray-200 text-zinc-800 sm:dark:text-gray-200 text-5xl dark:dark:text-gray-200 text-zinc-100"
           style={{ color: colors.attributes.accent }}

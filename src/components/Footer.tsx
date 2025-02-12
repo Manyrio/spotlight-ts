@@ -6,7 +6,7 @@ import { RiFacebookCircleFill, RiInstagramFill, RiTwitterXFill, RiYoutubeFill } 
 import Link from 'next/link'
 
 export function Footer() {
-  let { colors, lienEtSocial, etude } = useContext(AppContext)
+  let { colors, lienEtSocial, etude, contenusAffiches } = useContext(AppContext)
   const navigation = {
     links: [
       { name: "L'équipe", href: `/${etude.attributes.slug}/equipe` },
@@ -177,10 +177,12 @@ export function Footer() {
                     </tbody>
                   </table>
 
-                  <Link href={`/${etude.attributes.slug}/rendezvous`} className="block mt-6 text-sm leading-6"
-                    style={{ color: colors.attributes.accent }}>
-                    Prendre rendez-vous →
-                  </Link>
+                  {contenusAffiches.attributes.maskMeetings != true &&
+                    <Link href={`/${etude.attributes.slug}/rendezvous`} className="block mt-6 text-sm leading-6"
+                      style={{ color: colors.attributes.accent }}>
+                      Prendre rendez-vous →
+                    </Link>
+                  }
                 </div>
               </div>
             </div>

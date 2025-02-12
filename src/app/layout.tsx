@@ -61,6 +61,7 @@ async function getDefaultParameters(populate: boolean = true) {
     call("documents?populate=*", Method.get) as Promise<ApiListResponse<DocumentFile>>,
   ]);
 
+  console.log(JSON.stringify(responsesCA))
   return {
     defaultEtude: defaultEtude,
     defaultScope: scope,
@@ -80,7 +81,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
   let favicon: ApiRetrieveResponse<Favicon> = await call(`favicon?populate=*`, Method.get)
   let parameters = await getDefaultParameters(false)
-  console.log("got default parameters in", Date.now() - startTime + "ms")
 
   return {
     title: {

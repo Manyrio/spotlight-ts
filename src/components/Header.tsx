@@ -177,7 +177,7 @@ function DropDown({ name, resources, downloads }: { name: string, resources: Res
 function MobileNavigation(
   { props, documents, isScrolled }: { props: React.ComponentPropsWithoutRef<typeof Popover>, documents?: DocumentFile[], isScrolled: boolean }
 ) {
-  let { colors, scope } = useContext(AppContext)
+  let { colors, scope, contenusAffiches } = useContext(AppContext)
   const buttonRef: any = useRef();
   const panelRef: any = useRef();
   let pathname = usePathname()
@@ -189,7 +189,6 @@ function MobileNavigation(
       buttonRef.current?.click();
     }
   }, [pathname]);
-
 
 
 
@@ -250,14 +249,17 @@ function MobileNavigation(
                   <Navigation documents={documents}></Navigation>
                 </ul>
               </nav>
-              <Button
-                href={`/${scope}/rendezvous`}
-                style={{ background: colors.attributes.primary }}
-                className={`flex !text-white mt-6 lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
-              >
-                Prendre rendez-vous
-                <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
-              </Button>
+
+              {contenusAffiches.attributes.maskMeetings != true &&
+                <Button
+                  href={`/${scope}/rendezvous`}
+                  style={{ background: colors.attributes.primary }}
+                  className={`flex !text-white mt-6 lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
+                >
+                  Prendre rendez-vous
+                  <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
+                </Button>
+              }
             </div>
           </PopoverPanel>
         </TransitionChild>
@@ -319,7 +321,7 @@ function DesktopNavigation({ props, documents, isScrolled }: { props: React.Comp
 export function Header() {
 
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let { colors, etude, etudes, scope, logo } = useContext(AppContext)
+  let { colors, etude, etudes, scope, logo, contenusAffiches } = useContext(AppContext)
 
   let documents = useContext(AppContext).documents
 
@@ -343,6 +345,7 @@ export function Header() {
     };
 
   }, [pathname, etude]);
+
 
   return (
     <>
@@ -411,14 +414,16 @@ export function Header() {
                 </div>
               </Container>
 
-              <Button
-                href={`/${scope}/rendezvous`}
-                style={{ background: colors.attributes.primary }}
-                className={`hidden lg:flex !text-white lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
-              >
-                Prendre rendez-vous
-                <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
-              </Button>
+
+              {contenusAffiches.attributes.maskMeetings != true &&
+                <Button
+                  href={`/${scope}/rendezvous`}
+                  style={{ background: colors.attributes.primary }}
+                  className={`hidden lg:flex !text-white lg:absolute lg:right-6 ${isScrolled ? 'lg:bottom-4' : 'lg:bottom-6'}`}
+                >
+                  Prendre rendez-vous
+                  <ChevronRightIcon className="h-4 w-4 ml-auto lg:ml-2"></ChevronRightIcon>
+                </Button>}
             </div >
           </header >
         </>

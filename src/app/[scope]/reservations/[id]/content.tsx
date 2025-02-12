@@ -51,7 +51,7 @@ export default function ReservationContent({ reservation }: { reservation: Reser
   }, [action])
 
   return (
-    <Container className="mt-32 sm:mt-64 max-w-3xl mx-auto">
+    <Container className="mt-48 sm:mt-64 max-w-3xl mx-auto">
 
       <div style={{ color: colors.attributes.accent }}>
         <h1 className="text-2xl font-semibold">Confirmation de rendez-vous</h1>

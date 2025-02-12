@@ -5,7 +5,7 @@ import { AcademicCapIcon, ChevronRightIcon, EnvelopeIcon, PhoneIcon, UserIcon } 
 import { useContext } from "react"
 
 export default function TeamMember({ member }: { member: Member }) {
-    let { colors, etude } = useContext(AppContext)
+    let { colors, etude, contenusAffiches } = useContext(AppContext)
 
     return (<li key={member.attributes.name} className="flex flex-col gap-10 pt-12 sm:flex-row"
         style={{ borderColor: colors.attributes.divider }}
@@ -55,7 +55,7 @@ export default function TeamMember({ member }: { member: Member }) {
                 style={{ color: colors.attributes.hint }}>
                 <AcademicCapIcon className='h-4 w-4 mr-2 shrink-0'></AcademicCapIcon>
                 {member.attributes.certifications}</p>}
-            {member.attributes.role == "Notaire" && <Button href={`/${etude.attributes.slug}/rendezvous?member=${member.id}`} className="mt-4"
+            {member.attributes.role == "Notaire" && contenusAffiches.attributes.maskMeetings != true && <Button href={`/${etude.attributes.slug}/rendezvous?member=${member.id}`} className="mt-4"
                 style={{ background: colors.attributes.primary }}
             >Prendre rendez-vous
                 <ChevronRightIcon className="h-4 w-4"></ChevronRightIcon>

@@ -7,7 +7,7 @@ import { RiErrorWarningLine } from "@remixicon/react"
 import { useContext, useState } from "react"
 
 export default function Contact() {
-    const { colors, addNotification } = useContext(AppContext)
+    const { etude, colors, addNotification } = useContext(AppContext)
     let [opened, setOpened] = useState(false)
     let [name, setName] = useState("")
     let [lastName, setLastName] = useState("")
@@ -22,7 +22,7 @@ export default function Contact() {
         if (loader) return
         setLoader(true)
         try {
-            await call("/api/contact", Method.post, { message: `Budget: ${budget}€<br/>Type de bien recherché: ${type}<br/>Numéro de téléphone: ${tel}<br/>`, email: mail, name: name, lastName: lastName })
+            await call("/api/contact", Method.post, { etude: etude, message: `Budget: ${budget}€<br/>Type de bien recherché: ${type}<br/>Numéro de téléphone: ${tel}<br/>`, email: mail, name: name, lastName: lastName })
 
         } catch (error) {
             addNotification({ message: "Erreur lors de l'envoi", color: NotificationColor.red, title: "Erreur", Icon: RiErrorWarningLine })
@@ -242,7 +242,7 @@ export default function Contact() {
                                         style={{ color: colors.attributes.hint }}
                                     >
                                         En formulant votre demande, vous acceptez la{' '}
-                                        <a href="#" className="font-semibold dark:text-gray-200 text-indigo-600"
+                                        <a href={`/${etude.attributes.slug}/privacy`} className="font-semibold dark:text-gray-200 text-indigo-600"
                                             style={{ color: colors.attributes.primary }}
 
                                         >

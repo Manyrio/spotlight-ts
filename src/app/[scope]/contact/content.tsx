@@ -26,7 +26,7 @@ export default function ContactContent() {
     if (loader) return
     setLoader(true)
     try {
-      await call("/api/contact", Method.post, { message: message, email: email, name: name, lastName: lastName })
+      await call("/api/contact", Method.post, { etude: etude, message: message, email: email, name: name, lastName: lastName })
 
     } catch (error) {
       addNotification({ message: "Erreur lors de l'envoi", color: NotificationColor.red, title: "Erreur", Icon: RiErrorWarningLine })
@@ -160,7 +160,7 @@ export default function ContactContent() {
               style={{ color: colors.attributes.hint }}
             >
               En nous contactant, vous acceptez la{' '}
-              <a href="#" className="font-semibold dark:text-gray-200 text-indigo-600"
+              <a href={`/${etude.attributes.slug}/privacy`} className="font-semibold dark:text-gray-200 text-indigo-600"
                 style={{ color: colors.attributes.primary }}
 
               >

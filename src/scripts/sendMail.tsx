@@ -12,7 +12,7 @@ export async function sendMail(subject: string, toEmail: string, otpText: string
         secure: false, // true for 465, false for other ports
         auth: {
             user: from,
-            pass: 'Cheval1234*',
+            pass: process.env.NODEMAILER_PASSWORD,
         },
     });
 

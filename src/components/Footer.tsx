@@ -10,9 +10,7 @@ export function Footer() {
   const navigation = {
     links: [
       { name: "L'équipe", href: `/${etude.attributes.slug}/equipe` },
-      ...(contenusAffiches.attributes.maskAnnonces != true ?
-        [{ name: "Annonces", href: `/${etude.attributes.slug}/annonces` }] : []
-      ),
+      { name: "Annonces", href: `/${etude.attributes.slug}/annonces` },
       { name: "Services", href: `/${etude.attributes.slug}/services` },
 
       ...(contenusAffiches.attributes.maskArticles != true ?

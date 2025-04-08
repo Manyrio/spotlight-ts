@@ -11,7 +11,7 @@ export class ContenusAffiches implements ObjectInterface {
             maskArticles: false,
             maskAnnonces: false,
             maskMap: false,
-            maskMeetings:false,
+            maskMeetings: false,
         },
     ) {
         this.id = id;

@@ -63,9 +63,7 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           ]
         }></DropDown>
     </NavItem>
-    {contenusAffiches.attributes.maskAnnonces != true &&
-      <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
-    }
+    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
     <NavItem href={`/${scope}/conseils`}>Conseils </NavItem >
     {contenusAffiches.attributes.maskArticles != true &&
       <NavItem href={`/${scope}/articles`}>Actualités</NavItem>

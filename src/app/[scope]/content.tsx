@@ -194,7 +194,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
 
                     {/* Content section */}
-                    {!contenusAffiches.attributes.maskMap && <div className="mx-auto max-w-7xl w-full sm:mt-0">
+                    {!contenusAffiches.attributes.maskMap && <div className="max-w-7xl w-full sm:mt-0">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                             <div className="mt-6 flex flex-col gap-x-8  gap-y-20 max-lg:gap-y-4 lg:flex-row">
                                 <div className="lg:w-full lg:max-w-2xl lg:flex-auto">

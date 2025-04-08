@@ -25,7 +25,7 @@ import { Button } from './Button'
 
 function Navigation({ documents }: { documents?: DocumentFile[] }) {
 
-  let { scope, etude, colors } = useContext(AppContext)
+  let { scope, etude, colors, contenusAffiches } = useContext(AppContext)
 
   let documentsAsResource = documents?.map((document) => ({
     name: document.attributes.name,
@@ -63,9 +63,13 @@ function Navigation({ documents }: { documents?: DocumentFile[] }) {
           ]
         }></DropDown>
     </NavItem>
-    <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
+    {contenusAffiches.attributes.maskAnnonces != true &&
+      <NavItem href={`/${scope}/annonces`}><span className='font-bold'>Annonces Immobilières</span></NavItem>
+    }
     <NavItem href={`/${scope}/conseils`}>Conseils </NavItem >
-    <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
+    {contenusAffiches.attributes.maskArticles != true &&
+      <NavItem href={`/${scope}/articles`}>Actualités</NavItem>
+    }
     <NavItem href={`/${scope}/contact`}>Contact</NavItem>
   </>)
 

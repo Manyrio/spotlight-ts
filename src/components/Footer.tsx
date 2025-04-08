@@ -10,9 +10,14 @@ export function Footer() {
   const navigation = {
     links: [
       { name: "L'équipe", href: `/${etude.attributes.slug}/equipe` },
-      { name: "Annonces", href: `/${etude.attributes.slug}/annonces` },
+      ...(contenusAffiches.attributes.maskAnnonces != true ?
+        [{ name: "Annonces", href: `/${etude.attributes.slug}/annonces` }] : []
+      ),
       { name: "Services", href: `/${etude.attributes.slug}/services` },
-      { name: "Articles", href: `/${etude.attributes.slug}/articles` },
+
+      ...(contenusAffiches.attributes.maskArticles != true ?
+        [{ name: "Articles", href: `/${etude.attributes.slug}/articles` }] : []
+      ),
       { name: "Contact", href: `/${etude.attributes.slug}/contact` },
     ],
     legals: [

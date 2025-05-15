@@ -25,6 +25,15 @@ export default function TypingEffect({
   useEffect(() => {
     if (isPaused) return; // Si en pause, ne pas continuer
 
+    // ——— STOP si on vient de taper entièrement la dernière phrase et loop désactivé
+    if (!loop
+      && index === phrases.length - 1
+      && !isDeleting
+      && subIndex === phrases[index].length
+    ) {
+      return;
+    }
+
     // Définir le délai en fonction de l'état actuel
     const timeout = setTimeout(() => {
       if (isDeleting) {

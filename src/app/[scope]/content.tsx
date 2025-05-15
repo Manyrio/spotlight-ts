@@ -40,11 +40,11 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
 
 
             <div className='w-full mt-40 lg:mt-56 relative flex items-center justify-center max-lg:mb-32'>
-                <div className='absolute p-6 z-10 w-full max-w-[500px] text-center rounded-lg '>
+                <div className='absolute p-6 z-10 w-full max-w-[600px] text-center rounded-lg '>
                     {/* <h1 className={`titleFont text-4xl font-bold tracking-tight text-white sm:text-6xl ${position == EtudePosition.right ? 'lg:pr-[1.5vw]' : 'lg:pl-[1.5vw]'} ${position == EtudePosition.right ? 'lg:translate-x-[1.5vw]' : 'lg:-translate-x-[1.5vw]'} !transition-[transform] !duration-[500ms]`}>
                         {etude.attributes.name}
                     </h1> */}
-                    <h1 className='font-medium text-white text-2xl titleFont mt-4'
+                    <h1 className='font-medium text-white max-lg:text-2xl text-4xl titleFont mt-4'
                         style={{ textShadow: '0px 2px 16px rgba(0, 0, 0, 0.7)' }}
                     >
                         &nbsp;
@@ -52,6 +52,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                             phrases={[
                                 'Sous le sceau de l’État.\nConseiller avec rigueur et impartialité.\nAccompagner avec humanité et discrétion.\nExprimer l’équilibre des volontés dans le cadre fixé par la loi.\nConserver les actes pour toujours.\nEt agir ainsi pour la paix au cœur de la société.',
                             ]}
+                            loop={false}
                         />
                         &nbsp;
                     </h1>
@@ -96,7 +97,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                     swipeable={false}
                     showStatus={false}>
                     {etude.attributes.carousel?.data?.map((image, index) => (
-                        <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-[450px] w-full object-cover object-center brightness-50" />
+                        <img key={index} src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image.attributes.url}`} className="h-[600px] w-full object-cover object-center brightness-50" />
                     ))}
                 </Carousel>
 
@@ -137,7 +138,7 @@ export default function HomeContent({ members, annonces }: { members: Member[], 
                 <div className='flex flex-col gap-16'>
 
                     {/* Team section */}
-                    <div className="mx-auto max-w-7xl">
+                    <div className="max-w-7xl w-full">
                         <div className="mx-auto max-w-2xl lg:mx-0">
                             <h2 className=" text-3xl font-bold tracking-tight   text-4xl" style={{ color: colors.attributes.accent }}>Rencontrez l'équipe</h2>
                             <p className="mt-6  text-lg leading-8 " style={{ color: colors.attributes.indicator }}>

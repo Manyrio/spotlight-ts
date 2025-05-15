@@ -17,7 +17,7 @@ export function OfficeContent({ labels }: { labels: Label[] }) {
 
   return (
     <>
-      <div className='full flex justify-center items-center  w-full pt-32 lg:pt-48 pb:8 lg:pb-12 px-6'>
+      <div className='full flex justify-center items-center  w-full pt-40 lg:pt-48 pb:8 lg:pb-12 px-6'>
 
       </div>
 

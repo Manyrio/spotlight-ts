@@ -102,7 +102,7 @@ export default function AnnoncePageContent({ annonceObject }: { annonceObject: A
 
     return (
         <>
-            <Container className='relative z-30 mt-32 md:mt-60 ' >
+            <Container className='relative z-30 mt-40 md:mt-60 ' >
                 <div className='w-full flex flex-col lg:flex-row'>
                     <div className='w-full lg:w-[60%] shrink-0'>
                         {
@@ -253,7 +253,7 @@ export default function AnnoncePageContent({ annonceObject }: { annonceObject: A
 
                     <div className='w-full lg:w-[40%]  h-fit sticky top-24  ml-0 lg:ml-8'>
                         {annonce.contact.nom && (
-                            <div className='rounded-md p-4'
+                            <div className='rounded-md p-4 max-md:mt-8'
                                 style={{ background: colors.attributes.tintedBackground }}>
                                 <h2 className='text-xl font-bold'
                                     style={{ color: colors.attributes.accent }}

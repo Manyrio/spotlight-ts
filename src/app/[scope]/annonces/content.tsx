@@ -29,6 +29,7 @@ export function ElementAnnonce({ annonceObject, shrinked = false }: { annonceObj
   const { colors, scope } = useContext(AppContext);
   let annonce = annonceObject.attributes.object
   let photos = annonceObject.attributes.photos || { data: null }
+  console.log(annonceObject.attributes.photos)
 
   return (
     <div className={`md:grid w-full md:grid-cols-5 md:items-start gap-8 ${shrinked ? "sm:!flex sm:!flex-col sm:!gap-2" : ""}`} >
@@ -162,13 +163,18 @@ export default function AnnoncesContent({ annonces }: { annonces: AnnonceObject[
   let [filteredAnnonces, setFilteredAnnonces] = useState<AnnonceObject[]>(annonces)
 
   let [filtres, setFiltres] = useState<{ [key: string]: string | number }>({})
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
 
     async function fetchAnnonces() {
+      setLoading(true)
+      setFilteredAnnonces([])
       let filterString = Object.keys(filtres).map((key) => filtres[key] ? `filters${key}=${filtres[key]}` : "").join("&")
-      let filteredAnnonces: ApiListResponse<AnnonceObject> = await call("/api/annonces?" + filterString, Method.get)
+      let filteredAnnonces: ApiListResponse<AnnonceObject> = await call("/api/annonces?sort[0]=createdAt:desc&pagination[pageSize]=1000&" + filterString, Method.get)
       setFilteredAnnonces(filteredAnnonces.data)
+      setLoading(false)
+
     }
     fetchAnnonces()
   }, [filtres])
@@ -190,6 +196,16 @@ export default function AnnoncesContent({ annonces }: { annonces: AnnonceObject[
               )
             })
           }
+          {!filteredAnnonces || filteredAnnonces.length == 0 && !loading && <>
+            <div className='w-full flex items-center justify-center text-gray-600'>
+              Aucune annonce trouvée avec ces critères...
+            </div>
+          </>}
+          {loading && <>
+            <div className='w-full flex items-center justify-center text-gray-600'>
+              Chargement de vos annonces...
+            </div>
+          </>}
         </div>
       </div>
     </SimpleLayoutWithTitleFooter>

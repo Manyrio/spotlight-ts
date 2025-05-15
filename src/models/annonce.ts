@@ -138,6 +138,16 @@ export function translateAnnonceType(type: TypeTransaction) {
           : ""
     } `
 }
+export function translateAnnonceNature(type: BienNature) {
+  return `${type == BienNature.Appartement ? "Appartement"
+    : type == BienNature.Autre ? "Autre"
+      : type == BienNature.Garage ? "Garage"
+        : type == BienNature.Immeuble ? "Immeuble"
+          : type == BienNature.Maison ? "Maison"
+            : type == BienNature.Terrain ? "Terrain"
+              : ""
+    } `
+}
 
 export function currency(number: Number) {
   return number.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })

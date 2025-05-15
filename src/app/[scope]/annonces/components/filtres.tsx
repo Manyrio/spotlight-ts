@@ -1,9 +1,10 @@
 import { AppContext } from "@/app/providers"
-import { BienNature, TypeTransaction, translateAnnonceType } from "@/models/annonce"
+import { BienNature, TypeTransaction, translateAnnonceNature, translateAnnonceType } from "@/models/annonce"
 import { ChevronDownIcon } from "@heroicons/react/24/outline"
 import { useContext, useEffect, useState } from "react"
 import Contact from "./contact"
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react"
+import { ArrowPathIcon } from "@heroicons/react/20/solid"
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
@@ -24,20 +25,30 @@ export default function FiltresAnnonces({ filtres, setFiltres }: { filtres: { [k
             <div className="flex items-start gap-4 max-lg:gap-8 flex-wrap">
 
 
-                {DropDown({ translate: translateAnnonceType, title: "Transaction", enumObject: TypeTransaction, setSelected: (value) => setFiltres({ ...filtres, " [transaction][$eq]": value }) })}
+                {DropDown({ translate: translateAnnonceType, title: "Transaction", enumObject: TypeTransaction, selected: filtres["[transaction][$eq]"]?.toString(), setSelected: (value) => setFiltres({ ...filtres, "[transaction][$eq]": value }) })}
 
-                {DropDown({ title: "Type de Bien", enumObject: BienNature, setSelected: (value) => setFiltres({ ...filtres, "[natureBien][$eq]": value }) })}
-
-
+                {DropDown({ translate: translateAnnonceNature, title: "Type de Bien", enumObject: BienNature, selected: filtres["[natureBien][$eq]"]?.toString(), setSelected: (value) => setFiltres({ ...filtres, "[natureBien][$eq]": value }) })}
 
 
-                <div className='cursor-pointer font-medium  flex items-center ' onClick={() => setOpen(!open)}
+
+
+                <div className='cursor-pointer text-sm font-medium items-center flex relative inline-block dark:text-gray-200 text-left rounded-md ' onClick={() => setOpen(!open)}
                     style={{ color: colors.attributes.indicator }}
-                >Plus de critères
+                >Plus de critères&nbsp;
                     <ChevronDownIcon className='h-5 w-5'
                         style={{ color: colors.attributes.indicator }}
                     ></ChevronDownIcon>
                 </div>
+
+                {filtres && Object.keys(filtres).length > 0 &&
+                    <div className='cursor-pointer  ml-auto text-sm font-medium items-center flex relative inline-block dark:text-gray-200 text-left rounded-md ' onClick={() => setFiltres({})}
+                        style={{ color: colors.attributes.indicator }}
+                    >Réinitialiser les filtres&nbsp;
+                        <ArrowPathIcon className='h-5 w-5'
+                            style={{ color: colors.attributes.indicator }}
+                        ></ArrowPathIcon>
+                    </div>
+                }
 
             </div>
 
@@ -219,26 +230,23 @@ export default function FiltresAnnonces({ filtres, setFiltres }: { filtres: { [k
 
 
 
-function DropDown({ title, enumObject, setSelected, translate }: { title: string, enumObject: any, setSelected: (value: string) => void, translate?: (value: any) => void }) {
+function DropDown({ title, enumObject, selected, setSelected, translate }: { title: string, enumObject: any, selected: string, setSelected: (value: string) => void, translate?: (value: any) => string }) {
     const { colors } = useContext(AppContext)
 
-    let [selection, setSelection] = useState<string>()
 
     useEffect(() => {
-        if (selection) setSelected(selection)
-
-
-    }, [selection])
+        if (selected) setSelected(selected)
+    }, [selected])
 
     return (
 
         <Menu as="div" className="relative inline-block dark:text-gray-200 text-left rounded-md ">
             <div>
-                <MenuButton className="group inline-flex justify-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-700 text-gray-900"
+                <MenuButton className="group inline-flex justify-center dark:text-gray-200 text-sm font-medium dark:text-gray-200 text-gray-700 text-gray-900 items-center"
 
                     style={{ color: colors.attributes.indicator }}
                 >
-                    {selection ? selection : title}
+                    {selected ? (translate ? translate(selected!) : selected) : title}
                     <ChevronDownIcon
                         className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 dark:text-gray-200 text-gray-400  text-gray-500"
                         style={{ color: colors.attributes.indicator }}
@@ -265,7 +273,7 @@ function DropDown({ title, enumObject, setSelected, translate }: { title: string
                                 <MenuItem key={key}>
                                     {({ active }) => (
                                         <div
-                                            onClick={() => setSelection(enumObject[key])}
+                                            onClick={() => setSelected(enumObject[key])}
                                             style={{ color: colors.attributes.indicator }}
                                             className={classNames(
                                                 active ? 'bg-gray-100' : '',
